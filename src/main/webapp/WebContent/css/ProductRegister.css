@@ -1,0 +1,117 @@
+
+#box {
+	margin: auto;
+	padding-top: 50px;
+	width: 15%;
+}
+
+#text {
+	width: 300px;
+}
+
+/*ラジオボタン装飾*/
+.cp_ipradio {
+	width: 600px;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.cp_ipradio:before, .cp_ipradio:after {
+	-webkit-box-sizing: inherit;
+	box-sizing: inherit;
+}
+
+.cp_ipradio .box {
+	width: 90%;
+	margin: 2em auto;
+	text-align: left;
+	border: 1px solid white;
+	border-radius: 3px;
+	background: #ffffff;
+}
+
+.cp_ipradio input[type=radio] {
+	display: none;
+}
+
+.cp_ipradio label:focus, .cp_ipradio label:hover, .cp_ipradio label:active,
+	.cp_ipradio input:checked+label {
+	color: #ff0000;
+}
+
+.cp_ipradio label:focus:before, .cp_ipradio label:hover:before,
+	.cp_ipradio label:active:before, .cp_ipradio input:checked+label:before
+	{
+	border-color: #ff0000;
+	background: #ffffff;
+}
+
+.cp_ipradio label {
+	font-size: 1em;
+	font-weight: bold;
+	line-height: 1;
+	position: relative;
+	display: block;
+	overflow: hidden;
+	padding: 1em 1em 1em 3em;
+	cursor: pointer;
+	-webkit-transition: all 0.15s ease;
+	transition: all 0.15s ease;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	background: #ffffff;
+}
+
+.cp_ipradio label:before {
+	position: absolute;
+	top: 1em;
+	left: 1em;
+	width: 10px;
+	height: 10px;
+	content: '';
+	border: 0.2em solid #cccccc;
+	border-radius: 50%;
+}
+
+.cp_ipradio input:checked+label:before {
+	border-color: #ff0000;
+	background: #ff0000;
+}
+
+.cp_ipradio input:disabled+label {
+	cursor: not-allowed;
+	color: rgba(0, 0, 0, 0.5);
+	background: #efefef;
+}
+
+.cp_ipradio input:disabled+label:hover {
+	border-color: rgba(0, 0, 0, 0.1);
+}
+
+.cp_ipradio input:disabled+label:before {
+	border-color: #ffffff;
+	background: #ffffff;
+}
+
+/*新規登録*/
+.btn-square-so-pop {
+	margin: auto;
+	text-align: center;
+	width: 80px;
+	position: relative;
+	display: inline-block;
+	padding: 0.25em 0.5em;
+	text-decoration: none;
+	color: #FFF;
+	background: #fd9535; /*色*/
+	border-radius: 4px; /*角の丸み*/
+	box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.2), inset 0 -2px 0
+		rgba(0, 0, 0, 0.05);
+	font-weight: bold;
+	border: solid 2px #d27d00; /*線色*/
+}
+
+.btn-square-so-pop:active {
+	/*押したとき*/
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+}

@@ -1,0 +1,57 @@
+
+#block1{
+    width: 40%;
+    margin: auto;
+}
+
+#img{
+}
+
+#text{
+}
+
+
+/*出品する*/
+
+.btn-square-so-pop {
+    margin: auto;
+    text-align: center;
+	width:80px;
+	position: relative;
+	display: inline-block;
+	padding: 0.25em 0.5em;
+	text-decoration: none;
+	color: #FFF;
+	background: #fd9535;/*色*/
+	border-radius: 4px;/*角の丸み*/
+	box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), inset 0 -2px 0 rgba(0, 0, 0, 0.05);
+	font-weight: bold;
+    border: solid 2px #d27d00;/*線色*/
+    }
+
+
+    /*編集する*/
+
+.btn-square-so-opo {
+    margin: auto;
+    text-align: center;
+	width:80px;
+	position: relative;
+	display: inline-block;
+	padding: 0.25em 0.5em;
+	text-decoration: none;
+	color: #FFF;
+	background: #2548e4;/*色*/
+	border-radius: 4px;/*角の丸み*/
+	box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), inset 0 -2px 0 rgba(0, 0, 0, 0.05);
+	font-weight: bold;
+    border: solid 2px #2548e4;/*線色*/
+    }
+
+
+#inputInformation {
+	padding-top: 100px;
+	margin: auto;
+	width: 150px;
+}
+

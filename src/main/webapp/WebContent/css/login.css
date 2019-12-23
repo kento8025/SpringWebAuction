@@ -1,0 +1,8 @@
+#login{
+	text-align: center;/*真ん中にレイアウト指定*/
+}
+
+#loginError{
+	color: red;/*文字色指定*/
+	text-align: center;/*真ん中にレイアウト指定*/
+}

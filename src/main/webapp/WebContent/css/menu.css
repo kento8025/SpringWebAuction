@@ -1,0 +1,117 @@
+
+
+
+/*検索ボックス*/
+
+#kennsaku{
+    display: inline-block;
+    vertical-align: top;
+    width: 1000px;
+}
+
+#sbox{
+    display: inline-block;
+	left:50px;
+	outline:0;/*クリック時の青い枠線消す*/	
+	height:50px;/*検索ボックスの高さ*/	
+	width:60%;
+	padding:0 10px;/*テキスト位置調整*/	 
+	border-radius:2px 0 0 2px;/*検索ボックスの角を丸める*/		
+	background:#eee;/*検索ボックスの背景カラー*/		
+}
+/*検索ボタン*/
+#sbtn{
+    display: inline-block;
+	width:70px;/*検索ボタンの横幅*/ 
+    height:50px;/*検索ボタンの縦幅*/
+	border-radius:0 2px 2px 0;/*検索ボタンの角を丸める*/ 
+	background:#7fbfff;/*検索ボタンの背景カラー*/ 
+	border:none;/*検索ボタンの枠線を消す*/ 
+	color:#fff;/*検索ボタンのテキストカラー*/ 
+	font-weight:bold;/*検索ボタンのテキスト太字*/ 
+	font-size:16px;/*検索ボタンのフォントサイズ*/ 
+}
+
+/*検索ボタンマウスオーバー時*/
+#sbtn:hover{
+	color:#666;/*検索ボタンマウスオーバー時のフォントカラー*/ 
+}
+
+
+/*メニュー画面*/
+#menu{   
+    vertical-align: top;
+    padding-left:30% ;
+    clear: none;
+	
+}
+
+nav li{
+    
+	list-style: none;/*リストの・消去*/
+}
+
+
+a{
+	text-decoration: none;/*リストの下線消去*/
+}
+
+
+/*メニュー装飾*/
+
+#menu ul {
+    padding: 0;	
+ 
+}
+
+#menu ul li {
+    display: inline-block;
+	line-height: 1.5;
+	padding: 0.5em 0.5em 0.5em 0.5em;
+	list-style-type: none!important;
+	background: -webkit-linear-gradient(top,  0%, whitesmoke 100%);/*グラデーション*/
+	background: linear-gradient(to bottom, whitesmoke 0%, #dadada 100%);/*グラデーション*/
+	text-shadow: 1px 1px 1px whitesmoke;/*文字を立体的に*/
+	color: black;
+}
+
+#text{
+    padding-left:25%; 
+}
+
+
+
+/*オークションのブロック*/
+
+
+#block1{
+	vertical-align: top;
+    padding-left: 25%;
+    width: 700px
+}
+
+
+/*商品画像のブロック*/
+.q1{
+	float: left;
+	padding-right:200px; 
+}
+
+/*商品のテキストボックス*/
+.q2{
+	float: left;
+	padding-top: 20px;
+	width:300px; 
+
+/*商品二つ目以降ブロック*/
+}
+#q3{
+	display: block;
+	padding-top: 150px;
+
+}
+
+#botan{
+    padding-left: 50%;
+    padding-top: 150px;
+}

@@ -1,0 +1,52 @@
+
+h3 {
+	color: red;
+	margin: auto;
+	padding: 50px;
+	width: 25%;
+}
+
+#box1 {
+	padding-top: 100px;
+	margin: auto;
+	width: 150px;
+}
+
+#button {
+	margin: auto;
+	width: 10%;
+	height: 10px:
+}
+
+/
+s
+#newButton {width; 5%;height; 5
+	px:
+}
+
+#editButton {width; 5%;height; 5
+	px:
+}
+
+/*新規登録*/
+.btn-square-so-pop {
+	width: 80px;
+	margin: 5px;
+	position: relative;
+	display: inline-block;
+	padding: 0.25em 0.5em;
+	text-decoration: none;
+	text-align: center;
+	color: #FFF;
+	background: #fd9535; /*色*/
+	border-radius: 4px; /*角の丸み*/
+	box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.2), inset 0 -2px 0
+		rgba(0, 0, 0, 0.05);
+	font-weight: bold;
+	border: solid 2px #d27d00; /*線色*/
+}
+
+.btn-square-so-pop:active {
+	/*押したとき*/
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+}

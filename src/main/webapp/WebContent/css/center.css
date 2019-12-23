@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+/*タイトル*/
+#center {
+	margin: auto;
+}
+
+#buttonSenter {
+	margin: auto;
+}
+
+#width {
+	width: 100%;
+}
