@@ -9,6 +9,6 @@ public interface SearchDao {
 
 	public List<Product> productSearch(String productName);
 
-	public List<PurchaseDisplay> productInformation(String productId);
+	public PurchaseDisplay productInformation(int productId);
 
 }

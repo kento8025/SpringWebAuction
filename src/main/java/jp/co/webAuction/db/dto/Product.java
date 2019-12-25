@@ -2,7 +2,7 @@ package jp.co.webAuction.db.dto;
 
 public class Product {
 
-	private int productId;
+	private int id;
 	private String productName; /*商品名*/
 	private String productImg; /*商品画像*/
 	private int categoryId; /*カテゴリId 外部キー参照*/
@@ -124,12 +124,13 @@ public class Product {
 		this.categoryName = categoryName;
 	}
 
-	public int getProductId() {
-		return productId;
+	public int getId() {
+		System.out.println(id);
+		return id;
 	}
 
-	public void setProductId(int productId) {
-		this.productId = productId;
+	public void setId(int productId) {
+		this.id = productId;
 	}
 
 

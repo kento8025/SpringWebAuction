@@ -1,7 +1,9 @@
 package jp.co.webAuction.controller;
 
 import java.io.File;
+import java.io.IOException;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import jp.co.webAuction.controller.form.ProductForm;
 import jp.co.webAuction.db.dto.User;
@@ -26,19 +29,19 @@ public class ProductController {
 	public String ProductRegister(@ModelAttribute("product") ProductForm productForm, Model model) {
 		System.out.println("出品する");
 		model.addAttribute("product", new ProductForm());
-		return "home/homePage";
+		return "Product/Exhibit/ProductRegister";
 	}
 
-	@RequestMapping("/ContentConfirmation")
-	public String ContentConfirmation(@ModelAttribute("product") ProductForm productForm, Model model , HttpServletRequest request) {
-		System.out.println("商品確認");
-		model.addAttribute("product", new ProductForm());
+	@RequestMapping(value = "/ContentConfirmation", method = RequestMethod.POST)
+	public String ContentConfirmation(@ModelAttribute("product") ProductForm productForm, Model model,
+			HttpServletRequest request) throws IOException, ServletException {
 
+		System.out.println("登録画面");
 
-		//絶対パスの獲得
-		String ABSOLUTE_PATH = getAbsoluteFile().getRealPath("WEB-INF/productImg");
+		model.addAttribute("product", productForm);
 
-		  String cd = new File(".").getAbsoluteFile().getParent();
+		//絶対パスの指定
+		final String ABSOLUTE_PATH = new File("").getAbsoluteFile().getPath()+"\\src\\main\\webapp\\WebContent\\ProductImg";
 
 		HttpSession session = request.getSession(true);
 		User user = (User) session.getAttribute("user");
@@ -71,7 +74,28 @@ public class ProductController {
 		String name = this.getFileName(part);
 		part.write(ABSOLUTE_PATH + "/" + user.getId() + "/" + name);
 
-		return "home/homePage";
+		productForm.setProductImg("\\WebContent\\ProductImg"+"/" + user.getId() + "/" + name);
+
+		System.out.println(productForm.getProductImg());
+
+		return "Product/Exhibit/ContentConfirmation";
+
+	}
+
+	@RequestMapping(value = "/RistingCompleted", method = RequestMethod.POST)
+	public String RistingCompleted(@ModelAttribute("product") ProductForm productForm, Model model,
+			HttpServletRequest request) {
+		System.out.println("商品確認画面");
+
+		model.addAttribute("product", productForm);
+
+		HttpSession session = request.getSession(true);
+		User user = (User) session.getAttribute("user");
+		session.setAttribute("product", productForm);
+
+		productDao.register(productForm, user);
+
+		return "Product/Exhibit/RistingCompleted";
 	}
 
 	private String getFileName(Part part) {

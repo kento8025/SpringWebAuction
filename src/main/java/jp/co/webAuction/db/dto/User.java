@@ -2,10 +2,6 @@ package jp.co.webAuction.db.dto;
 
 import java.sql.Date;
 
-/**
- * @author kento
- *
- */
 public class User {
 
 	private int id;

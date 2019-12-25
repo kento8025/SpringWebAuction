@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import jp.co.webAuction.db.entity.AdminDao;
 import util.Util;
 
-public class PgAdminDao implements AdminDao{
+public class PgAdminDao implements AdminDao {
 
 	private Connection con;
 
@@ -35,7 +35,6 @@ public class PgAdminDao implements AdminDao{
 		}
 
 	}
-
 
 	public void delete(int id) {
 
@@ -103,18 +102,4 @@ public class PgAdminDao implements AdminDao{
 
 	}
 
-
-
-
-
-
-
-
-
-
-	}
-
-
-
-
-
+}

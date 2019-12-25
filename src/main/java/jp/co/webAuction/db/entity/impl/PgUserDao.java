@@ -49,7 +49,7 @@ public class PgUserDao implements UserDao {
 		param.addValue("user_id", userId);
 		param.addValue("password", password);
 
-		System.out.println(userId +"  "+ password);
+		System.out.println(userId + "  " + password);
 
 		List<User> user = new ArrayList<User>();
 
@@ -60,7 +60,7 @@ public class PgUserDao implements UserDao {
 
 		System.out.println(user.size());
 
-		while (!(user.size() == 0)) {
+		if (!(user.size() == 0)) {
 
 			System.out.println("’Ê‰ß");
 
@@ -72,7 +72,6 @@ public class PgUserDao implements UserDao {
 		return false;
 
 	}
-
 
 	public User getUser() {
 		return user;

@@ -99,7 +99,6 @@
 
 			<div id="login">
 
-
 				<form:form action="loginCheck" modelAttribute="user">
 
 					ID<form:input path="userId" value ='${sessionScope.user.userId}'/><br>

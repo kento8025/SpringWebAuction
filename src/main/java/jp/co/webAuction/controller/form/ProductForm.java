@@ -2,7 +2,7 @@ package jp.co.webAuction.controller.form;
 
 public class ProductForm {
 
-	private int productId;
+	private int id;
 	private String productName; /*商品名*/
 	private String productImg; /*商品画像*/
 	private int categoryId; /*カテゴリId 外部キー参照*/
@@ -14,6 +14,27 @@ public class ProductForm {
 	private String shipping_method;/*配送方法*/
 	private int exhibition_period;/*出品期間*/
 	private int price; /*価格*/
+
+	public ProductForm() {
+
+	}
+
+	public ProductForm(String productName, String productImg, int categoryId, String productStatus,
+			String description, String postage, String shippingOrigin, String shipping_method,
+			int price, int exhibition_period) {
+
+		this.productName = productName;
+		this.productImg = productImg;
+		this.categoryId = categoryId;
+		this.productStatus = productStatus;
+		this.description = description;
+		this.postage = postage;
+		this.shippingOrigin = shippingOrigin;
+		this.shipping_method = shipping_method;
+		this.price = price;
+		this.exhibition_period = exhibition_period;
+
+	}
 
 	public String getProductName() {
 		return productName;
@@ -103,12 +124,14 @@ public class ProductForm {
 		this.categoryName = categoryName;
 	}
 
-	public int getProductId() {
-		return productId;
+	public int getId() {
+		System.out.println(id);
+		return id;
 	}
 
-	public void setProductId(int productId) {
-		this.productId = productId;
+	public void setId(int productId) {
+		this.id = productId;
 	}
+
 
 }

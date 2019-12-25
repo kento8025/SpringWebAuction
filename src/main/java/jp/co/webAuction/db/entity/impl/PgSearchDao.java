@@ -1,5 +1,6 @@
 package jp.co.webAuction.db.entity.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class PgSearchDao implements SearchDao {
 
 	private final String SELECT_PRODUCT = "SELECT * FROM product WHERE 1=1";
 	private String where_set = "";
-	private final String SELECT_FROM_PRODUCT_AND_USERS_AND_CATEGORY = "  SELECT * FROM product as p LEFT JOIN users u ON  u.id = p.user_id LEFT JOIN category c ON  c.id = p.category_id";
+	private final String SELECT_FROM_PRODUCT_AND_USERS_AND_CATEGORY = "  SELECT  p.id as primaryProductId , u.id as primaryUserId , *  FROM product as p LEFT JOIN users u ON  u.id = p.user_id LEFT JOIN category c ON  c.id = p.category_id";
 
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;
@@ -47,22 +48,26 @@ public class PgSearchDao implements SearchDao {
 	}
 
 	@Override
-	public List<PurchaseDisplay> productInformation(String productId) {
+	public PurchaseDisplay productInformation(int productId) {
 
 		MapSqlParameterSource param = new MapSqlParameterSource();
 
-		String sql = SELECT_FROM_PRODUCT_AND_USERS_AND_CATEGORY + " WHERE = p.id : p.id  ";
+		String sql = SELECT_FROM_PRODUCT_AND_USERS_AND_CATEGORY + " WHERE p.id = :p.id  ";
 
 		param.addValue("p.id", productId);
 
 		System.out.println(sql);
 
-		System.out.println("åüçıäÆóπ");
+		List<PurchaseDisplay> purchaseDisplay =  new ArrayList<>();
 
-		return jdbcTemplate.query(
-				sql,
-				param,
-				new BeanPropertyRowMapper<PurchaseDisplay>(PurchaseDisplay.class));
+
+		purchaseDisplay = jdbcTemplate.query(
+		sql,
+		param,
+		new BeanPropertyRowMapper<PurchaseDisplay>(PurchaseDisplay.class));
+
+		return purchaseDisplay.get(0);
+
 
 	}
 

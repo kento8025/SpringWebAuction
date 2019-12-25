@@ -1,4 +1,3 @@
-
 /*検索欄　メニューのブロック*/
 #block1{
 
@@ -24,7 +23,7 @@
 	width: 1000px;
 	height: 200px;
 	border: solid;
-	border-radius: 10px; 
+	border-radius: 10px;
 }
 
 #botan{
@@ -32,7 +31,7 @@
 }
 
 h1{
-	padding-left:30%; 
+	padding-left:30%;
 }
 
 
@@ -48,34 +47,34 @@ h1{
 #sbox{
     display: inline-block;
 	left:50px;
-	outline:0;/*クリック時の青い枠線消す*/	
-	height:50px;/*検索ボックスの高さ*/	
+	outline:0;/*クリック時の青い枠線消す*/
+	height:50px;/*検索ボックスの高さ*/
 	width:60%;
-	padding:0 10px;/*テキスト位置調整*/	 
-	border-radius:2px 0 0 2px;/*検索ボックスの角を丸める*/		
-	background:#eee;/*検索ボックスの背景カラー*/		
+	padding:0 10px;/*テキスト位置調整*/
+	border-radius:2px 0 0 2px;/*検索ボックスの角を丸める*/
+	background:#eee;/*検索ボックスの背景カラー*/
 }
 /*検索ボタン*/
 #sbtn{
     display: inline-block;
-	width:70px;/*検索ボタンの横幅*/ 
+	width:70px;/*検索ボタンの横幅*/
     height:50px;/*検索ボタンの縦幅*/
-	border-radius:0 2px 2px 0;/*検索ボタンの角を丸める*/ 
-	background:#7fbfff;/*検索ボタンの背景カラー*/ 
-	border:none;/*検索ボタンの枠線を消す*/ 
-	color:#fff;/*検索ボタンのテキストカラー*/ 
-	font-weight:bold;/*検索ボタンのテキスト太字*/ 
-	font-size:16px;/*検索ボタンのフォントサイズ*/ 
+	border-radius:0 2px 2px 0;/*検索ボタンの角を丸める*/
+	background:#7fbfff;/*検索ボタンの背景カラー*/
+	border:none;/*検索ボタンの枠線を消す*/
+	color:#fff;/*検索ボタンのテキストカラー*/
+	font-weight:bold;/*検索ボタンのテキスト太字*/
+	font-size:16px;/*検索ボタンのフォントサイズ*/
 }
 
 /*検索ボタンマウスオーバー時*/
 #sbtn:hover{
-	color:#666;/*検索ボタンマウスオーバー時のフォントカラー*/ 
+	color:#666;/*検索ボタンマウスオーバー時のフォントカラー*/
 }
 
 
 /*メニュー画面*/
-#menu{   
+#menu{
     display: inline-block;
     vertical-align: top;
     clear: none;
@@ -83,7 +82,7 @@ h1{
 }
 
 nav li{
-    
+
 	list-style: none;/*リストの・消去*/
 }
 
@@ -95,7 +94,7 @@ a{
 /*メニュー装飾*/
 
 #menu ul {
-	padding: 0;	
+	padding: 0;
 	position: relative;
 }
 
@@ -109,7 +108,7 @@ a{
 	color: black;
 }
 
-#menu ul li:before { 
+#menu ul li:before {
 	font-family: "Font Awesome 5 Free";
 	content: "\f138";
 	position: absolute;
@@ -121,10 +120,10 @@ a{
 
 .btn-square-so-pop {
     widows: 200px;
-    height: 50px;
+    height: 80px;
 	margin: 10px 10px 10px 0px;
 	position: relative;
-	display: inline-block; 
+	display: inline-block;
 	padding: 0.5em 0.5em;
     text-decoration: none;
     text-align: center;
