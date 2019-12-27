@@ -38,14 +38,17 @@
 
 		<!--画像-->
 
-		画像のアップロード<br> <input type="file" name="file"/><br> <br>
+		画像のアップロード<br> <input type="file" name="file"/><br>
+		<font color="red">${requestScope.imgError}</font>
+		<br>
 		<br>
 
 		<!--商品名-->
 
 		商品名 <br>
 
-		<form:input path="productName" />
+		<form:input path="productName" /><br>
+		<form:errors path="productName" cssStyle="color: red"/>
 		<br> <br>
 
 		<!--カテゴリ-->
@@ -65,7 +68,10 @@
 			<option value="サンプル">サンプル</option>
 
 		</form:select>
-		<br> <br>
+		<br>
+		<form:errors path="categoryName" cssStyle="color: red"/>
+		<br>
+		<br>
 
 
 		<!--商品の状態-->
@@ -77,7 +83,10 @@
 			<option value="新品">新品</option>
 			<option value="中古">中古</option>
 		</form:select>
-		<br> <br>
+		<br>
+		<form:errors path="productStatus" cssStyle="color: red"/>
+		<br>
+		<br>
 
 
 		<!--説明-->
@@ -86,7 +95,11 @@
 		<div id="text">
 			<form:textarea cols="50" rows="10" path="description"/>
 		</div>
+		<br>
+		<form:errors path="description" cssStyle="color: red"/>
 
+		<br>
+		<br>
 
 		<!--発送元の地域-->
 
@@ -141,7 +154,10 @@
 			<option value="鹿児島県">鹿児島県</option>
 			<option value="沖縄県">沖縄県</option>
 		</form:select>
-		<br> <br>
+		<br>
+		<form:errors path="shippingOrigin" cssStyle="color: red"/>
+		<br>
+		<br>
 
 
 		<!--送料負担-->
@@ -153,10 +169,14 @@
 				<form:radiobutton id="radio1" path="postage" value="出品者"/>
 					<form:label for="radio1" path="postage">出品者</form:label>
 				<form:radiobutton id="radio2" path="postage" value="落札者"/>
-					<form:label for="radio1" path="postage">落札者</form:label>
+					<form:label for="radio2" path="postage">落札者</form:label>
 
 			</div>
 		</div>
+
+		<form:errors path="postage" cssStyle="color: red"/>
+		<br>
+		<br>
 
 		<!--配送方法-->
 
@@ -176,17 +196,26 @@
 			</div>
 		</div>
 
-
+		<form:errors path="shipping_method" cssStyle="color: red"/>
+		<br>
+		<br>
 
 		<!--発送までの日数-->
 
 		オークションの期間<br> <form:input type="text" path="exhibition_period"/>日
-		<br> <br>
+		<br>
+		<form:errors path="exhibition_period" cssStyle="color: red"/>
+		<br>
+		<br>
 
 
 		<!--価格-->
 
-		価格<br> <form:input type="text" path="price"/>円 <br> <br>
+		価格<br> <form:input type="text" path="price"/>円
+		<br>
+		<form:errors path="price" cssStyle="color: red"/>
+		<br>
+		<br>
 
 
 		<!--登録ボタン-->

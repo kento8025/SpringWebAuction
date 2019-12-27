@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -56,10 +58,13 @@
 
 				<form:form action="loginCheck" modelAttribute="user">
 
-					ID<form:input path="userId" value ='${sessionScope.user.userId}'/><br>
-					PASSWORD<form:password path="passWord" value='${sessionScope.user.passWord}'/><br>
+					ID<form:input path="userId" value='${sessionScope.user.userId}' />
+					<br>
+					PASSWORD<form:password path="passWord"
+						value='${sessionScope.user.passWord}' />
+					<br>
 
-					<button class="btn-square" name ="login">ログイン</button>
+					<button class="btn-square" name="login">ログイン</button>
 					<br>
 					<form:button class="btn-square" name="logout">ログアウト</form:button>
 
@@ -81,10 +86,13 @@
 
 				<form:form action="loginCheck" modelAttribute="user">
 
-					ID<form:input path="userId" value ='${sessionScope.user.userId}'/><br>
-					PASSWORD<form:password path="passWord" value='${sessionScope.user.passWord}'/><br>
+					ID<form:input path="userId" value='${sessionScope.user.userId}' />
+					<br>
+					PASSWORD<form:password path="passWord"
+						value='${sessionScope.user.passWord}' />
+					<br>
 
-					<button class="btn-square" name ="login">ログイン</button>
+					<button class="btn-square" name="login">ログイン</button>
 					<br>
 					<form:button class="btn-square" name="logout">ログアウト</form:button>
 
@@ -101,13 +109,16 @@
 
 				<form:form action="loginCheck" modelAttribute="user">
 
-					ID<form:input path="userId" value ='${sessionScope.user.userId}'/><br>
-					PASSWORD<form:password path="passWord" value='${sessionScope.user.passWord}'/><br>
+					ID<form:input path="userId" value='${sessionScope.user.userId}' />
+					<br>
+					PASSWORD<form:password path="passWord"
+						value='${sessionScope.user.passWord}' />
+					<br>
 
-					<button class="btn-square" name = "login">ログイン</button>
+					<button class="btn-square" name="login">ログイン</button>
 
 					<br>
-						<form:button class="btn-square-so-pop" name="UserRegister">新規登録</form:button>
+					<form:button class="btn-square-so-pop" name="UserRegister">新規登録</form:button>
 				</form:form>
 
 			</div>
@@ -124,7 +135,7 @@
 			<ul>
 				<li><a href="ProductRegister">出品する</a></li>
 				<li><a href="#">気になる</a></li>
-				<li><a href="Menu">落札中</a></li>
+				<li><a href="menu">落札中</a></li>
 				<li><a href="#">落札履歴</a></li>
 				<li><a href="#">出品中</a></li>
 				<li><a href="#">出品履歴</a></li>
@@ -177,23 +188,18 @@
 	<div id="category">
 
 		カテゴリ
-		<nav>
-			<ul>
-				<li><a href="#">本</a></li>
-				<li><a href="#">パソコン</a></li>
-				<li><a href="#">スポーツ</a></li>
-				<li><a href="#">サンプル</a></li>
-				<li><a href="#">サンプル</a></li>
-				<li><a href="#">サンプル</a></li>
-				<li><a href="#">サンプル</a></li>
-				<li><a href="#">サンプル</a></li>
-				<li><a href="#">サンプル</a></li>
-				<li><a href="#">サンプル</a></li>
-				<li><a href="#">サンプル</a></li>
-				<li><a href="#">サンプル</a></li>
 
-			</ul>
-		</nav>
+		<c:forEach var="category" items="${categoryList}">
+
+			<nav>
+				<ul>
+					<li><a href="#">${fn:escapeXml(category.category_name)}</a></li>
+				</ul>
+			</nav>
+
+		</c:forEach>
+
+		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 	</div>
 

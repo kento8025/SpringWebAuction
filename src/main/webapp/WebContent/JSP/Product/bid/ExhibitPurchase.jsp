@@ -67,18 +67,15 @@
 
 		<c:when test="${sessionScope.user.userRank eq '1'}">
 
+			<form:form action="searchAdminProduct" modelAttribute="tradeForm">
 
-			<form action="searchAdminProduct" method="post">
+					<br> <input type="hidden"
+						value="${fn:escapeXml(purchaseDisplay.primaryProductId)}"
+						name="productId"> <br>
+					<button name="delete" >削除</button>
+					<button name="hidden" >非表示</button>
 
-				<br> <input type="hidden"
-					value="${fn:escapeXml(purchaseDisplay.primaryProductId)}" name="productId">
-
-				<br>
-				<button name="action" value="delete">削除</button>
-				<button name="action" value="hidden">非表示</button>
-
-			</form>
-
+			</form:form>
 
 
 		</c:when>
@@ -109,7 +106,8 @@
 					type="hidden" name="userId"
 					value="${fn:escapeXml(purchaseDisplay.primaryUserId)}"> <input
 					type="hidden" name="productId"
-					value="${fn:escapeXml(purchaseDisplay.primaryProductId)}"> <br>
+					value="${fn:escapeXml(purchaseDisplay.primaryProductId)}">
+				<br>
 
 				<button class="btn-square-so-pop">今すぐ落札する</button>
 

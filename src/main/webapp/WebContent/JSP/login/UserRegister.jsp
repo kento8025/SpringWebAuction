@@ -40,7 +40,8 @@
 			<br> 名前 <br>
 
 				<form:input path="userName" value='${requestScope.user.userName}'/><br>
-				<font color="red">${requestScope.nameError}</font><br>
+				<form:errors path="userName" cssStyle="color: red"/><br>
+
 
 			<br>
 
@@ -97,26 +98,26 @@
 
 			</c:choose>
 
-			<font color="red">${requestScope.manOrWomanError}</font><br> <br>
+			<form:errors path="manOrWoman" cssStyle="color: red"/><br> <br>
 
 
 			メールアドレス <br>
 
 				<form:input path="mail" value='${requestScope.user.mail}'/><br>
-			 	<font color="red">${requestScope.mailError}</font><br> <br> <br>
+			 	<form:errors path="mail" cssStyle="color: red"/><br> <br> <br>
 
 			<h2>会員情報</h2>
 
 			<br> ID <br>
 
 				<form:input path="userId" value='${requestScope.user.userId}'/><br>
-				<br> <font color="red">${requestScope.idError}</font><br>
+				<br><form:errors path="userId" cssStyle="color: red"/> <br>
 
 			<br> password <br>パスワードは半角英小文字と数字を組み合わせた8文字以上<br>
 
 				<form:password path="passWord" value='${requestScope.user.passWord}'/><br>
 				<br>
-				<font color="red">${requestScope.passWordError}</font><br> <br>
+				<form:errors path="passWord" cssStyle="color: red"/><br> <br>
 			<br>
 
 			<button class="btn-square-so-pop">新規登録</button>

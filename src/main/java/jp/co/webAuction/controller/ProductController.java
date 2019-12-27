@@ -11,12 +11,15 @@ import javax.servlet.http.Part;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import jp.co.webAuction.controller.form.ProductForm;
 import jp.co.webAuction.db.dto.User;
+import jp.co.webAuction.db.entity.MenuDao;
 import jp.co.webAuction.db.entity.ProductDao;
 
 @Controller
@@ -24,6 +27,9 @@ public class ProductController {
 
 	@Autowired
 	private ProductDao productDao;
+
+	@Autowired
+	private MenuDao menuDao;
 
 	@RequestMapping("/ProductRegister")
 	public String ProductRegister(@ModelAttribute("product") ProductForm productForm, Model model) {
@@ -33,19 +39,35 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "/ContentConfirmation", method = RequestMethod.POST)
-	public String ContentConfirmation(@ModelAttribute("product") ProductForm productForm, Model model,
-			HttpServletRequest request) throws IOException, ServletException {
+	public String ContentConfirmation(@Validated @ModelAttribute("product") ProductForm productForm,
+			BindingResult bindingResult, Model model, HttpServletRequest request) throws IOException, ServletException {
 
 		System.out.println("登録画面");
+
+
+
+		Part part = request.getPart("file");
+
+		if (bindingResult.hasErrors()) {
+
+			System.out.println(part.getSize());
+
+			if (part.getSize() == 0) {
+				request.setAttribute("imgError", "画像ファイルを添付してください");
+			}
+
+			return "Product/Exhibit/ProductRegister";
+
+		}
 
 		model.addAttribute("product", productForm);
 
 		//絶対パスの指定
-		final String ABSOLUTE_PATH = new File("").getAbsoluteFile().getPath()+"\\src\\main\\webapp\\WebContent\\ProductImg";
+		final String ABSOLUTE_PATH = new File("").getAbsoluteFile().getPath()
+				+ "\\src\\main\\webapp\\WebContent\\ProductImg";
 
 		HttpSession session = request.getSession(true);
 		User user = (User) session.getAttribute("user");
-		System.out.println(user.getId());
 
 		//フォルダーがあるかどうか確認。
 		//なければ作成する。
@@ -70,13 +92,10 @@ public class ProductController {
 			}
 		}
 
-		Part part = request.getPart("file");
 		String name = this.getFileName(part);
 		part.write(ABSOLUTE_PATH + "/" + user.getId() + "/" + name);
 
-		productForm.setProductImg("\\WebContent\\ProductImg"+"/" + user.getId() + "/" + name);
-
-		System.out.println(productForm.getProductImg());
+		productForm.setProductImg("\\WebContent\\ProductImg" + "/" + user.getId() + "/" + name);
 
 		return "Product/Exhibit/ContentConfirmation";
 

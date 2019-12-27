@@ -1,24 +1,34 @@
 package jp.co.webAuction.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import jp.co.webAuction.controller.form.ProductForm;
 import jp.co.webAuction.controller.form.UserForm;
+import jp.co.webAuction.db.dto.Category;
+import jp.co.webAuction.db.entity.MenuDao;
 import jp.co.webAuction.db.entity.UserDao;
+import jp.co.webAuction.tool.CheckDate;
 
 @Controller
 public class UserController {
 
 	@Autowired
 	private UserDao userDao;
+
+	@Autowired
+	private MenuDao menuDao;
 
 	@RequestMapping(value = "/loginCheck", params = "login", method = RequestMethod.POST)
 	public String login(@ModelAttribute("user") UserForm userForm, Model model, HttpServletRequest request) {
@@ -31,6 +41,8 @@ public class UserController {
 
 		if (userDao.loginCheck(userForm.getUserId(), userForm.getPassWord())) {
 			session.setAttribute("user", userDao.getUser());
+			List<Category> categoryList = menuDao.categorySearch();
+			model.addAttribute("categoryList" , categoryList);
 			return "home/homePage";
 		} else {
 			return "login/loginError";
@@ -52,27 +64,32 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/loginCheck", params = "UserRegister", method = RequestMethod.POST)
-	public String UserRegister(@ModelAttribute("user") UserForm userForm, Model model) {
+	public String UserRegister(@ModelAttribute("user") UserForm userForm,
+			Model model) {
 
 		System.out.println("êVãKìoò^");
-
-		model.addAttribute("user", new UserForm());
+		model.addAttribute("user", userForm);
 
 		return "login/UserRegister";
 
 	}
 
 	@RequestMapping(value = "/UserConfirmation", method = RequestMethod.POST)
-	public String UserConfirmation(@ModelAttribute("user") UserForm userForm, Model model) {
+	public String UserConfirmation(@Validated @ModelAttribute("user") UserForm userForm, BindingResult bindingResult,
+			Model model , HttpServletRequest request) {
 
 		System.out.println("ämîFâÊñ ");
 
-		model.addAttribute("user", userForm);
+		if (bindingResult.hasErrors()) {
 
+			if(!(CheckDate.checkDate(userForm.getYear() + "/" + userForm.getMonth() + "/" + userForm.getDay()))) {
+				request.setAttribute("birthdayError", "ê∂îNåéì˙Ç™ïsê≥Ç≈Ç∑");
+			}
+
+			return "login/UserRegister";
+		}
 		return "login/UserConfirmation";
-
 	}
-
 
 	@RequestMapping(value = "/registration", params = "edit", method = RequestMethod.POST)
 	public String Edit(@ModelAttribute("user") UserForm userForm, Model model) {
@@ -84,7 +101,6 @@ public class UserController {
 		return "login/UserRegister";
 
 	}
-
 
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
 	public String registration(@ModelAttribute("user") UserForm userForm, Model model) {

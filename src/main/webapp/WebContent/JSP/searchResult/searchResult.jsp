@@ -51,7 +51,7 @@
 
 
 		<!--メニュー表-->
-		q1
+
 		<div id="menu">
 
 			<br> <br> メニュー表
@@ -142,10 +142,6 @@
 
 		<h1>オークション</h1>
 		<br> <br> <br>
-
-
-		<!--商品並びの起点-->
-
 
 
 		<c:forEach var="product" items="${productList}">
