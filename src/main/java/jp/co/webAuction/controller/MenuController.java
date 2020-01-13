@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jp.co.webAuction.controller.form.ProductForm;
+import jp.co.webAuction.controller.form.UserForm;
 import jp.co.webAuction.db.dto.Product;
 import jp.co.webAuction.db.dto.User;
 import jp.co.webAuction.db.entity.MenuDao;
@@ -22,16 +23,38 @@ public class MenuController {
 	@Autowired
 	MenuDao menuDao;
 
-	/*メニュー画面 {落札中}*/
-	@RequestMapping("/menu")
-	public String menu(@ModelAttribute("product") ProductForm productForm, Model model, HttpServletRequest request) {
-
+	/*メニュー画面 {ユーザ情報編集}*/
+	@RequestMapping("/userInformation")
+	public String userInformation(@ModelAttribute("product") UserForm userForm, Model model, HttpServletRequest request) {
 
 		HttpSession session = request.getSession(true);
 		User user = (User) session.getAttribute("user");
-		List<Product> productList = menuDao.productSearch(user.getId());
+		model.addAttribute("user", user);
+		return "menu/userInformation";
+	}
+
+	/*メニュー画面 {落札中}*/
+	@RequestMapping("/successfulDid")
+	public String successfulDid(@ModelAttribute("product") ProductForm productForm, Model model, HttpServletRequest request) {
+
+		HttpSession session = request.getSession(true);
+		User user = (User) session.getAttribute("user");
+		List<Product> productList = menuDao.productSuccessfulDid(user.getId());
 		model.addAttribute("productList", productList);
 		return "menu/menu";
 	}
+
+
+	/*メニュー画面 {出品中}*/
+	@RequestMapping("/Exhibition")
+	public String Exhibition(@ModelAttribute("product") ProductForm productForm, Model model, HttpServletRequest request) {
+
+		HttpSession session = request.getSession(true);
+		User user = (User) session.getAttribute("user");
+		List<Product> productList = menuDao.productExhibition(user.getId());
+		model.addAttribute("productList", productList);
+		return "menu/menu";
+	}
+
 
 }

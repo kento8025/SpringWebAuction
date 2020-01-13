@@ -18,7 +18,7 @@ public class PgSearchDao implements SearchDao {
 
 	private final String SELECT_PRODUCT = "SELECT * FROM product WHERE 1=1";
 	private String where_set = "";
-	private final String SELECT_FROM_PRODUCT_AND_USERS_AND_CATEGORY = "  SELECT  p.id as primaryProductId , u.id as primaryUserId , *  FROM product as p LEFT JOIN users u ON  u.id = p.user_id LEFT JOIN category c ON  c.id = p.category_id";
+	private final String SELECT_FROM_PRODUCT_AND_USERS_AND_CATEGORY = "  SELECT  p.id as primaryProductId , u.id as primaryUserId , p.user_id as seller , *  FROM product as p LEFT JOIN users u ON  u.id = p.user_id LEFT JOIN category c ON  c.id = p.category_id";
 
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;

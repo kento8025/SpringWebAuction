@@ -1,0 +1,141 @@
+
+/*タイトル*/
+#tltie {
+	color: red; /*文字色指定*/
+	text-align: center; /*真ん中にレイアウト指定*/
+}
+/*ログイン画面*/
+#login {
+	float: left;
+	clear: none;
+	padding-left: 1200px;
+	width: 300px;
+}
+
+#login form {
+	text-align: right;
+}
+
+/*ログインのボタン*/
+.btn-square {
+	width: 100px;
+	margin: 5px;
+	display: inline-block;
+	padding: 0.5em 1em;
+	text-decoration: none;
+	background: #668ad8; /*ボタン色*/
+	color: #FFF;
+	border-bottom: solid 4px #627295;
+	border-radius: 3px;
+}
+
+.btn-square:active {
+	/*ボタンを押したとき*/
+	-webkit-transform: translateY(4px);
+	transform: translateY(4px); /*下に動く*/
+	border-bottom: none; /*線を消す*/
+}
+
+/*新規登録*/
+.btn-square-so-pop {
+	width: 100px;
+	margin: 5px;
+	position: relative;
+	display: inline-block;
+	padding: 0.25em 0.5em;
+	text-decoration: none;
+	color: #FFF;
+	background: #fd9535; /*色*/
+	border-radius: 4px; /*角の丸み*/
+	box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.2), inset 0 -2px 0
+		rgba(0, 0, 0, 0.05);
+	font-weight: bold;
+	border: solid 2px #d27d00; /*線色*/
+}
+
+.btn-square-so-pop:active {
+	/*押したとき*/
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+}
+
+
+/*お気に入りのタグ表示*/
+#tagu {
+	width: 850px;
+	padding-top: 100px;
+	padding-left: 100px;
+	display: inline-block;
+	position: relative
+}
+
+.btn-circle-flat {
+	display: inline-block; /*要素が横並びになる*/
+	text-decoration: none; /*リストの下線消去*/
+	background: #87befd; /*背景賞指定*/
+	color: #FFF; /*文字色指定*/
+	width: 140px;
+	height: 140px; /*縦幅*/
+	line-height: 140px; /*行の高さ指定*/
+	margin: 20px;
+	border-radius: 50%; /*円の丸み*/
+	text-align: center; /*テキスト真ん中にレイアウト*/
+	overflow: hidden; /*要素の収まり、はみ出したら非表示*/
+	transition: 1000ms linear;
+}
+
+.btn-circle-flat:hover {
+	background: #668ad8; /*マウス操作時の色指定*/
+}
+
+/*お知らせ*/
+#news {
+	margin-top: 100px;
+	padding-right: 60px;
+	float: right;
+	clear: none;
+	width: 250px;
+	height: 350px;
+	text-align: center;
+	background-color: #999999;
+	border-radius: 10px;
+}
+
+
+/*目玉商品*/
+
+/*画像全体をブロック*/
+#box1 {
+	display: inline-block;
+	padding-left: 200px;
+	width: 800px;
+	height: 350px;
+}
+
+#medama {
+	text-align: center;
+}
+
+.new {
+	float: left;
+	margin: 5px;
+	clear: none;
+}
+
+#textFeaturedProducts {
+	display: inline-block;
+	padding-left: 200px;
+	width: 800px;
+	height: 350px
+}
+
+.text {
+	float: left;
+	margin: 5px;
+	width: 250px;
+	height: 100px;
+	clear: none;
+	text-align: center;
+}
+
+
+

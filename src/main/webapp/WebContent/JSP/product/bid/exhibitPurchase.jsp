@@ -3,7 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 
 <!DOCTYPE html>
@@ -69,11 +69,13 @@
 
 			<form:form action="searchAdminProduct" modelAttribute="tradeForm">
 
-					<br> <input type="hidden"
-						value="${fn:escapeXml(purchaseDisplay.primaryProductId)}"
-						name="productId"> <br>
-					<button name="delete" >削除</button>
-					<button name="hidden" >非表示</button>
+				<br>
+				<input type="hidden"
+					value="${fn:escapeXml(purchaseDisplay.primaryProductId)}"
+					name="productId">
+				<br>
+				<button name="delete">削除</button>
+				<button name="hidden">非表示</button>
 
 			</form:form>
 
@@ -101,16 +103,30 @@
 			<div id="block2-A-B">
 				入札回数 残り時間<br> 〇〇回数 〇〇時間<br> <br> 価格<br>
 				${fn:escapeXml(purchaseDisplay.price)}円<br>
-				送料${fn:escapeXml(purchaseDisplay.postage)}負担<br> <br> <input
-					name="contractPrice" type="text" placeholder="落札金額を入力" /> <input
-					type="hidden" name="userId"
-					value="${fn:escapeXml(purchaseDisplay.primaryUserId)}"> <input
-					type="hidden" name="productId"
-					value="${fn:escapeXml(purchaseDisplay.primaryProductId)}">
-				<br>
+				送料${fn:escapeXml(purchaseDisplay.postage)}負担<br> <br>
 
-				<button class="btn-square-so-pop">今すぐ落札する</button>
+				<c:choose>
 
+					<c:when test="${sessionScope.user.id eq purchaseDisplay.seller}">
+
+						<font size=4 color="red">自身が出品した商品は購入できません</font>
+
+					</c:when>
+
+					<c:otherwise>
+
+						<input name="contractPrice" type="text" placeholder="落札金額を入力" />
+						<input type="hidden" name="userId"
+							value='${sessionScope.user.id}'>
+						<input type="hidden" name="productId"
+							value="${fn:escapeXml(purchaseDisplay.primaryProductId)}">
+						<br>
+
+						<button class="btn-square-so-pop">今すぐ落札する</button>
+
+					</c:otherwise>
+
+				</c:choose>
 
 				<br> <br> 出品者${fn:escapeXml(purchaseDisplay.userName)}さん<br>
 				<br> 出品者へのお問合せ<br> ${fn:escapeXml(purchaseDisplay.mail)}

@@ -45,7 +45,8 @@ public class UserController {
 			model.addAttribute("categoryList" , categoryList);
 			return "home/homePage";
 		} else {
-			return "login/loginError";
+			request.setAttribute("loginError", "IDÇ‹ÇΩÇÕPASSWORDÇ™à·Ç¢Ç‹Ç∑");
+			return "home/homePage";
 		}
 
 	}
@@ -70,7 +71,7 @@ public class UserController {
 		System.out.println("êVãKìoò^");
 		model.addAttribute("user", userForm);
 
-		return "login/UserRegister";
+		return "login/userRegister";
 
 	}
 
@@ -88,7 +89,7 @@ public class UserController {
 
 			return "login/UserRegister";
 		}
-		return "login/UserConfirmation";
+		return "login/userConfirmation";
 	}
 
 	@RequestMapping(value = "/registration", params = "edit", method = RequestMethod.POST)
@@ -98,7 +99,7 @@ public class UserController {
 
 		model.addAttribute("user", userForm);
 
-		return "login/UserRegister";
+		return "login/userRegister";
 
 	}
 

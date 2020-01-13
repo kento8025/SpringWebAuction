@@ -16,7 +16,7 @@ import jp.co.webAuction.db.entity.MenuDao;
 import jp.co.webAuction.db.entity.TradeDao;
 
 @Controller
-public class webController {
+public class WebController {
 
 	@Autowired
 	TradeDao tradeDao;
@@ -38,7 +38,7 @@ public class webController {
 	@RequestMapping("/SuccessfulDid")
 	public String SuccessfulDid(@ModelAttribute("tradeForm") TradeForm tradeForm, Model model) {
 		tradeDao.register(tradeForm);
-		return "Product/bid/SuccessfulDid";
+		return "product/bid/successfulDid";
 	}
 
 }

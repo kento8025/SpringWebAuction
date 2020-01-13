@@ -24,7 +24,8 @@ public class AdminController {
 	SearchDao searchDao;
 
 	@RequestMapping(value = "/searchAdminProduct", params = "delete")
-	public String searchAdminProductDelete(@ModelAttribute("tradeForm") TradeForm tradeForm,@ModelAttribute("product") ProductForm productForm, Model model) {
+	public String searchAdminProductDelete(@ModelAttribute("tradeForm") TradeForm tradeForm,
+			@ModelAttribute("product") ProductForm productForm, Model model) {
 
 		adminDao.delete(tradeForm.getProductId());
 		List<Product> productList = searchDao.productSearch(productForm.getProductName());
@@ -35,7 +36,8 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/searchAdminProduct", params = "hidden")
-	public String searchAdminProductHidden(@ModelAttribute("tradeForm") TradeForm tradeForm, @ModelAttribute("product") ProductForm productForm,Model model) {
+	public String searchAdminProductHidden(@ModelAttribute("tradeForm") TradeForm tradeForm,
+			@ModelAttribute("product") ProductForm productForm, Model model) {
 
 		List<Product> productList = searchDao.productSearch(productForm.getProductName());
 		model.addAttribute("productList", productList);

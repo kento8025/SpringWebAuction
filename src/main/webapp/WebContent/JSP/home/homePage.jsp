@@ -12,7 +12,13 @@
 
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css"
-	href="WebContent/css/homePage.css">
+	href="WebContent/css/home/homePage.css">
+<link rel="stylesheet" type="text/css"
+	href="WebContent/css/WebActionParts/search.css">
+<link rel="stylesheet" type="text/css"
+	href="WebContent/css/WebActionParts/menu.css">
+<link rel="stylesheet" type="text/css"
+	href="WebContent/css/WebActionParts/category.css">
 
 <title>オークション</title>
 
@@ -70,7 +76,6 @@
 
 				</form:form>
 
-
 			</div>
 
 
@@ -109,6 +114,9 @@
 
 				<form:form action="loginCheck" modelAttribute="user">
 
+					<font color="red">${requestScope.loginError}</font>
+					<br>
+
 					ID<form:input path="userId" value='${sessionScope.user.userId}' />
 					<br>
 					PASSWORD<form:password path="passWord"
@@ -133,11 +141,11 @@
 		メニュー表
 		<nav>
 			<ul>
+				<li><a href="userInformation">ユーザー情報</a></li>
 				<li><a href="ProductRegister">出品する</a></li>
-				<li><a href="#">気になる</a></li>
-				<li><a href="menu">落札中</a></li>
+				<li><a href="successfulDid">落札中</a></li>
 				<li><a href="#">落札履歴</a></li>
-				<li><a href="#">出品中</a></li>
+				<li><a href="Exhibition">出品中</a></li>
 				<li><a href="#">出品履歴</a></li>
 			</ul>
 		</nav>
@@ -199,7 +207,9 @@
 
 		</c:forEach>
 
-		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+		<br> <br> <br> <br> <br> <br> <br>
+		<br> <br> <br> <br> <br> <br> <br>
+		<br> <br> <br> <br> <br>
 
 	</div>
 

@@ -1,6 +1,7 @@
 package jp.co.webAuction.db.dto;
 
 import java.sql.Date;
+import java.util.Calendar;
 
 public class User {
 
@@ -17,16 +18,43 @@ public class User {
 	private Date registrationDate;
 	private Date birthday;
 
+	private int year2;
+	private int month2;
+	private int day2;
+
+	Calendar cal = Calendar.getInstance();
+
+
+	public int getYear2() {
+
+		cal.setTime(birthday);
+		return year2 = birthday;
+	}
+
+	public int getMonth2() {
+		return month2;
+	}
+
+	public int getDay2() {
+		return day2;
+	}
+
+	/**************************
+	 *                         *
+	 *       ƒeƒXƒg            *
+	 *                         *
+	 *                         *
+	 * ***********************/
+
 	public User() {
 	}
 
 	public Date getBirthday() {
 
-		Date date = Date.valueOf(year + "-" + month + "-" + day);
+		Date birthday = Date.valueOf(year + "-" + month + "-" + day);
 
-		return date;
+		return birthday;
 	}
-
 
 	public int getId() {
 		return id;
@@ -116,7 +144,7 @@ public class User {
 		this.registrationDate = registrationDate;
 	}
 
-	public Date getBirthdayonDate() {
+	public Date getBirthdayDate() {
 		return birthday;
 	}
 
@@ -131,6 +159,5 @@ public class User {
 	public void setUserRank(int userRank) {
 		this.userRank = userRank;
 	}
-
 
 }

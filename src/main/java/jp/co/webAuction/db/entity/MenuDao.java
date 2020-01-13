@@ -8,7 +8,9 @@ import jp.co.webAuction.db.dto.Product;
 
 public interface MenuDao {
 
-	public List<Product> productSearch(int userId);
+	public List<Product> productSuccessfulDid(int userId);
+
+	public List<Product> productExhibition(int userId);
 
 	public List<Category> categorySearch();
 

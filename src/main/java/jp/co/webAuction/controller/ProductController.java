@@ -2,6 +2,7 @@ package jp.co.webAuction.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import jp.co.webAuction.controller.form.ProductForm;
+import jp.co.webAuction.db.dto.Category;
 import jp.co.webAuction.db.dto.User;
 import jp.co.webAuction.db.entity.MenuDao;
 import jp.co.webAuction.db.entity.ProductDao;
@@ -35,7 +37,9 @@ public class ProductController {
 	public String ProductRegister(@ModelAttribute("product") ProductForm productForm, Model model) {
 		System.out.println("出品する");
 		model.addAttribute("product", new ProductForm());
-		return "Product/Exhibit/ProductRegister";
+		List<Category> categoryList = menuDao.categorySearch();
+		model.addAttribute("categoryList" , categoryList);
+		return "product/exhibit/productRegister";
 	}
 
 	@RequestMapping(value = "/ContentConfirmation", method = RequestMethod.POST)
@@ -56,7 +60,7 @@ public class ProductController {
 				request.setAttribute("imgError", "画像ファイルを添付してください");
 			}
 
-			return "Product/Exhibit/ProductRegister";
+			return "product/exhibit/productRegister";
 
 		}
 
@@ -97,7 +101,7 @@ public class ProductController {
 
 		productForm.setProductImg("\\WebContent\\ProductImg" + "/" + user.getId() + "/" + name);
 
-		return "Product/Exhibit/ContentConfirmation";
+		return "product/exhibit/contentConfirmation";
 
 	}
 
@@ -114,7 +118,7 @@ public class ProductController {
 
 		productDao.register(productForm, user);
 
-		return "Product/Exhibit/RistingCompleted";
+		return "product/exhibit/ristingCompleted";
 	}
 
 	private String getFileName(Part part) {

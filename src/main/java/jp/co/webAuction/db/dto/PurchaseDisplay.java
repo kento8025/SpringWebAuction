@@ -30,6 +30,8 @@ public class PurchaseDisplay {
 	private Date registrationDate;
 	private Date birthday;
 
+	private long seller;//èoïié“ÇÃID
+
 	public PurchaseDisplay() {
 
 	}
@@ -225,5 +227,14 @@ public class PurchaseDisplay {
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
+
+	public long getSeller() {
+		return seller;
+	}
+
+	public void setSeller(long seller) {
+		this.seller = seller;
+	}
+
 
 }

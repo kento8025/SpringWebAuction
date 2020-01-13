@@ -42,7 +42,7 @@ public class SearchController {
 		model.addAttribute("purchaseDisplay", purchaseDisplay);
 		model.addAttribute("tradeForm", new TradeForm());
 
-		return "Product/bid/ExhibitPurchase";
+		return "product/bid/exhibitPurchase";
 
 
 	}
