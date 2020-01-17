@@ -23,6 +23,7 @@ public class MenuController {
 	@Autowired
 	MenuDao menuDao;
 
+
 	/*メニュー画面 {ユーザ情報編集}*/
 	@RequestMapping("/userInformation")
 	public String userInformation(@ModelAttribute("product") UserForm userForm, Model model, HttpServletRequest request) {
@@ -30,8 +31,27 @@ public class MenuController {
 		HttpSession session = request.getSession(true);
 		User user = (User) session.getAttribute("user");
 		model.addAttribute("user", user);
-		return "menu/userInformation";
+		return "menu/user/userInformation";
 	}
+
+	@RequestMapping("/Edit")
+	public String edit(@ModelAttribute("product") UserForm userForm, Model model, HttpServletRequest request) {
+
+		HttpSession session = request.getSession(true);
+		User user = (User) session.getAttribute("user");
+		model.addAttribute("user", user);
+		return "menu/user/userEdit";
+	}
+
+	@RequestMapping("/userUpdate")
+	public String userUpdate(@ModelAttribute("product") UserForm userForm, Model model, HttpServletRequest request) {
+
+		HttpSession session = request.getSession(true);
+		User user = (User) session.getAttribute("user");
+		menuDao.userUpdate(userForm, user.getId());
+		return "menu/user/userUpdateDone";
+	}
+
 
 	/*メニュー画面 {落札中}*/
 	@RequestMapping("/successfulDid")
@@ -55,6 +75,8 @@ public class MenuController {
 		model.addAttribute("productList", productList);
 		return "menu/menu";
 	}
+
+
 
 
 }

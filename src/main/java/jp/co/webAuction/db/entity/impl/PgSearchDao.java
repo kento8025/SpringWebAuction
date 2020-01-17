@@ -16,9 +16,42 @@ import jp.co.webAuction.db.entity.SearchDao;
 @Repository
 public class PgSearchDao implements SearchDao {
 
-	private final String SELECT_PRODUCT = "SELECT * FROM product WHERE 1=1";
-	private String where_set = "";
-	private final String SELECT_FROM_PRODUCT_AND_USERS_AND_CATEGORY = "  SELECT  p.id as primaryProductId , u.id as primaryUserId , p.user_id as seller , *  FROM product as p LEFT JOIN users u ON  u.id = p.user_id LEFT JOIN category c ON  c.id = p.category_id";
+
+	private final String SELECT_PRODUCT =  "" +
+
+			"SELECT p.product_name , p.id ,  p.user_id ,p.product_name ,p.product_img ,p.category_id , p.product_status , " +
+			"p.description , p.postage , p.shipping_origin , p.shipping_method  , p.exhibition_period ,p.should_show , p.Registration_dete , s.trade_status , " +
+			"CASE " +
+			"WHEN MAX(s.contract_price)  IS NULL THEN  MAX(p.price)  " +
+			"ELSE MAX(s.contract_price)  " +
+			"END AS price " +
+			"FROM product as p " +
+			"LEFT JOIN successful_bid s ON p.id = s.product_id  " +
+			"LEFT JOIN users u ON  u.id = s.user_id  " +
+			"LEFT JOIN category c ON  c.id = p.category_id  " +
+			"WHERE (trade_status IS NULL OR trade_status = 1) AND should_show = 1 "+
+			"GROUP BY  p.id , s.trade_status ";
+
+			/*"WHERE 1 = 1 AND p.product_name = :product_name  "+*/
+
+	private final String SELECT_FROM_PRODUCT_AND_USERS_AND_CATEGORY = ""+
+			"SELECT p.id as primaryProductId , p.user_id as primaryUserId , MAX (s.id) as trade ,  p.user_id as seller , s.user_id as buyer ,p.product_name  , p.product_name ,p.product_img ,p.category_id , p.product_status ,  " +
+			"p.description , p.postage , p.shipping_origin , p.shipping_method  , p.exhibition_period ,p.should_show , p.Registration_dete ,  s.trade_status  ," +
+			"CASE " +
+			"WHEN MAX(s.contract_price)  IS NULL THEN  MAX(p.price) " +
+			"ELSE MAX(s.contract_price) " +
+			"END AS price " +
+			"FROM product as p " +
+			"LEFT JOIN successful_bid s ON p.id = s.product_id " +
+			"LEFT JOIN users u ON  u.id = s.user_id " +
+			"LEFT JOIN category c ON  c.id = p.category_id  "+
+			"WHERE p.id = :p.id  AND (trade_status IS NULL OR trade_status = 1) AND should_show = 1 "  +
+			"GROUP BY p.id , s.trade_status , s.id "+
+			"ORDER BY price ASC  ";
+
+
+	//private  String WHERE_SET =  " WHERE should_show = 1  ";
+
 
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;
@@ -32,13 +65,9 @@ public class PgSearchDao implements SearchDao {
 		product.setProductName(productName);
 		searchSet(productName);
 
+		String sql = SELECT_PRODUCT  ;
+
 		param.addValue("product_name", product.getProductName());
-
-		String sql = SELECT_PRODUCT + where_set + " AND should_show = 1";
-
-		System.out.println(sql);
-
-		System.out.println("åüçıäÆóπ");
 
 		return jdbcTemplate.query(
 				sql,
@@ -52,25 +81,21 @@ public class PgSearchDao implements SearchDao {
 
 		MapSqlParameterSource param = new MapSqlParameterSource();
 
-		String sql = SELECT_FROM_PRODUCT_AND_USERS_AND_CATEGORY + " WHERE p.id = :p.id  ";
+		String sql = SELECT_FROM_PRODUCT_AND_USERS_AND_CATEGORY ;
 
 		param.addValue("p.id", productId);
 
-		System.out.println(sql);
-
 		List<PurchaseDisplay> purchaseDisplay =  new ArrayList<>();
-
 
 		purchaseDisplay = jdbcTemplate.query(
 		sql,
 		param,
 		new BeanPropertyRowMapper<PurchaseDisplay>(PurchaseDisplay.class));
 
-		return purchaseDisplay.get(0);
+		return purchaseDisplay.get(purchaseDisplay.size()-1);
 
 
 	}
-
 
 
 	private void searchSet(String productName) {
@@ -83,7 +108,7 @@ public class PgSearchDao implements SearchDao {
 
 		}
 
-		this.where_set = sql;
+		//this.where_set = sql;
 
 	}
 

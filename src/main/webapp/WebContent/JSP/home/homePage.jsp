@@ -53,6 +53,8 @@
  --%>
 
 
+
+
 	<c:choose>
 
 		<c:when test="${sessionScope.user.userRank eq '1'}">
@@ -70,7 +72,7 @@
 						value='${sessionScope.user.passWord}' />
 					<br>
 
-					<button class="btn-square" name="login">ログイン</button>
+					<form:button class="btn-square" name="login">ログイン</form:button>
 					<br>
 					<form:button class="btn-square" name="logout">ログアウト</form:button>
 

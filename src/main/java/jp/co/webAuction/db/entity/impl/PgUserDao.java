@@ -62,8 +62,6 @@ public class PgUserDao implements UserDao {
 
 		if (!(user.size() == 0)) {
 
-			System.out.println("’Ê‰ß");
-
 			this.user = user.get(0);
 
 			return true;

@@ -86,7 +86,7 @@
 
 	<div id="block2">
 
-		<form:form action="SuccessfulDid" modelAttribute="tradeForm">
+		<form:form action="trade" modelAttribute="tradeForm">
 
 
 			<div id="block2-A-A">
@@ -102,6 +102,10 @@
 
 			<div id="block2-A-B">
 				入札回数 残り時間<br> 〇〇回数 〇〇時間<br> <br> 価格<br>
+
+				<input type="hidden" name="price"
+							value="${fn:escapeXml(purchaseDisplay.price)}">
+
 				${fn:escapeXml(purchaseDisplay.price)}円<br>
 				送料${fn:escapeXml(purchaseDisplay.postage)}負担<br> <br>
 
@@ -109,12 +113,24 @@
 
 					<c:when test="${sessionScope.user.id eq purchaseDisplay.seller}">
 
-						<font size=4 color="red">自身が出品した商品は購入できません</font>
+						<input type="hidden" value="${fn:escapeXml(purchaseDisplay.primaryProductId)}" name="productId">
+						<form:button class="btn-square-so-pop-red" name ="productCancel" >商品の取り消し</form:button><br>
+						<form:button class="btn-square-so-pop" name ="promptDecision" >落札の締め切り</form:button>
+
 
 					</c:when>
 
-					<c:otherwise>
+					<c:when test="${sessionScope.user.id eq purchaseDisplay.buyer}">
 
+						<input type="hidden" value="${fn:escapeXml(purchaseDisplay.trade)}" name="tradeId">
+
+						<form:button class="btn-square-so-pop-red" name ="successFulDidCancel" >落札の取り消し</form:button>
+
+					</c:when>
+
+
+					<c:otherwise>
+						<font color="red">${requestScope.priceError}</font><br>
 						<input name="contractPrice" type="text" placeholder="落札金額を入力" />
 						<input type="hidden" name="userId"
 							value='${sessionScope.user.id}'>
@@ -122,7 +138,7 @@
 							value="${fn:escapeXml(purchaseDisplay.primaryProductId)}">
 						<br>
 
-						<button class="btn-square-so-pop">今すぐ落札する</button>
+						<button class="btn-square-so-pop" name="SuccessfulDid">今すぐ落札する</button>
 
 					</c:otherwise>
 
@@ -136,9 +152,8 @@
 
 			<br>
 
-
-
 			<div id="block3">${fn:escapeXml(purchaseDisplay.description)}</div>
+
 		</form:form>
 		<br> <br>
 	</div>

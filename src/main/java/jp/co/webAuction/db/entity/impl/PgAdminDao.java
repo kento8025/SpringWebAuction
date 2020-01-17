@@ -30,7 +30,7 @@ public class PgAdminDao implements AdminDao {
 
 		MapSqlParameterSource param = new MapSqlParameterSource();
 
-		String sql = "UPDATE Product SET should_show = 2 WHERE id = :id";
+		String sql = "UPDATE Product SET should_show = 4 WHERE id = :id";
 
 		param.addValue("id", id);
 

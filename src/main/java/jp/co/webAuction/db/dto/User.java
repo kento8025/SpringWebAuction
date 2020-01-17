@@ -18,35 +18,22 @@ public class User {
 	private Date registrationDate;
 	private Date birthday;
 
-	private int year2;
-	private int month2;
-	private int day2;
-
 	Calendar cal = Calendar.getInstance();
 
 
-	public int getYear2() {
-
-		cal.setTime(birthday);
-		return year2 = birthday;
+	public String getYear2() {
+		this.cal.setTime(getBirthdayDate());
+		return year = Integer.toString(cal.get(Calendar.YEAR));
 	}
 
-	public int getMonth2() {
-		return month2;
+	public String getMonth2() {
+		this.cal.setTime(getBirthdayDate());
+		return month = Integer.toString((cal.get(Calendar.MARCH) + 1));
 	}
 
-	public int getDay2() {
-		return day2;
-	}
-
-	/**************************
-	 *                         *
-	 *       ƒeƒXƒg            *
-	 *                         *
-	 *                         *
-	 * ***********************/
-
-	public User() {
+	public String getDay2() {
+		this.cal.setTime(getBirthdayDate());
+		return day = Integer.toString(cal.get(Calendar.DATE));
 	}
 
 	public Date getBirthday() {

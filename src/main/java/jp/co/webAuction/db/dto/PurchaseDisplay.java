@@ -30,7 +30,11 @@ public class PurchaseDisplay {
 	private Date registrationDate;
 	private Date birthday;
 
-	private long seller;//出品者のID
+	private Integer seller;//出品者のID
+	private Integer buyer;//購入者のID
+
+	private Integer trade;//取引ID
+
 
 	public PurchaseDisplay() {
 
@@ -228,13 +232,30 @@ public class PurchaseDisplay {
 		this.birthday = birthday;
 	}
 
-	public long getSeller() {
+	public Integer getSeller() {
 		return seller;
 	}
 
-	public void setSeller(long seller) {
+	public void setSeller(Integer seller) {
 		this.seller = seller;
 	}
+
+	public Integer getBuyer() {
+		return buyer;
+	}
+
+	public void setBuyer(Integer buyer) {
+		this.buyer = buyer;
+	}
+
+	public Integer getTrade() {
+		return trade;
+	}
+
+	public void setTrade(Integer trade) {
+		this.trade = trade;
+	}
+
 
 
 }

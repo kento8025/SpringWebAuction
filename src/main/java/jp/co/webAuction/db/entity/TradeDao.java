@@ -6,4 +6,10 @@ public interface TradeDao {
 
 	public void register(TradeForm tradeForm);
 
+	public void productHidden(int productId);
+
+	public void tradeCancel(int tradeId);
+
+	public void promptDecision(int productId , int tradeId);
+
 }

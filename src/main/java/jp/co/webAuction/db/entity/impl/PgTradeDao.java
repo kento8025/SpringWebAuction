@@ -31,4 +31,40 @@ public class PgTradeDao implements TradeDao {
 
 	}
 
+	@Override
+	public void productHidden(int productId) {
+
+		MapSqlParameterSource param = new MapSqlParameterSource();
+
+		String sql = "UPDATE Product SET should_show = 2 WHERE id = :id";
+
+		param.addValue("id", productId);
+
+		jdbcTemplate.update(sql, param);
+
+	}
+
+	@Override
+	public void tradeCancel(int id) {
+
+		MapSqlParameterSource param = new MapSqlParameterSource();
+
+		String sql = "UPDATE successful_bid SET trade_status = 2 WHERE id = :id";
+
+		param.addValue("id", id);
+
+		jdbcTemplate.update(sql, param);
+
+
+	}
+
+	@Override
+	public void promptDecision(int productId , int tradeId) {
+
+
+
+
+
+	}
+
 }

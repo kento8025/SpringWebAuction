@@ -68,19 +68,19 @@
 			<br>生年月日<br>
 
 			<form:select id="year" path="year">
-				<option value="${fn:escapeXml(user.year)}">
+				<option value="${fn:escapeXml(user.year2)}">
 					${fn:escapeXml(user.year)}</option>
 			</form:select>年
 
 
 				<form:select id="month" path="month">
-				<option value="${fn:escapeXml(user.month)}">
+				<option value="${fn:escapeXml(user.month2)}">
 					${fn:escapeXml(user.month)}</option>
 			</form:select>月
 
 
 				<form:select id="day" path="day">
-				<option value="${fn:escapeXml(user.day)}">
+				<option value="${fn:escapeXml(user.day2)}">
 					${fn:escapeXml(user.day)}</option>
 			</form:select>日
 ​
