@@ -6,14 +6,17 @@ import jp.co.webAuction.controller.form.UserForm;
 import jp.co.webAuction.db.dto.Category;
 import jp.co.webAuction.db.dto.Product;
 
-
 public interface MenuDao {
 
-	public void userUpdate (UserForm user , int id);
+	public void userUpdate(UserForm user, int id);
 
 	public List<Product> productSuccessfulDid(int userId);
 
+	public List<Product> productSuccessfulDidHistory(int userId);
+
 	public List<Product> productExhibition(int userId);
+
+	public List<Product> productExhibitionHistory(int userId);
 
 	public List<Category> categorySearch();
 

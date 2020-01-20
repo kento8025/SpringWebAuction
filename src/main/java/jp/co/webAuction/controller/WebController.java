@@ -32,7 +32,7 @@ public class WebController {
 	@Autowired
 	private SearchDao searchDao;
 
-	@RequestMapping("/homePage")
+	@RequestMapping(value = { "/homePage", "/index" })
 	public String homeIndex(@ModelAttribute("product") ProductForm productForm, Model model) {
 		model.addAttribute("product", new ProductForm());
 		model.addAttribute("user", new UserForm());
@@ -61,18 +61,9 @@ public class WebController {
 
 	}
 
-	/*出品した商品の即売り*/
-	@RequestMapping(value = "/trade", params = "promptDecision", method = RequestMethod.POST)
-	public String promptDecision(@ModelAttribute("tradeForm") TradeForm tradeForm,  Model model) {
-
-		return "menu/cancel/productCancel";
-
-	}
-
-
 	/*出品した商品の取り消し*/
 	@RequestMapping(value = "/trade", params = "productCancel", method = RequestMethod.POST)
-	public String productCancel(@ModelAttribute("tradeForm") TradeForm tradeForm,  Model model) {
+	public String productCancel(@ModelAttribute("tradeForm") TradeForm tradeForm, Model model) {
 
 		tradeDao.productHidden(tradeForm.getProductId());
 
@@ -82,11 +73,21 @@ public class WebController {
 
 	/*商品購入取り消し*/
 	@RequestMapping(value = "/trade", params = "successFulDidCancel", method = RequestMethod.POST)
-	public String successFulDidCancel(@ModelAttribute("tradeForm") TradeForm tradeForm,  Model model) {
+	public String successFulDidCancel(@ModelAttribute("tradeForm") TradeForm tradeForm, Model model) {
 
 		tradeDao.tradeCancel(tradeForm.getTradeId());
 
 		return "menu/cancel/successFulDidCancel";
+	}
+
+	/*出品した商品の即売り*/
+	@RequestMapping(value = "/trade", params = "promptDecision", method = RequestMethod.POST)
+	public String promptDecision(@ModelAttribute("tradeForm") TradeForm tradeForm, Model model) {
+
+		tradeDao.promptDecision(tradeForm.getProductId());
+
+		return "menu/cancel/productCancel";
+
 	}
 
 }

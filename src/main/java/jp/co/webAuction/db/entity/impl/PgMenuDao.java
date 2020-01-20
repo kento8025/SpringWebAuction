@@ -19,9 +19,11 @@ public class PgMenuDao implements MenuDao {
 	private final String UPDETA_USERS = "UPDATE users SET user_id = :user_id, password = :password , user_name = :user_name , birthday = :birthday , man_or_woman = :man_or_woman ,  mail = :mail "
 			+ "WHERE id = :id ";
 
-	private final String SELECT_PRODUCT_SUCCESSFUL_DID = ""+
-			"SELECT p.product_name , p.id ,  p.user_id ,p.product_name ,p.product_img ,p.category_id , p.product_status , "+
-			"p.description , p.postage , p.shipping_origin , p.shipping_method  , p.exhibition_period ,p.should_show , p.Registration_dete ,"+
+	private final String SELECT_PRODUCT_SUCCESSFUL_DID = "" +
+			"SELECT p.product_name , p.id ,  p.user_id ,p.product_name ,p.product_img ,p.category_id , p.product_status , "
+			+
+			"p.description , p.postage , p.shipping_origin , p.shipping_method  , p.exhibition_period ,p.should_show , p.Registration_dete ,"
+			+
 			"CASE " +
 			"WHEN MAX(s.contract_price)  IS NULL THEN  MAX(p.price) " +
 			"ELSE MAX(s.contract_price) " +
@@ -31,12 +33,27 @@ public class PgMenuDao implements MenuDao {
 			"LEFT JOIN users u ON  u.id = s.user_id " +
 			"WHERE p.should_show = 1 AND s.user_id =:id AND trade_status = 1 ";
 
+	private final String SELECT_PRODUCT_SUCCESSFUL_DID_HISTORY = "" +
+			"SELECT p.product_name , p.id ,  p.user_id ,p.product_name ,p.product_img ,p.category_id , p.product_status , "
+			+
+			"p.description , p.postage , p.shipping_origin , p.shipping_method  , p.exhibition_period ,p.should_show , p.Registration_dete , "
+			+
+			"CASE " +
+			"WHEN MAX(s.contract_price)  IS NULL THEN  MAX(p.price) " +
+			"ELSE MAX(s.contract_price)  " +
+			"END  AS  price   " +
+			"FROM  product  as  p  " +
+			"LEFT JOIN successful_bid s ON p.id = s.product_id  " +
+			"LEFT JOIN users u ON  u.id = s.user_id  " +
+			"WHERE p.should_show = 3 AND s.user_id = :id AND trade_status = 3 ";
 
-	private final String SELECT_PRODUCT_EXHIBITION =  "" +
+	private final String SELECT_PRODUCT_EXHIBITION = "" +
 			"SELECT * " +
-			"FROM ( "+
-			"SELECT p.product_name , p.id ,  p.user_id ,p.product_name ,p.product_img ,p.category_id , p.product_status , " +
-			"p.description , p.postage , p.shipping_origin , p.shipping_method  , p.exhibition_period ,p.should_show , p.Registration_dete , s.trade_status , " +
+			"FROM ( " +
+			"SELECT p.product_name , p.id ,  p.user_id ,p.product_name ,p.product_img ,p.category_id , p.product_status , "
+			+
+			"p.description , p.postage , p.shipping_origin , p.shipping_method  , p.exhibition_period ,p.should_show , p.Registration_dete , s.trade_status , "
+			+
 			"CASE " +
 			"WHEN MAX(s.contract_price)  IS NULL THEN  MAX(p.price)  " +
 			"ELSE MAX(s.contract_price)  " +
@@ -45,11 +62,26 @@ public class PgMenuDao implements MenuDao {
 			"LEFT JOIN successful_bid s ON p.id = s.product_id  " +
 			"LEFT JOIN users u ON  u.id = s.user_id  " +
 			"LEFT JOIN category c ON  c.id = p.category_id  " +
-			"GROUP BY p.product_name , p.id ,  p.user_id ,p.product_name ,p.product_img ,p.category_id , p.product_status , " +
-			"p.description , p.postage , p.shipping_origin , p.shipping_method  , p.exhibition_period ,p.should_show , p.Registration_dete , s.trade_status "+
-			" ) as 結合 "+
+			"GROUP BY p.product_name , p.id ,  p.user_id ,p.product_name ,p.product_img ,p.category_id , p.product_status , "
+			+
+			"p.description , p.postage , p.shipping_origin , p.shipping_method  , p.exhibition_period ,p.should_show , p.Registration_dete , s.trade_status "
+			+
+			" ) as 結合 " +
 			" WHERE should_show = 1 AND user_id =:id AND (trade_status IS NULL OR trade_status = 1) ";
 
+	private final String SELECT_PRODUCT_EXHIBITION_HISTORY = "" +
+			"SELECT p.product_name , p.id ,  p.user_id ,p.product_name ,p.product_img ,p.category_id , p.product_status ,  "
+			+
+			"p.description , p.postage , p.shipping_origin , p.shipping_method  , p.exhibition_period ,p.should_show , p.Registration_dete , "
+			+
+			"CASE  " +
+			"WHEN MAX(s.contract_price)  IS NULL THEN  MAX(p.price)  " +
+			"ELSE MAX(s.contract_price)  " +
+			"END  AS  price   " +
+			"FROM  product  as  p  " +
+			"LEFT JOIN successful_bid s ON p.id = s.product_id  " +
+			"LEFT JOIN users u ON  u.id = s.user_id  " +
+			"WHERE p.should_show = 3 AND p.user_id = :id AND trade_status = 3  ";
 
 	private final String SELECT_PRODUCT_GROUP_BY = "GROUP BY p.product_name , p.id ,  p.user_id ,p.product_name ,p.product_img ,p.category_id , p.product_status , "
 			+
@@ -95,15 +127,16 @@ public class PgMenuDao implements MenuDao {
 				new BeanPropertyRowMapper<Product>(Product.class));
 	}
 
-	//出品
+	//落札履歴
+
 	@Override
-	public List<Product> productExhibition(int userId) {
+	public List<Product> productSuccessfulDidHistory(int userId) {
 
 		MapSqlParameterSource param = new MapSqlParameterSource();
 
 		param.addValue("id", userId);
 
-		String sql = SELECT_PRODUCT_EXHIBITION ;
+		String sql = SELECT_PRODUCT_SUCCESSFUL_DID_HISTORY + SELECT_PRODUCT_GROUP_BY;
 
 		return jdbcTemplate.query(
 				sql,
@@ -112,6 +145,42 @@ public class PgMenuDao implements MenuDao {
 
 	}
 
+	//出品
+	@Override
+	public List<Product> productExhibition(int userId) {
+
+		MapSqlParameterSource param = new MapSqlParameterSource();
+
+		param.addValue("id", userId);
+
+		String sql = SELECT_PRODUCT_EXHIBITION;
+
+		return jdbcTemplate.query(
+				sql,
+				param,
+				new BeanPropertyRowMapper<Product>(Product.class));
+
+	}
+
+	//出品履歴
+	@Override
+	public List<Product> productExhibitionHistory(int userId) {
+
+		System.out.println(userId);
+
+		MapSqlParameterSource param = new MapSqlParameterSource();
+
+		param.addValue("id", userId);
+
+		String sql = SELECT_PRODUCT_EXHIBITION_HISTORY + SELECT_PRODUCT_GROUP_BY;
+
+		return jdbcTemplate.query(
+				sql,
+				param,
+				new BeanPropertyRowMapper<Product>(Product.class));
+	}
+
+	//カテゴリ検索
 	@Override
 	public List<Category> categorySearch() {
 

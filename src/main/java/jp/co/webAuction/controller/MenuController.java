@@ -64,9 +64,20 @@ public class MenuController {
 		return "menu/menu";
 	}
 
+	/*メニュー画面 {落札履歴}*/
+	@RequestMapping("/successfulDidHistory")
+	public String successfulDidHistory(@ModelAttribute("product") ProductForm productForm, Model model, HttpServletRequest request) {
+
+		HttpSession session = request.getSession(true);
+		User user = (User) session.getAttribute("user");
+		List<Product> productList = menuDao.productSuccessfulDidHistory(user.getId());
+		model.addAttribute("productList", productList);
+		return "menu/menu";
+	}
+
 
 	/*メニュー画面 {出品中}*/
-	@RequestMapping("/Exhibition")
+	@RequestMapping("/exhibition")
 	public String Exhibition(@ModelAttribute("product") ProductForm productForm, Model model, HttpServletRequest request) {
 
 		HttpSession session = request.getSession(true);
@@ -74,7 +85,21 @@ public class MenuController {
 		List<Product> productList = menuDao.productExhibition(user.getId());
 		model.addAttribute("productList", productList);
 		return "menu/menu";
+
 	}
+
+	/*メニュー画面 {出品履歴}*/
+	@RequestMapping("/exhibitionHistory")
+	public String ExhibitionHistory(@ModelAttribute("product") ProductForm productForm, Model model, HttpServletRequest request) {
+
+		HttpSession session = request.getSession(true);
+		User user = (User) session.getAttribute("user");
+
+		List<Product> productList = menuDao.productExhibitionHistory(user.getId());
+		model.addAttribute("productList", productList);
+		return "menu/menu";
+	}
+
 
 
 

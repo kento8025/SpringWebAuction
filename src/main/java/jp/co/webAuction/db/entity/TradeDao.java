@@ -10,6 +10,6 @@ public interface TradeDao {
 
 	public void tradeCancel(int tradeId);
 
-	public void promptDecision(int productId , int tradeId);
+	public void promptDecision(Integer productId);
 
 }
