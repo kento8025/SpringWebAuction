@@ -68,7 +68,7 @@ public class PgTradeDao implements TradeDao {
 
 		MapSqlParameterSource param = new MapSqlParameterSource();
 
-		String sql = "UPDATE Product SET should_show = 3  WHERE id = :productId ";
+		String sql = "UPDATE Product SET should_show = 3  WHERE id = :productId  ";
 		param.addValue("productId", productId);
 		jdbcTemplate.update(sql, param);
 
