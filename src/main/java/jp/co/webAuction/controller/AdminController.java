@@ -28,7 +28,7 @@ public class AdminController {
 			@ModelAttribute("product") ProductForm productForm, Model model) {
 
 		adminDao.delete(tradeForm.getProductId());
-		List<Product> productList = searchDao.productSearch(productForm.getProductName());
+		List<Product> productList = searchDao.productSearch(productForm.getProductName(), null, null, null);
 		model.addAttribute("productList", productList);
 		model.addAttribute("product", productForm);
 		return "searchResult/searchResult";
@@ -39,7 +39,7 @@ public class AdminController {
 	public String searchAdminProductHidden(@ModelAttribute("tradeForm") TradeForm tradeForm,
 			@ModelAttribute("product") ProductForm productForm, Model model) {
 
-		List<Product> productList = searchDao.productSearch(productForm.getProductName());
+		List<Product> productList = searchDao.productSearch(productForm.getProductName(), null, null, null);
 		model.addAttribute("productList", productList);
 		model.addAttribute("product", productForm);
 		adminDao.hidden(tradeForm.getProductId());

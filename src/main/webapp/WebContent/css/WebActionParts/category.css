@@ -1,8 +1,9 @@
 
+/*カテゴリ装飾 位置は設定していない*/
+
 /*カテゴリ*/
 #category {
-	float: left;
-	width: 200px;
+	/*個別で設定する*/
 }
 
 #category ul {

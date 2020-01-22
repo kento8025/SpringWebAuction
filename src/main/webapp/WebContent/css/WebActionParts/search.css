@@ -1,8 +1,10 @@
+
+/*検索画面装飾 位置は設定していない*/
+
+
 /*フォーム全体*/
 #searchForm {
-	position: relative; /*フォームの相対位置*/
-	max-width: 270px; /*フォームのサイズ*/
-	margin-bottom: 15px; /*フォームの下に余白*/
+	/*個別で設定する*/
 }
 /*検索ボタンマウスオーバー時*/
 #sbtn:hover {

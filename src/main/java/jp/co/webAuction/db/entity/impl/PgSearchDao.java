@@ -11,63 +11,117 @@ import org.springframework.stereotype.Repository;
 
 import jp.co.webAuction.db.dto.Product;
 import jp.co.webAuction.db.dto.PurchaseDisplay;
+import jp.co.webAuction.db.dto.SuccessfulDidCount;
+import jp.co.webAuction.db.entity.ProductDao;
 import jp.co.webAuction.db.entity.SearchDao;
 
 @Repository
 public class PgSearchDao implements SearchDao {
 
+	@Autowired
+	private ProductDao productDao;
 
-	private final String SELECT_PRODUCT =  "" +
+	private final String SELECT = "SELECT * , COALESCE(measurement , 0 ) as count  FROM( ";
 
-			"SELECT p.product_name , p.id ,  p.user_id ,p.product_name ,p.product_img ,p.category_id , p.product_status , " +
-			"p.description , p.postage , p.shipping_origin , p.shipping_method  , p.exhibition_period ,p.should_show , p.Registration_dete , s.trade_status , " +
+	private final String SELECT_PRODUCT = " " +
+			"SELECT " +
+			"p.product_name , " +
+			"p.id , " +
+			"p.user_id , " +
+			"u.user_name , "+
+			"p.product_name , " +
+			"p.product_img , " +
+			"p.category_id , " +
+			"p.product_status , " +
+			"p.description  , " +
+			"p.postage , " +
+			"p.shipping_origin , " +
+			"p.shipping_method  , " +
+			"p.exhibition_period , " +
+			"p.should_show , " +
+			"p.Registration_dete , " +
+			"s.trade_status , " +
+			"";
+
+	private final String SELECT_FROM_PRODUCT_INFORMATION = "" +
+			"SELECT p.id as primaryProductId , " +
+			"p.user_id as primaryUserId , " +
+			"MAX (s.id) as trade , " +
+			"p.user_id as seller , " +
+			"s.user_id as buyer , " +
+			"p.product_name  , " +
+			"p.product_name , " +
+			"p.product_img , " +
+			"p.category_id , " +
+			"p.product_status ,  " +
+			"p.description , " +
+			"p.postage , " +
+			"p.shipping_origin , " +
+			"p.shipping_method  , " +
+			"p.exhibition_period , " +
+			"p.should_show , " +
+			"p.Registration_dete ,  " +
+			"s.trade_status  ,";
+
+	private final String CASE = " " +
 			"CASE " +
 			"WHEN MAX(s.contract_price)  IS NULL THEN  MAX(p.price)  " +
 			"ELSE MAX(s.contract_price)  " +
 			"END AS price " +
-			"FROM product as p " +
+			"FROM product as p ";
+
+	private final String JOIN = " " +
 			"LEFT JOIN successful_bid s ON p.id = s.product_id  " +
-			"LEFT JOIN users u ON  u.id = s.user_id  " +
-			"LEFT JOIN category c ON  c.id = p.category_id  " +
-			"WHERE (trade_status IS NULL OR trade_status = 1) AND should_show = 1 "+
-			"GROUP BY  p.id , s.trade_status ";
+			"LEFT JOIN users u ON  u.id = p.user_id  " +
+			"LEFT JOIN category c ON  c.id = p.category_id  ";
 
-			/*"WHERE 1 = 1 AND p.product_name = :product_name  "+*/
+	private final String WHERE = " " +
+			"WHERE 1 = 1  " +
+			"AND (trade_status IS NULL OR trade_status = 1) AND should_show = 1 ";
 
-	private final String SELECT_FROM_PRODUCT_AND_USERS_AND_CATEGORY = ""+
-			"SELECT p.id as primaryProductId , p.user_id as primaryUserId , MAX (s.id) as trade ,  p.user_id as seller , s.user_id as buyer ,p.product_name  , p.product_name ,p.product_img ,p.category_id , p.product_status ,  " +
-			"p.description , p.postage , p.shipping_origin , p.shipping_method  , p.exhibition_period ,p.should_show , p.Registration_dete ,  s.trade_status  ," +
-			"CASE " +
-			"WHEN MAX(s.contract_price)  IS NULL THEN  MAX(p.price) " +
-			"ELSE MAX(s.contract_price) " +
-			"END AS price " +
-			"FROM product as p " +
-			"LEFT JOIN successful_bid s ON p.id = s.product_id " +
-			"LEFT JOIN users u ON  u.id = s.user_id " +
-			"LEFT JOIN category c ON  c.id = p.category_id  "+
-			"WHERE p.id = :p.id  AND (trade_status IS NULL OR trade_status = 1) AND should_show = 1 "  +
-			"GROUP BY p.id , s.trade_status , s.id "+
+	private final String WHERE_INFORMATION = "" +
+			"WHERE p.id = :p.id  AND (trade_status IS NULL OR trade_status = 1) AND should_show = 1 " +
+			"GROUP BY p.id , s.trade_status , s.id " +
 			"ORDER BY price ASC  ";
 
+	private String GROUP_BY = " GROUP BY  p.id , s.trade_status , u.user_name  ";
 
-	//private  String WHERE_SET =  " WHERE should_show = 1  ";
+	private String SBJOIN = "" +
+			") sb1 " +
+			"LEFT JOIN " +
+			"(SELECT count(*) as measurement , p.id  as secondid  FROM successful_bid as s " +
+			"LEFT JOIN product p ON s.product_id = p.id  " +
+			"WHERE 1 = 1 AND p.should_show = 1  " +
+			"GROUP BY s.product_id , p.id , p.product_name) " +
+			"sb2 " +
+			"ON sb1.id = sb2.secondid";
 
+	private String ORDER_BY = " ORDER BY p.id DESC ";
+
+	private int lowerPrice;
+	private int highPrice;
 
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;
 
+	/*検索フォームからの商品情報*/
 	@Override
-	public List<Product> productSearch(String productName) {
+	public List<Product> productSearch(String productName, String category, String priceBetweenCommand,
+			String productStatus) {
 
 		MapSqlParameterSource param = new MapSqlParameterSource();
 
-		Product product = new Product();
-		product.setProductName(productName);
-		searchSet(productName);
+		String sql = SELECT + SELECT_PRODUCT + CASE + JOIN + WHERE;
 
-		String sql = SELECT_PRODUCT  ;
+		sql += whereSet(productName, category, priceBetweenCommand, productStatus);
 
-		param.addValue("product_name", product.getProductName());
+		sql += GROUP_BY + ORDER_BY + SBJOIN;
+
+		param.addValue("product_name", "%" + productName + "%");
+		param.addValue("categoryId", productDao.categorySearch(category));
+		param.addValue("lowerPrice", lowerPrice);
+		param.addValue("highPrice", highPrice);
+		param.addValue("productStatus", productStatus);
 
 		return jdbcTemplate.query(
 				sql,
@@ -76,39 +130,119 @@ public class PgSearchDao implements SearchDao {
 
 	}
 
+	/*商品画像クリックの情報検索*/
 	@Override
 	public PurchaseDisplay productInformation(int productId) {
 
 		MapSqlParameterSource param = new MapSqlParameterSource();
 
-		String sql = SELECT_FROM_PRODUCT_AND_USERS_AND_CATEGORY ;
+		String sql = SELECT_FROM_PRODUCT_INFORMATION + CASE + JOIN + WHERE_INFORMATION;
 
 		param.addValue("p.id", productId);
 
-		List<PurchaseDisplay> purchaseDisplay =  new ArrayList<>();
+		List<PurchaseDisplay> purchaseDisplay = new ArrayList<>();
 
 		purchaseDisplay = jdbcTemplate.query(
-		sql,
-		param,
-		new BeanPropertyRowMapper<PurchaseDisplay>(PurchaseDisplay.class));
+				sql,
+				param,
+				new BeanPropertyRowMapper<PurchaseDisplay>(PurchaseDisplay.class));
 
-		return purchaseDisplay.get(purchaseDisplay.size()-1);
-
+		return purchaseDisplay.get(purchaseDisplay.size() - 1);
 
 	}
 
+	/*入札回数カウント*/
+	public List<SuccessfulDidCount> successfulDidCountSearch(String productName, String category,
+			String priceBetweenCommand,
+			String productStatus) {
 
-	private void searchSet(String productName) {
+		MapSqlParameterSource param = new MapSqlParameterSource();
+
+		String sql = "" +
+				"SELECT count(*) , s.product_id  FROM successful_bid as s  " +
+				"LEFT JOIN product p ON s.product_id = p.id  " +
+				"LEFT JOIN category c ON  c.id = p.category_id " +
+				"WHERE 1 = 1 AND p.should_show != 3  ";
+
+		sql += whereSet(productName, category, priceBetweenCommand, productStatus);
+
+		param.addValue("product_name", "%" + productName + "%");
+		param.addValue("categoryId", productDao.categorySearch(category));
+		param.addValue("lowerPrice", lowerPrice);
+		param.addValue("highPrice", highPrice);
+		param.addValue("productStatus", productStatus);
+
+		sql += " GROUP BY  s.product_id , p.id " + ORDER_BY;
+
+		return jdbcTemplate.query(
+				sql,
+				param,
+				new BeanPropertyRowMapper<SuccessfulDidCount>(SuccessfulDidCount.class));
+
+	}
+
+	/*値段を指定*/
+	private void priceBetween(String priceBetweenCommand) {
+
+		if (priceBetweenCommand == null) {
+			return;
+		}
+
+		switch (priceBetweenCommand) {
+		case "1":
+			lowerPrice = 0;
+			highPrice = 1000;
+			break;
+
+		case "2":
+			lowerPrice = 1000;
+			highPrice = 5000;
+			break;
+
+		case "3":
+			lowerPrice = 5000;
+			highPrice = 10000;
+			break;
+
+		case "4":
+			lowerPrice = 10000;
+			highPrice = 99999999;
+			break;
+		}
+
+	}
+
+	/*WHERE文作成*/
+	private String whereSet(String productName, String category, String priceBetweenCommand, String productStatus) {
 
 		String sql = "";
 
-		if (!(productName == null || productName.isEmpty())) {
-			//sql += " AND " + "product_name LIKE = :" + "%" + "product_name+"+ "%";
-			sql += " AND product_name  = :product_name ";
+		priceBetween(priceBetweenCommand);
+
+		if (!(productName == null)) {
+
+			sql += " AND p.product_name LIKE :product_name ";
 
 		}
 
-		//this.where_set = sql;
+		if (!(category == null)) {
+
+			sql += " AND category_id = :categoryId ";
+
+		}
+
+		if (!(priceBetweenCommand == null)) {
+
+			sql += " AND p.price BETWEEN :lowerPrice AND :highPrice ";
+		}
+
+		if (!(productStatus == null)) {
+
+			sql += " AND p.product_status = :productStatus ";
+
+		}
+
+		return sql;
 
 	}
 

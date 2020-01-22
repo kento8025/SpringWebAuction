@@ -40,6 +40,8 @@
 
 		<form:input id="sbox" path="productName" type="text"
 			placeholder="キーワードを入力" />
+
+
 		<form:button vaule="search" id="sbtn" name="検索">検索</form:button>
 
 	</form:form>
@@ -72,7 +74,7 @@
 						value='${sessionScope.user.passWord}' />
 					<br>
 
-					<form:button class="btn-square" name="login">ログイン</form:button>
+					<button class="btn-square" name="login">ログイン</button>
 					<br>
 					<form:button class="btn-square" name="logout">ログアウト</form:button>
 
@@ -145,7 +147,7 @@
 			<ul>
 				<li><a href="userInformation">ユーザー情報</a></li>
 				<li><a href="ProductRegister">出品する</a></li>
-				<li><a href="successfulDid">落札中</a></li>
+				<li><a href="successfulDid?menuCommand=successfulDid">落札中</a></li>
 				<li><a href="successfulDidHistory">落札履歴</a></li>
 				<li><a href="exhibition">出品中</a></li>
 				<li><a href="exhibitionHistory">出品履歴</a></li>
@@ -203,7 +205,9 @@
 
 			<nav>
 				<ul>
-					<li><a href="#">${fn:escapeXml(category.category_name)}</a></li>
+					<li><a
+						href="searchResult?category=${fn:escapeXml(category.category_name)}">
+							${fn:escapeXml(category.category_name)}</a></li>
 				</ul>
 			</nav>
 

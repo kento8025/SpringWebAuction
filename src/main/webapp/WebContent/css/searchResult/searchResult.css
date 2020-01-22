@@ -1,45 +1,37 @@
-
-/*検索欄　メニューのブロック*/
-#block1 {
-
-}
-
-/*カテゴリ　メニュー等のブロック*/
-#block2 {
+/*カテゴリ メニュー等のブロック*/
+#searchCondition {
 	display: inline-block;
 }
 
-/*オークションのブロック*/
-#block3 {
+/*商品全体のブロック*/
+#productArea {
 	vertical-align: top;
 	padding-left: 200px;
 	display: inline-block;
 }
 
+/*商品のブロック*/
+#product {
+	display: block;
+	padding-top: 100px;
+	width: 80％;
+}
+
 /*商品画像のブロック*/
-.q1 {
+.imageArea {
 	float: left;
 	padding-right: 200px;
 }
 
-/*商品のテキストボックス*/
-.q2 {
+/*商品のテキストブロック*/
+.ProductInformation {
 	float: left;
 	padding-top: 20px;
 	width: 300px;
-
-
-}
-/*商品二つ目以降ブロック*/
-#q3 {
-	display: block;
-	padding-top: 100px;
-	width: 80％;
-
 }
 
 /*検索ボックス*/
-#kennsaku {
+#searchForm {
 	display: inline-block;
 	vertical-align: top;
 	width: 1000px;
@@ -73,48 +65,13 @@
 	color: #666; /*検索ボタンマウスオーバー時のフォントカラー*/
 }
 
-/*メニュー画面*/
+/*メニュー画面の位置 装飾は別*/
 #menu {
 	display: inline-block;
 	vertical-align: top;
 	clear: none;
 	width: 200px;
 }
-
-nav li {
-	list-style: none; /*リストの・消去*/
-}
-
-a {
-	text-decoration: none; /*リストの下線消去*/
-}
-
-/*メニュー装飾*/
-#menu ul {
-	padding: 0;
-	position: relative;
-}
-
-#menu ul li {
-	line-height: 1.5;
-	padding: 0.5em 0.5em 0.5em 1.7em;
-	list-style-type: none !important;
-	background: -webkit-linear-gradient(top, #whitesmoke 0%, whitesmoke 100%);
-	/*グラデーション*/
-	background: linear-gradient(to bottom, whitesmoke 0%, #dadada 100%);
-	/*グラデーション*/
-	text-shadow: 1px 1px 1px whitesmoke; /*文字を立体的に*/
-	color: black;
-}
-
-#menu ul li:before {
-	font-family: "Font Awesome 5 Free";
-	content: "\f138";
-	position: absolute;
-	left: 0.5em; /*左端からのアイコンまでの距離*/
-	color: orange; /*アイコン色*/
-}
-
 /*対象商品のチェックボックス装飾*/
 .cp_ipcheck {
 	width: 250px;
@@ -182,26 +139,11 @@ a {
 }
 
 /*カテゴリ*/
-#kategori {
+#category {
 	width: 200px;
 }
 
-#kategori ul {
-	padding: 0;
-	position: relative;
-}
-
-#kategori ul li {
-	color: black;
-	border-left: solid 8px orange; /*左側の線*/
-	background: whitesmoke; /*背景色*/
-	margin-bottom: 5px; /*下のバーとの余白*/
-	line-height: 1.5;
-	border-radius: 0 15px 15px 0; /*右側の角だけ丸く*/
-	padding: 0.5em;
-	list-style-type: none !important;
-}
-
+/*ラジオボタン*/
 .cp_ipradio {
 	width: 300px;
 	-webkit-box-sizing: border-box;

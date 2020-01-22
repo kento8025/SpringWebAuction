@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 
 <!DOCTYPE html>
@@ -38,40 +39,37 @@
 
 		<!--画像-->
 
-		画像のアップロード<br> <input type="file" name="file"/><br>
-		<font color="red">${requestScope.imgError}</font>
-		<br>
-		<br>
+		画像のアップロード<br> <input type="file" name="file" /><br> <font
+			color="red">${requestScope.imgError}</font> <br> <br>
 
 		<!--商品名-->
 
 		商品名 <br>
 
-		<form:input path="productName" /><br>
-		<form:errors path="productName" cssStyle="color: red"/>
+		<form:input path="productName" />
+		<br>
+		<form:errors path="productName" cssStyle="color: red" />
 		<br> <br>
 
 		<!--カテゴリ-->
 
-		カテゴリ <br>
+		カテゴリ<br>
 
 		<form:select path="categoryName">
 
 			<option value="">-</option>
-			<option value="パソコン">パソコン</option>
-			<option value="本">本</option>
-			<option value="サンプル">サンプル</option>
-			<option value="サンプル">サンプル</option>
-			<option value="サンプル">サンプル</option>
-			<option value="サンプル">サンプル</option>
-			<option value="サンプル">サンプル</option>
-			<option value="サンプル">サンプル</option>
 
+			<c:forEach var="category" items="${categoryList}">
+
+				<option value="${fn:escapeXml(category.category_name)}">${fn:escapeXml(category.category_name)}</option>
+
+
+			</c:forEach>
 		</form:select>
+
 		<br>
-		<form:errors path="categoryName" cssStyle="color: red"/>
-		<br>
-		<br>
+		<form:errors path="categoryName" cssStyle="color: red" />
+		<br> <br>
 
 
 		<!--商品の状態-->
@@ -84,22 +82,20 @@
 			<option value="中古">中古</option>
 		</form:select>
 		<br>
-		<form:errors path="productStatus" cssStyle="color: red"/>
-		<br>
-		<br>
+		<form:errors path="productStatus" cssStyle="color: red" />
+		<br> <br>
 
 
 		<!--説明-->
 
 		説明
 		<div id="text">
-			<form:textarea cols="50" rows="10" path="description"/>
+			<form:textarea cols="50" rows="10" path="description" />
 		</div>
 		<br>
-		<form:errors path="description" cssStyle="color: red"/>
+		<form:errors path="description" cssStyle="color: red" />
 
-		<br>
-		<br>
+		<br> <br>
 
 		<!--発送元の地域-->
 
@@ -155,9 +151,8 @@
 			<option value="沖縄県">沖縄県</option>
 		</form:select>
 		<br>
-		<form:errors path="shippingOrigin" cssStyle="color: red"/>
-		<br>
-		<br>
+		<form:errors path="shippingOrigin" cssStyle="color: red" />
+		<br> <br>
 
 
 		<!--送料負担-->
@@ -166,17 +161,16 @@
 
 		<div class="cp_ipradio">
 			<div class="box">
-				<form:radiobutton id="radio1" path="postage" value="出品者"/>
-					<form:label for="radio1" path="postage">出品者</form:label>
-				<form:radiobutton id="radio2" path="postage" value="落札者"/>
-					<form:label for="radio2" path="postage">落札者</form:label>
+				<form:radiobutton id="radio1" path="postage" value="出品者" />
+				<form:label for="radio1" path="postage">出品者</form:label>
+				<form:radiobutton id="radio2" path="postage" value="落札者" />
+				<form:label for="radio2" path="postage">落札者</form:label>
 
 			</div>
 		</div>
 
-		<form:errors path="postage" cssStyle="color: red"/>
-		<br>
-		<br>
+		<form:errors path="postage" cssStyle="color: red" />
+		<br> <br>
 
 		<!--配送方法-->
 
@@ -184,44 +178,45 @@
 
 		<div class="cp_ipradio">
 			<div class="box">
-				<form:radiobutton id="radio3" path="shipping_method" value="クロネコ 小型BOX 100円"/>
-					<form:label for="radio3" path="shipping_method">クロネコ 小型BOX 100円 </form:label>
+				<form:radiobutton id="radio3" path="shipping_method"
+					value="クロネコ 小型BOX 100円" />
+				<form:label for="radio3" path="shipping_method">クロネコ 小型BOX 100円 </form:label>
 
-				<form:radiobutton id="radio4" path="shipping_method" value="シロネコ 中型BOX 500円"/>
-					<form:label for="radio4" path="shipping_method">シロネコ 中型BOX 500円</form:label>
+				<form:radiobutton id="radio4" path="shipping_method"
+					value="シロネコ 中型BOX 500円" />
+				<form:label for="radio4" path="shipping_method">シロネコ 中型BOX 500円</form:label>
 
-				<form:radiobutton id="radio5" path="shipping_method" value="ミケネコ 大型BOX 2000円"/>
-					<form:label for="radio5" path="shipping_method">ミケネコ 大型BOX 2000円</form:label>
+				<form:radiobutton id="radio5" path="shipping_method"
+					value="ミケネコ 大型BOX 2000円" />
+				<form:label for="radio5" path="shipping_method">ミケネコ 大型BOX 2000円</form:label>
 
 			</div>
 		</div>
 
-		<form:errors path="shipping_method" cssStyle="color: red"/>
-		<br>
-		<br>
+		<form:errors path="shipping_method" cssStyle="color: red" />
+		<br> <br>
 
 		<!--発送までの日数-->
 
-		オークションの期間<br> <form:input type="text" path="exhibition_period"/>日
-		<br>
-		<form:errors path="exhibition_period" cssStyle="color: red"/>
-		<br>
-		<br>
+		オークションの期間<br>
+		<form:input type="text" path="exhibition_period" />
+		日 <br>
+		<form:errors path="exhibition_period" cssStyle="color: red" />
+		<br> <br>
 
 
 		<!--価格-->
 
-		価格<br> <form:input type="text" path="price"/>円
-		<br>
-		<form:errors path="price" cssStyle="color: red"/>
-		<br>
-		<br>
+		価格<br>
+		<form:input type="text" path="price" />
+		円 <br>
+		<form:errors path="price" cssStyle="color: red" />
+		<br> <br>
 
 
 		<!--登録ボタン-->
 
 		<button class="btn-square-so-pop">出品する</button>
-
 	</div>
 
 </form:form>

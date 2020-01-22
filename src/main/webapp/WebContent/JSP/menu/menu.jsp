@@ -16,7 +16,7 @@
 <head>
 
 <meta charset="UTF-8">
-<link rel="stylesheet" href="WebContent/css/menu.css">
+<link rel="stylesheet" href="WebContent/css/menu/menu.css">
 <title></title>
 
 
@@ -57,7 +57,7 @@
 		</nav>
 
 		<br> <br>
-		<div id="text">落札中</div>
+		<div id="text">${requestScope.menu}</div>
 	</div>
 
 
@@ -84,7 +84,13 @@
 
 				<div class=q2>
 
-					${fn:escapeXml(product.price)}<br> 入札回数△△ 残り時間○○日
+						出品者　　${fn:escapeXml(product.userName)}さん <br>
+
+						現在価格　${fn:escapeXml(product.price)} 円<br>
+						入札回数　${fn:escapeXml(product.count)} 回
+
+						<p>締め切り　${fn:escapeXml(product.remainingTime)}
+
 				</div>
 
 				<br> 商品情報<br>${fn:escapeXml(product.description)}
@@ -94,13 +100,10 @@
 
 		</c:forEach>
 
+	</div>
 
-
-		<div id="botan">
-			<button onclick="location.href='../hoomPege'">戻る</button>
-		</div>
-
-
+	<div id="botan">
+		<button onclick="location.href='/homePege'">戻る</button>
 	</div>
 
 

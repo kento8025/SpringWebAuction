@@ -1,10 +1,11 @@
-/*メニュー画面*/
+
+
+/*メニュー画面装飾 位置は設定していない*/
+
 #menu {
-	padding-top: 100px;
-	list-style: none;
-	width: 200px;
-	float: left;
+	/*個別で設定する*/
 }
+
 
 nav li {
 	list-style: none; /*リストの・消去*/

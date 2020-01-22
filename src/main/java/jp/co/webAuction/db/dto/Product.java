@@ -1,5 +1,9 @@
 package jp.co.webAuction.db.dto;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class Product {
 
 	private int id;
@@ -15,26 +19,13 @@ public class Product {
 	private int exhibition_period;/*出品期間*/
 	private int price; /*価格*/
 
-	public Product() {
+	private String userName;/*出品したユーザー*/
+	private int count;/*落札回数*/
 
-	}
+	private Date registration_dete;/*登録した日付*/
 
-	public Product(String productName, String productImg, int categoryId, String productStatus,
-			String description, String postage, String shippingOrigin, String shipping_method,
-			int price, int exhibition_period) {
-
-		this.productName = productName;
-		this.productImg = productImg;
-		this.categoryId = categoryId;
-		this.productStatus = productStatus;
-		this.description = description;
-		this.postage = postage;
-		this.shippingOrigin = shippingOrigin;
-		this.shipping_method = shipping_method;
-		this.price = price;
-		this.exhibition_period = exhibition_period;
-
-	}
+	private Calendar remainingTime = Calendar.getInstance();/*残り時間*/
+	private SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 HH時mm分");
 
 	public String getProductName() {
 		return productName;
@@ -69,6 +60,10 @@ public class Product {
 	}
 
 	public String getDescription() {
+
+		if (description.length() > 40) {
+			description = description.substring(0, 40) + "……";
+		}
 		return description;
 	}
 
@@ -133,5 +128,41 @@ public class Product {
 		this.id = productId;
 	}
 
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public Date getRegistration_dete() {
+		return registration_dete;
+	}
+
+	public void setRegistration_dete(Date registration_dete) {
+		this.registration_dete = registration_dete;
+	}
+
+	public String getRemainingTime() {
+
+		remainingTime.setTime(getRegistration_dete());
+
+		remainingTime.add(Calendar.DAY_OF_MONTH, getExhibition_period());
+
+		return sdf.format(remainingTime.getTime());
+	}
+
+	public void setRemainingTime(Calendar remainingTime) {
+		this.remainingTime = remainingTime;
+	}
 
 }

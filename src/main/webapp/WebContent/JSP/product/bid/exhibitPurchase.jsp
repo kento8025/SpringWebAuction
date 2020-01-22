@@ -32,14 +32,14 @@
 		width="200" height="80"></a>
 
 
+
+
+
 	<div id="block1">
 		<!--検索欄-->
 
 		<div id="kennsaku">
-			<form id="form1">
-				<input id="sbox" id="s" name="s" type="text" placeholder="キーワードを入力" />
-				<input id="sbtn" type="submit" value="検索" />
-			</form>
+
 		</div>
 
 

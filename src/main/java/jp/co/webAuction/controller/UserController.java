@@ -37,12 +37,13 @@ public class UserController {
 
 		model.addAttribute("product", new ProductForm());
 
+		List<Category> categoryList = menuDao.categorySearch();
+		model.addAttribute("categoryList", categoryList);
+
 		HttpSession session = request.getSession(true);
 
 		if (userDao.loginCheck(userForm.getUserId(), userForm.getPassWord())) {
 			session.setAttribute("user", userDao.getUser());
-			List<Category> categoryList = menuDao.categorySearch();
-			model.addAttribute("categoryList" , categoryList);
 			return "home/homePage";
 		} else {
 			request.setAttribute("loginError", "IDまたはPASSWORDが違います");
@@ -77,13 +78,13 @@ public class UserController {
 
 	@RequestMapping(value = "/UserConfirmation", method = RequestMethod.POST)
 	public String UserConfirmation(@Validated @ModelAttribute("user") UserForm userForm, BindingResult bindingResult,
-			Model model , HttpServletRequest request) {
+			Model model, HttpServletRequest request) {
 
 		System.out.println("確認画面");
 
 		if (bindingResult.hasErrors()) {
 
-			if(!(CheckDate.checkDate(userForm.getYear() + "/" + userForm.getMonth() + "/" + userForm.getDay()))) {
+			if (!(CheckDate.checkDate(userForm.getYear() + "/" + userForm.getMonth() + "/" + userForm.getDay()))) {
 				request.setAttribute("birthdayError", "生年月日が不正です");
 			}
 

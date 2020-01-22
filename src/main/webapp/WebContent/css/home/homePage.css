@@ -4,6 +4,30 @@
 	color: red; /*文字色指定*/
 	text-align: center; /*真ん中にレイアウト指定*/
 }
+
+
+/*メニュー位置 装飾は別*/
+#menu {
+	padding-top: 100px;
+	list-style: none;
+	width: 200px;
+	float: left;
+}
+
+/*カテゴリ位置 装飾は別*/
+#category {
+	float: left;
+	width: 200px;
+}
+
+/*検索フォーム全体 装飾は別*/
+#searchForm {
+	position: relative; /*フォームの相対位置*/
+	max-width: 270px; /*フォームのサイズ*/
+	margin-bottom: 15px; /*フォームの下に余白*/
+}
+
+
 /*ログイン画面*/
 #login {
 	float: left;

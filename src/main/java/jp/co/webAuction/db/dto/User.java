@@ -123,6 +123,7 @@ public class User {
 		this.id = userNo;
 	}
 
+
 	public Date getRegistrationDate() {
 		return registrationDate;
 	}

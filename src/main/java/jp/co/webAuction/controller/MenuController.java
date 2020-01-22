@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jp.co.webAuction.controller.form.ProductForm;
 import jp.co.webAuction.controller.form.UserForm;
@@ -55,11 +56,12 @@ public class MenuController {
 
 	/*ÉÅÉjÉÖÅ[âÊñ  {óééDíÜ}*/
 	@RequestMapping("/successfulDid")
-	public String successfulDid(@ModelAttribute("product") ProductForm productForm, Model model, HttpServletRequest request) {
+	public String successfulDid(@ModelAttribute("product") ProductForm productForm, Model model, HttpServletRequest request ,
+			@RequestParam("menuCommand") String menuCommand) {
 
 		HttpSession session = request.getSession(true);
 		User user = (User) session.getAttribute("user");
-		List<Product> productList = menuDao.productSuccessfulDid(user.getId());
+		List<Product> productList = menuDao.productSuccessfulDid(user.getId() , menuCommand);
 		model.addAttribute("productList", productList);
 		return "menu/menu";
 	}

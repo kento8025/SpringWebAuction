@@ -38,7 +38,7 @@ public class ProductController {
 		System.out.println("èoïiÇ∑ÇÈ");
 		model.addAttribute("product", new ProductForm());
 		List<Category> categoryList = menuDao.categorySearch();
-		model.addAttribute("categoryList" , categoryList);
+		model.addAttribute("categoryList", categoryList);
 		return "product/exhibit/productRegister";
 	}
 
@@ -48,7 +48,8 @@ public class ProductController {
 
 		System.out.println("ìoò^âÊñ ");
 
-
+		List<Category> categoryList = menuDao.categorySearch();
+		model.addAttribute("categoryList", categoryList);
 
 		Part part = request.getPart("file");
 
