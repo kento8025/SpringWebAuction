@@ -10,13 +10,7 @@ public interface MenuDao {
 
 	public void userUpdate(UserForm user, int id);
 
-	public List<Product> productSuccessfulDid(int userId , String menuCommand);
-
-	public List<Product> productSuccessfulDidHistory(int userId);
-
-	public List<Product> productExhibition(int userId);
-
-	public List<Product> productExhibitionHistory(int userId);
+	public List<Product> menuSearch(int userId , String menuCommand);
 
 	public List<Category> categorySearch();
 

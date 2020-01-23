@@ -1,6 +1,8 @@
 package jp.co.webAuction.db.dto;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class PurchaseDisplay {
 
@@ -35,6 +37,13 @@ public class PurchaseDisplay {
 
 	private Integer trade;//æˆøID
 
+	private int count;/*—D‰ñ”*/
+	private int highestbidprice;
+
+	private Date registration_dete;/*“o˜^‚µ‚½“ú•t*/
+
+	private Calendar remainingTime = Calendar.getInstance();/*c‚èŠÔ*/
+	private SimpleDateFormat sdf = new SimpleDateFormat("MMŒdd“ú HHmm•ª");
 
 	public PurchaseDisplay() {
 
@@ -256,6 +265,43 @@ public class PurchaseDisplay {
 		this.trade = trade;
 	}
 
+	public int getCount() {
+		return count;
+	}
 
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+	public Date getRegistration_dete() {
+		return registration_dete;
+	}
+
+	public void setRegistration_dete(Date registration_dete) {
+		this.registration_dete = registration_dete;
+	}
+
+	public String getRemainingTime() {
+
+		remainingTime.setTime(getRegistration_dete());
+
+		remainingTime.add(Calendar.DAY_OF_MONTH, getExhibition_period());
+
+		System.out.println(sdf.format(remainingTime.getTime()));
+
+		return sdf.format(remainingTime.getTime());
+	}
+
+	public void setRemainingTime(Calendar remainingTime) {
+		this.remainingTime = remainingTime;
+	}
+
+	public int getHighestbidprice() {
+		return highestbidprice;
+	}
+
+	public void setHighestbidprice(int highestbidprice) {
+		this.highestbidprice = highestbidprice;
+	}
 
 }

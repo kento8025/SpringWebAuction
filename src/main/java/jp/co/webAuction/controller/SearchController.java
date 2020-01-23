@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jp.co.webAuction.controller.form.FavoriteForm;
 import jp.co.webAuction.controller.form.ProductForm;
 import jp.co.webAuction.controller.form.TradeForm;
 import jp.co.webAuction.db.dto.Category;
@@ -41,6 +42,27 @@ public class SearchController {
 		model.addAttribute("categoryList", categoryList);
 		model.addAttribute("product", productForm);
 		model.addAttribute("productList", productList);
+		model.addAttribute("favorite", new FavoriteForm());
+		return "searchResult/searchResult";
+
+	}
+
+	@RequestMapping(value = "/searchResult", params = "favoriteRegister", method = RequestMethod.GET)
+	public String favoriteRegister(@ModelAttribute("product") ProductForm productForm, Model model,
+			@RequestParam(name = "priceBetween", required = false) String priceBetweenCommand,
+			@RequestParam(name = "productStatus", required = false) String productStatus,
+			@RequestParam(name = "category", required = false) String category) {
+
+		List<Category> categoryList = menuDao.categorySearch();
+		List<Product> productList = searchDao.productSearch(productForm.getProductName(), category, priceBetweenCommand,
+				productStatus);
+
+		model.addAttribute("categoryList", categoryList);
+		model.addAttribute("product", productForm);
+		model.addAttribute("productList", productList);
+
+		System.out.println("******************************");
+
 		return "searchResult/searchResult";
 
 	}

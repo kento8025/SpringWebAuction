@@ -7,7 +7,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-　
+
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -46,6 +46,31 @@
 				placeholder="キーワードを入力" />
 			<form:button vaule="search" id="sbtn" name="検索">検索</form:button>
 
+			<!--  お気に入りに追加する -->
+
+			<div id="favorite">
+
+				<br> 8文字以内<br> <input name="search" type="text"
+					placeholder="登録したいお気に入り名" /> <input type="hidden"
+					value="${fn:escapeXml(purchaseDisplay.primaryProductId)}"
+					name="productId"> <select name="example">
+					<option value="サンプル1">未登録</option>
+					<option value="サンプル2">未登録</option>
+					<option value="サンプル3">未登録</option>
+					<option value="サンプル4">未登録</option>
+					<option value="サンプル5">未登録</option>
+					<option value="サンプル6">未登録</option>
+					<option value="サンプル7">未登録</option>
+					<option value="サンプル8">未登録</option>
+				</select>
+
+
+				<form:button name="favoriteRegister">現在の検索結果の保存</form:button>
+
+
+			</div>
+
+
 
 		</div>
 
@@ -59,10 +84,11 @@
 				<ul>
 					<li><a href="userInformation">ユーザー情報</a></li>
 					<li><a href="ProductRegister">出品する</a></li>
-					<li><a href="successfulDid">落札中</a></li>
-					<li><a href="successfulDidHistory">落札履歴</a></li>
-					<li><a href="exhibition">出品中</a></li>
-					<li><a href="exhibitionHistory">出品履歴</a></li>
+					<li><a href="menuSearch?menuCommand=successfulDid">落札中</a></li>
+					<li><a
+						href="menuSearch?menuCommand=productSuccessfulDidHistory">落札履歴</a></li>
+					<li><a href="menuSearch?menuCommand=exhibition">出品中</a></li>
+					<li><a href="menuSearch?menuCommand=exhibitionHistory">出品履歴</a></li>
 				</ul>
 			</nav>
 
@@ -92,6 +118,14 @@
 						</nav>
 
 					</c:forEach>
+
+
+
+
+					<!--  -->
+					<!--  -->
+
+
 
 					<br> <br> <br> <br> <br> <br> <br>
 
@@ -150,14 +184,13 @@
 
 					</div>
 
-					<div class="ProductInformation">
+					<div class="productInformation">
 
-						出品者　　${fn:escapeXml(product.userName)}さん <br>
+						出品者 ${fn:escapeXml(product.userName)}さん <br> 現在価格
+						${fn:escapeXml(product.price)} 円<br> 入札回数
+						${fn:escapeXml(product.count)} 回
 
-						現在価格　${fn:escapeXml(product.price)} 円<br>
-						入札回数　${fn:escapeXml(product.count)} 回
-
-						<p>締め切り　${fn:escapeXml(product.remainingTime)}
+						<p>締め切り ${fn:escapeXml(product.remainingTime)}
 					</div>
 
 					<br> 商品情報<br>${fn:escapeXml(product.description)}

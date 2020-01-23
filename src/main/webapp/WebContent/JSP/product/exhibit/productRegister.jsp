@@ -15,6 +15,8 @@
 
 <meta charset="UTF-8">
 <link rel="stylesheet" href="WebContent/css/ProductRegister.css">
+<link rel="stylesheet" href="WebContent/css/menu/menu.css">
+
 <title></title>
 
 
@@ -26,6 +28,28 @@
 <a href="/homePage"> <img src="WebContent/img/Title.png" alt="タイトル"
 	width="200" height="80"></a>
 <br>
+
+
+<!--メニュー表-->
+
+<div id="menu">
+
+	<br> <br> <br> <br>
+	<nav>
+		<ul>
+			<li><a href="userInformation">ユーザー情報</a></li>
+			<li><a href="ProductRegister">出品する</a></li>
+			<li><a href="menuSearch?menuCommand=successfulDid">落札中</a></li>
+			<li><a href="menuSearch?menuCommand=productSuccessfulDidHistory">落札履歴</a></li>
+			<li><a href="menuSearch?menuCommand=exhibition">出品中</a></li>
+			<li><a href="menuSearch?menuCommand=exhibitionHistory">出品履歴</a></li>
+		</ul>
+	</nav>
+
+	<br> <br>
+	<div id="text">${requestScope.menu}</div>
+</div>
+
 
 
 <form:form action="ContentConfirmation" method="post"

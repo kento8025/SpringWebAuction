@@ -28,7 +28,7 @@ public class PgSearchDao implements SearchDao {
 			"p.product_name , " +
 			"p.id , " +
 			"p.user_id , " +
-			"u.user_name , "+
+			"u.user_name , " +
 			"p.product_name , " +
 			"p.product_img , " +
 			"p.category_id , " +
@@ -49,7 +49,8 @@ public class PgSearchDao implements SearchDao {
 			"MAX (s.id) as trade , " +
 			"p.user_id as seller , " +
 			"s.user_id as buyer , " +
-			"p.product_name  , " +
+			"u.user_name  , " +
+			"u.mail , "+
 			"p.product_name , " +
 			"p.product_img , " +
 			"p.category_id , " +
@@ -79,24 +80,30 @@ public class PgSearchDao implements SearchDao {
 			"WHERE 1 = 1  " +
 			"AND (trade_status IS NULL OR trade_status = 1) AND should_show = 1 ";
 
-	private final String WHERE_INFORMATION = "" +
-			"WHERE p.id = :p.id  AND (trade_status IS NULL OR trade_status = 1) AND should_show = 1 " +
-			"GROUP BY p.id , s.trade_status , s.id " +
-			"ORDER BY price ASC  ";
+	private final String INFORMATION_WHERE = "" +
+			"WHERE p.id = :p.id  AND (trade_status IS NULL OR trade_status = 1) AND should_show = 1 ";
 
-	private String GROUP_BY = " GROUP BY  p.id , s.trade_status , u.user_name  ";
+	private final String GROUP_BY = " GROUP BY  p.id , s.trade_status , u.user_name  ";
 
-	private String SBJOIN = "" +
+	private final String INFORMATION_GROUP_BY = " GROUP BY  p.id , s.trade_status , u.user_name , u.user_name , " +
+			"s.user_id , u.mail ";
+
+	private final String ORDER_BY = " ORDER BY p.id DESC ";
+
+	private final String INFORMATION_GROUP_ORDER_BY =" ORDER BY price ASC ";
+
+	private final String SBJOIN = "" +
 			") sb1 " +
 			"LEFT JOIN " +
 			"(SELECT count(*) as measurement , p.id  as secondid  FROM successful_bid as s " +
 			"LEFT JOIN product p ON s.product_id = p.id  " +
 			"WHERE 1 = 1 AND p.should_show = 1  " +
 			"GROUP BY s.product_id , p.id , p.product_name) " +
-			"sb2 " +
-			"ON sb1.id = sb2.secondid";
+			"sb2 ";
 
-	private String ORDER_BY = " ORDER BY p.id DESC ";
+	private final String ON = " ON sb1.id = sb2.secondid ";
+
+	private final String INFORMATION_ON = " ON sb1.seller = sb2.secondid ";
 
 	private int lowerPrice;
 	private int highPrice;
@@ -111,11 +118,18 @@ public class PgSearchDao implements SearchDao {
 
 		MapSqlParameterSource param = new MapSqlParameterSource();
 
-		String sql = SELECT + SELECT_PRODUCT + CASE + JOIN + WHERE;
+		String sql = SELECT +
+				SELECT_PRODUCT +
+				CASE +
+				JOIN +
+				WHERE;
 
 		sql += whereSet(productName, category, priceBetweenCommand, productStatus);
 
-		sql += GROUP_BY + ORDER_BY + SBJOIN;
+		sql += GROUP_BY +
+				ORDER_BY +
+				SBJOIN +
+				ON;
 
 		param.addValue("product_name", "%" + productName + "%");
 		param.addValue("categoryId", productDao.categorySearch(category));
@@ -136,7 +150,15 @@ public class PgSearchDao implements SearchDao {
 
 		MapSqlParameterSource param = new MapSqlParameterSource();
 
-		String sql = SELECT_FROM_PRODUCT_INFORMATION + CASE + JOIN + WHERE_INFORMATION;
+		String sql = SELECT +
+				SELECT_FROM_PRODUCT_INFORMATION +
+				CASE +
+				JOIN +
+				INFORMATION_WHERE +
+				INFORMATION_GROUP_BY +
+				INFORMATION_GROUP_ORDER_BY +
+				SBJOIN +
+				INFORMATION_ON;
 
 		param.addValue("p.id", productId);
 

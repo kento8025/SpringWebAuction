@@ -21,6 +21,7 @@ public class Product {
 
 	private String userName;/*出品したユーザー*/
 	private int count;/*落札回数*/
+	private int highestbidprice;
 
 	private Date registration_dete;/*登録した日付*/
 
@@ -163,6 +164,14 @@ public class Product {
 
 	public void setRemainingTime(Calendar remainingTime) {
 		this.remainingTime = remainingTime;
+	}
+
+	public int getHighestbidprice() {
+		return highestbidprice;
+	}
+
+	public void setHighestbidprice(int highestbidprice) {
+		this.highestbidprice = highestbidprice;
 	}
 
 }

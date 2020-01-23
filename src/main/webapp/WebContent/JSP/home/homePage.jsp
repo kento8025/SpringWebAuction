@@ -46,17 +46,6 @@
 
 	</form:form>
 
-
-	<!--ログイン画面-->
-
-	<%-- 		<form:button class="btn-square" name="login">ログイン</form:button>
-		<br>
-		<form:button class="btn-square" name="logout">ログアウト</form:button>
- --%>
-
-
-
-
 	<c:choose>
 
 		<c:when test="${sessionScope.user.userRank eq '1'}">
@@ -147,10 +136,11 @@
 			<ul>
 				<li><a href="userInformation">ユーザー情報</a></li>
 				<li><a href="ProductRegister">出品する</a></li>
-				<li><a href="successfulDid?menuCommand=successfulDid">落札中</a></li>
-				<li><a href="successfulDidHistory">落札履歴</a></li>
-				<li><a href="exhibition">出品中</a></li>
-				<li><a href="exhibitionHistory">出品履歴</a></li>
+				<li><a href="menuSearch?menuCommand=successfulDid">落札中</a></li>
+				<li><a
+					href="menuSearch?menuCommand=productSuccessfulDidHistory">落札履歴</a></li>
+				<li><a href="menuSearch?menuCommand=exhibition">出品中</a></li>
+				<li><a href="menuSearch?menuCommand=exhibitionHistory">出品履歴</a></li>
 			</ul>
 		</nav>
 
@@ -160,9 +150,11 @@
 
 	<div id="tagu">
 
+		検索結果を登録しよう！
+
 		<nav>
-			<a href="SearchResults" class="btn-circle-flat">パソコン</a> <a href="#"
-				class="btn-circle-flat">BUTTON</a> <a href="#"
+			<a href="SearchResults" class="btn-circle-flat"> BUTTON</a> <a
+				href="#" class="btn-circle-flat">BUTTON</a> <a href="#"
 				class="btn-circle-flat">BUTTON</a> <a href="#"
 				class="btn-circle-flat">BUTTON</a> <a href="#"
 				class="btn-circle-flat">BUTTON</a> <a href="#"
@@ -225,6 +217,7 @@
 
 
 		<div id="featuredProducts">
+
 			<h1>目玉商品</h1>
 
 			<span class="new"><img src="WebContent/img/kinn.jpg" alt="金塊"

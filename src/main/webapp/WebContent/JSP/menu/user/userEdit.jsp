@@ -29,83 +29,92 @@
 
 	<!--ホームリンクタイトル画像-->
 
-		<a href="/homePage"> <img src="WebContent/img/Title.png" alt="タイトル"
+	<a href="/homePage"> <img src="WebContent/img/Title.png" alt="タイトル"
 		width="200" height="80"></a>
 	<br>
 
 
 	<div id="inputInformation">
 
-	<form:form action="userUpdate" modelAttribute="user">
+		<form:form action="userUpdate" modelAttribute="user">
 
 
 			<h2>お客様情報</h2>
 
 			<br> 名前 <br>
 
-				<form:input path="userName" value="${fn:escapeXml(user.userName)}" readonly=""/><br>
+			<form:input path="userName" value="${fn:escapeXml(user.userName)}"
+				readonly="" />
+			<br>
 
 			<br>
 
 			<br>生年月日<br>
 
-				<form:select id="year" path="year"><option value="${fn:escapeXml(user.year)}">
-				${fn:escapeXml(user.year)} </option></form:select>年
+			<form:select id="year" path="year">
+				<option value="${fn:escapeXml(user.year)}">
+					${fn:escapeXml(user.year)}</option>
+			</form:select>年
 
 
-				<form:select id="month" path="month" ><option value="${fn:escapeXml(user.month)}">
-				${fn:escapeXml(user.month)} </option></form:select>月
+				<form:select id="month" path="month">
+				<option value="${fn:escapeXml(user.month)}">
+					${fn:escapeXml(user.month)}</option>
+			</form:select>月
 
 
-				<form:select id="day" path="day" ><option  value="${fn:escapeXml(user.day)}">
-				${fn:escapeXml(user.day)}</option> </form:select>日
+				<form:select id="day" path="day">
+				<option value="${fn:escapeXml(user.day)}">
+					${fn:escapeXml(user.day)}</option>
+			</form:select>日
 
 				​
 				<br>
-				<br>
+			<br>
 
 
 				 性別 <br>
-				 <form:input type="text" path="manOrWoman"
-				 	value="${fn:escapeXml(user.manOrWoman)}" />
-				<br>
+			<form:input type="text" path="manOrWoman"
+				value="${fn:escapeXml(user.manOrWoman)}" />
+			<br>
 
 
-				<br>
-				<br>
+			<br>
+			<br>
 
 
 			メールアドレス <br>
 
-				<form:input path="mail"  name="mail"
-					value="${fn:escapeXml(user.mail)}" /><br>
-			<br> <br> <br>
+			<form:input path="mail" name="mail"
+				value="${fn:escapeXml(user.mail)}" />
+			<br>
+			<br>
+			<br>
+			<br>
 
 			<h2>会員情報</h2>
 
 			<br> ID <br>
 
-				<form:input path="userId" value="${requestScope.user.userId}"/><br>
+			<form:input path="userId" value="${requestScope.user.userId}" />
+			<br>
 
 			<br> password <br>パスワードは半角英小文字と数字を組み合わせた8文字以上<br>
 
-				<form:password path="passWord" value="${fn:escapeXml(user.passWord)}"/><br>
-				<br>
+			<form:password path="passWord" value="${fn:escapeXml(user.passWord)}" />
+			<br>
+			<br>
 			<br>
 
-				<div id="newButton">
+			<div id="newButton">
 
-					<button class="btn-square-so-pop">更新する</button>
+				<button class="btn-square-so-pop">更新する</button>
 
-				</div>
-
-
-
-		<div id="editButton">
+			</div>
 
 
 
-		</div>
+			<div id="editButton"></div>
 
 		</form:form>
 

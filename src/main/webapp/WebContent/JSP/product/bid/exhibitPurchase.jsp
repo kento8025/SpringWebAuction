@@ -38,9 +38,7 @@
 	<div id="block1">
 		<!--検索欄-->
 
-		<div id="kennsaku">
-
-		</div>
+		<div id="kennsaku"></div>
 
 
 		<!--メニュー表-->
@@ -50,12 +48,13 @@
 			メニュー表
 			<nav>
 				<ul>
-					<li><a href="#">マイトップ</a></li>
-					<li><a href="#">気になる</a></li>
-					<li><a href="#">入札中</a></li>
-					<li><a href="#">落札履歴</a></li>
-					<li><a href="#">出品中</a></li>
-					<li><a href="#">出品履歴</a></li>
+					<li><a href="userInformation">ユーザー情報</a></li>
+					<li><a href="ProductRegister">出品する</a></li>
+					<li><a href="menuSearch?menuCommand=successfulDid">落札中</a></li>
+					<li><a
+						href="menuSearch?menuCommand=productSuccessfulDidHistory">落札履歴</a></li>
+					<li><a href="menuSearch?menuCommand=exhibition">出品中</a></li>
+					<li><a href="menuSearch?menuCommand=exhibitionHistory">出品履歴</a></li>
 				</ul>
 			</nav>
 
@@ -101,10 +100,10 @@
 
 
 			<div id="block2-A-B">
-				入札回数 残り時間<br> 〇〇回数 〇〇時間<br> <br> 価格<br>
-
-				<input type="hidden" name="price"
-							value="${fn:escapeXml(purchaseDisplay.price)}">
+				入札回数 ${fn:escapeXml(purchaseDisplay.count)}回<br>
+				締め切り時間${fn:escapeXml(purchaseDisplay.remainingTime)}<br> <br> 価格<br> <input
+					type="hidden" name="price"
+					value="${fn:escapeXml(purchaseDisplay.price)}">
 
 				${fn:escapeXml(purchaseDisplay.price)}円<br>
 				送料${fn:escapeXml(purchaseDisplay.postage)}負担<br> <br>
@@ -113,27 +112,32 @@
 
 					<c:when test="${sessionScope.user.id eq purchaseDisplay.seller}">
 
-						<input type="hidden" value="${fn:escapeXml(purchaseDisplay.primaryProductId)}" name="productId">
-						<form:button class="btn-square-so-pop-red" name ="productCancel" >商品の取り消し</form:button><br>
-						<form:button class="btn-square-so-pop" name ="promptDecision" >落札の締め切り</form:button>
+						<input type="hidden"
+							value="${fn:escapeXml(purchaseDisplay.primaryProductId)}"
+							name="productId">
+						<form:button class="btn-square-so-pop-red" name="productCancel">商品の取り消し</form:button>
+						<br>
+						<form:button class="btn-square-so-pop" name="promptDecision">落札の締め切り</form:button>
 
 
 					</c:when>
 
 					<c:when test="${sessionScope.user.id eq purchaseDisplay.buyer}">
 
-						<input type="hidden" value="${fn:escapeXml(purchaseDisplay.trade)}" name="tradeId">
+						<input type="hidden"
+							value="${fn:escapeXml(purchaseDisplay.trade)}" name="tradeId">
 
-						<form:button class="btn-square-so-pop-red" name ="successFulDidCancel" >落札の取り消し</form:button>
+						<form:button class="btn-square-so-pop-red"
+							name="successFulDidCancel">落札の取り消し</form:button>
 
 					</c:when>
 
 
 					<c:otherwise>
-						<font color="red">${requestScope.priceError}</font><br>
+						<font color="red">${requestScope.priceError}</font>
+						<br>
 						<input name="contractPrice" type="text" placeholder="落札金額を入力" />
-						<input type="hidden" name="userId"
-							value='${sessionScope.user.id}'>
+						<input type="hidden" name="userId" value='${sessionScope.user.id}'>
 						<input type="hidden" name="productId"
 							value="${fn:escapeXml(purchaseDisplay.primaryProductId)}">
 						<br>
@@ -144,8 +148,10 @@
 
 				</c:choose>
 
-				<br> <br> 出品者${fn:escapeXml(purchaseDisplay.userName)}さん<br>
-				<br> 出品者へのお問合せ<br> ${fn:escapeXml(purchaseDisplay.mail)}
+				<br> <br> 出品者　${fn:escapeXml(purchaseDisplay.userName)}さん<br>
+				<br> 出品者へのお問合せ<br> ${fn:escapeXml(purchaseDisplay.mail)}<br>
+
+				<br>
 
 
 			</div>

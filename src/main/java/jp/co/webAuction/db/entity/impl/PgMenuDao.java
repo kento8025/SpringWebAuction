@@ -47,12 +47,10 @@ public class PgMenuDao implements MenuDao {
 
 	private final String JOIN = " " +
 			"LEFT JOIN successful_bid s ON p.id = s.product_id  " +
-			"LEFT JOIN users u ON  u.id = p.user_id  " +
 			"LEFT JOIN category c ON  c.id = p.category_id  ";
 
 	private final String WHERE = " " +
-			"WHERE 1 = 1  " +
-			"AND (trade_status IS NULL OR trade_status = 1) AND should_show = 1 ";
+			"WHERE 1 = 1  ";
 
 	private String GROUP_BY = " GROUP BY  p.id , s.trade_status , u.user_name  ";
 
@@ -61,78 +59,30 @@ public class PgMenuDao implements MenuDao {
 			"LEFT JOIN " +
 			"(SELECT count(*) as measurement , p.id  as secondid  FROM successful_bid as s " +
 			"LEFT JOIN product p ON s.product_id = p.id  " +
-			"WHERE 1 = 1 AND p.should_show = 1  " +
+			"WHERE 1 = 1 " +
 			"GROUP BY s.product_id , p.id , p.product_name) " +
 			"sb2 " +
 			"ON sb1.id = sb2.secondid";
+
+	private String SBSBJOIN = " " +
+			"LEFT JOIN " +
+			"(SELECT p.id , " +
+			"CASE  " +
+			"WHEN MAX(s.contract_price)  IS NULL THEN  MAX(p.price) " +
+			"ELSE MAX(s.contract_price)  " +
+			"END AS  highestbidprice  " +
+			"FROM product as p  " +
+			"LEFT JOIN successful_bid s ON p.id = s.product_id  " +
+			"LEFT JOIN users u ON  u.id = s.user_id  " +
+			"WHERE 1 = 1  AND (trade_status IS NULL OR trade_status = 1) AND should_show = 1  \r\n" +
+			"GROUP BY  p.id , s.trade_status " +
+			") as sb3 " +
+			"ON sb2.secondid = sb3.id";
 
 	private String ORDER_BY = " ORDER BY p.id DESC ";
 
 	private final String UPDETA_USERS = "UPDATE users SET user_id = :user_id, password = :password , user_name = :user_name , birthday = :birthday , man_or_woman = :man_or_woman ,  mail = :mail "
 			+ "WHERE id = :id ";
-
-	private final String SELECT_PRODUCT_SUCCESSFUL_DID = "" +
-			"SELECT p.product_name , p.id ,  p.user_id ,p.product_name ,p.product_img ,p.category_id , p.product_status , "
-			+
-			"p.description , p.postage , p.shipping_origin , p.shipping_method  , p.exhibition_period ,p.should_show , p.Registration_dete ,"
-			+
-			"CASE " +
-			"WHEN MAX(s.contract_price)  IS NULL THEN  MAX(p.price) " +
-			"ELSE MAX(s.contract_price) " +
-			"END  AS  price  " +
-			"FROM  product  as  p " +
-			"LEFT JOIN successful_bid s ON p.id = s.product_id " +
-			"LEFT JOIN users u ON  u.id = s.user_id " +
-			"WHERE p.should_show = 1 AND s.user_id =:id AND trade_status = 1 ";
-
-	private final String SELECT_PRODUCT_SUCCESSFUL_DID_HISTORY = "" +
-			"SELECT p.product_name , p.id ,  p.user_id ,p.product_name ,p.product_img ,p.category_id , p.product_status , "
-			+
-			"p.description , p.postage , p.shipping_origin , p.shipping_method  , p.exhibition_period ,p.should_show , p.Registration_dete , "
-			+
-			"CASE " +
-			"WHEN MAX(s.contract_price)  IS NULL THEN  MAX(p.price) " +
-			"ELSE MAX(s.contract_price)  " +
-			"END  AS  price   " +
-			"FROM  product  as  p  " +
-			"LEFT JOIN successful_bid s ON p.id = s.product_id  " +
-			"LEFT JOIN users u ON  u.id = s.user_id  " +
-			"WHERE p.should_show = 3 AND s.user_id = :id AND trade_status = 3 ";
-
-	private final String SELECT_PRODUCT_EXHIBITION = "" +
-			"SELECT p.product_name , p.id ,  p.user_id ,p.product_name , " +
-			"p.product_img ,p.category_id , p.product_status , " +
-			"p.description , p.postage , p.shipping_origin , p.shipping_method  , " +
-			"p.exhibition_period ,p.should_show , p.Registration_dete , s.trade_status , "
-			+
-			"CASE " +
-			"WHEN MAX(s.contract_price)  IS NULL THEN  MAX(p.price)  " +
-			"ELSE MAX(s.contract_price)  " +
-			"END AS price " +
-			"FROM product as p " +
-			"LEFT JOIN successful_bid s ON p.id = s.product_id  " +
-			"LEFT JOIN users u ON  u.id = s.user_id  " +
-			"LEFT JOIN category c ON  c.id = p.category_id  " +
-			"WHERE p.should_show = 1 AND p.user_id =:id AND (trade_status IS NULL OR trade_status = 1) ";
-
-	private final String SELECT_PRODUCT_EXHIBITION_HISTORY = "" +
-			"SELECT p.product_name , p.id ,  p.user_id ,p.product_name ,p.product_img ,p.category_id , p.product_status ,  "
-			+
-			"p.description , p.postage , p.shipping_origin , p.shipping_method  , p.exhibition_period ,p.should_show , p.Registration_dete , "
-			+
-			"CASE  " +
-			"WHEN MAX(s.contract_price)  IS NULL THEN  MAX(p.price)  " +
-			"ELSE MAX(s.contract_price)  " +
-			"END  AS  price   " +
-			"FROM  product  as  p  " +
-			"LEFT JOIN successful_bid s ON p.id = s.product_id  " +
-			"LEFT JOIN users u ON  u.id = s.user_id  " +
-			"WHERE p.should_show = 3 AND p.user_id = :id AND trade_status = 3  ";
-
-	private final String SELECT_PRODUCT_GROUP_BY = "GROUP BY p.product_name , p.id , " +
-			" p.user_id ,p.product_name ,p.product_img ,p.category_id , p.product_status , " +
-			"p.description , p.postage , p.shipping_origin , p.shipping_method  ," +
-			" p.exhibition_period ,p.should_show , p.Registration_dete , trade_status  ";
 
 	private final String SELECT_CATEGORY = "SELECT * FROM category";
 
@@ -156,74 +106,23 @@ public class PgMenuDao implements MenuDao {
 
 	}
 
-	//óééD
+	//
 	@Override
-	public List<Product> productSuccessfulDid(int userId, String menuCommand) {
-
-		System.out.println(userId);
+	public List<Product> menuSearch(int userId, String menuCommand) {
 
 		MapSqlParameterSource param = new MapSqlParameterSource();
 
-		param.addValue("id", userId);
+		String sql = SELECT + SELECT_PRODUCT + CASE + JOIN + menuJoinCommand(menuCommand) + WHERE;
 
-		String sql = SELECT + SELECT_PRODUCT + CASE + JOIN + WHERE;
-
-		sql += menuCommand(menuCommand);
+		sql += menuWhereCommand(menuCommand);
 
 		sql += GROUP_BY + ORDER_BY + SBJOIN;
 
-		return jdbcTemplate.query(
-				sql,
-				param,
-				new BeanPropertyRowMapper<Product>(Product.class));
-	}
+		if (menuCommand.equals("successfulDid")) {
+			sql += SBSBJOIN;
+		}
 
-	//óééDóöó
-
-	@Override
-	public List<Product> productSuccessfulDidHistory(int userId) {
-
-		MapSqlParameterSource param = new MapSqlParameterSource();
-
-		param.addValue("id", userId);
-
-		String sql = SELECT_PRODUCT_SUCCESSFUL_DID_HISTORY + SELECT_PRODUCT_GROUP_BY;
-
-		return jdbcTemplate.query(
-				sql,
-				param,
-				new BeanPropertyRowMapper<Product>(Product.class));
-
-	}
-
-	//èoïi
-	@Override
-	public List<Product> productExhibition(int userId) {
-
-		MapSqlParameterSource param = new MapSqlParameterSource();
-
-		param.addValue("id", userId);
-
-		String sql = SELECT_PRODUCT_EXHIBITION + SELECT_PRODUCT_GROUP_BY;
-
-		return jdbcTemplate.query(
-				sql,
-				param,
-				new BeanPropertyRowMapper<Product>(Product.class));
-
-	}
-
-	//èoïióöó
-	@Override
-	public List<Product> productExhibitionHistory(int userId) {
-
-		System.out.println(userId);
-
-		MapSqlParameterSource param = new MapSqlParameterSource();
-
-		param.addValue("id", userId);
-
-		String sql = SELECT_PRODUCT_EXHIBITION_HISTORY + SELECT_PRODUCT_GROUP_BY;
+		param.addValue("userId", userId);
 
 		return jdbcTemplate.query(
 				sql,
@@ -245,7 +144,7 @@ public class PgMenuDao implements MenuDao {
 				new BeanPropertyRowMapper<Category>(Category.class));
 	}
 
-	private String menuCommand(String menuCommand) {
+	private String menuWhereCommand(String menuCommand) {
 
 		if (menuCommand == null) {
 			return "";
@@ -256,17 +155,62 @@ public class PgMenuDao implements MenuDao {
 		switch (menuCommand) {
 
 		case "successfulDid":
-			sql += "AND s.user_id =:id ";
+			sql += ""
+					+ " AND (trade_status IS NULL OR trade_status = 1) AND should_show = 1  AND s.user_id =:userId ";
 			break;
 
-		case "2":
-
-		case "3":
+		case "productSuccessfulDidHistory":
+			sql += ""
+					+ " AND p.should_show = 3 AND s.user_id = :userId AND trade_status = 3";
 
 			break;
 
-		case "4":
+		case "exhibition":
+			sql += ""
+					+ " AND p.should_show = 1 AND p.user_id =:userId AND (trade_status IS NULL OR trade_status = 1)";
 
+			break;
+
+		case "exhibitionHistory":
+			sql += ""
+					+ " AND p.should_show = 3 AND p.user_id = :userId AND trade_status = 3";
+
+			break;
+
+		}
+
+		return sql;
+
+	}
+
+	private String menuJoinCommand(String menuCommand) {
+
+		if (menuCommand == null) {
+			return "";
+		}
+
+		String sql = "";
+
+		switch (menuCommand) {
+
+		case "successfulDid":
+			sql += " "
+					+ " LEFT JOIN users u ON  u.id = p.user_id  ";
+			break;
+
+		case "productSuccessfulDidHistory":
+			sql += ""
+					+ " LEFT JOIN users u ON  u.id = p.user_id";
+			break;
+
+		case "exhibition":
+			sql += ""
+					+ " LEFT JOIN users u ON  u.id = p.user_id  ";
+			break;
+
+		case "exhibitionHistory":
+			sql += ""
+					+ " LEFT JOIN users u ON  u.id = p.user_id ";
 			break;
 
 		}

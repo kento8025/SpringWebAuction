@@ -16,7 +16,7 @@
 <head>
 
 <meta charset="UTF-8">
-<link rel="stylesheet" href="WebContent/css/menu.css">
+<link rel="stylesheet" href="WebContent/css/menu/menu.css">
 <link rel="stylesheet" href="WebContent/css/register.css">
 <link rel="stylesheet" href="WebContent/css/Confirmation.css">
 <title></title>
@@ -38,12 +38,12 @@
 		<br> <br>
 		<nav>
 			<ul>
-				<li><a href="../ProductInput">出品する</a></li>
-				<li><a href="#">気になる</a></li>
-				<li><a href="../Menu">落札中</a></li>
-				<li><a href="#">落札履歴</a></li>
-				<li><a href="#">出品中</a></li>
-				<li><a href="#">出品履歴</a></li>
+				<li><a href="userInformation">ユーザー情報</a></li>
+				<li><a href="ProductRegister">出品する</a></li>
+				<li><a href="menuSearch?menuCommand=successfulDid">落札中</a></li>
+				<li><a href="menuSearch?menuCommand=productSuccessfulDidHistory">落札履歴</a></li>
+				<li><a href="menuSearch?menuCommand=exhibition">出品中</a></li>
+				<li><a href="menuSearch?menuCommand=exhibitionHistory">出品履歴</a></li>
 			</ul>
 		</nav>
 
