@@ -14,7 +14,7 @@
 <head>
 
 <meta charset="UTF-8">
-<link rel="stylesheet" href="WebContent/css/ProductRegister.css">
+<link rel="stylesheet" href="WebContent/css/product/exhibit/productRegister.css">
 <link rel="stylesheet" href="WebContent/css/menu/menu.css">
 
 <title></title>
@@ -112,7 +112,9 @@
 
 		<!--説明-->
 
-		説明
+		説明<br>
+
+		<br>
 		<div id="text">
 			<form:textarea cols="50" rows="10" path="description" />
 		</div>

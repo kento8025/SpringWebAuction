@@ -28,8 +28,6 @@ public class PgProductDao implements ProductDao {
 	@Override
 	public void register(ProductForm productForm, User user) {
 
-		System.out.println("商品登録用 メソッド");
-
 		MapSqlParameterSource param = new MapSqlParameterSource();
 
 		param.addValue("user_id", user.getId());
@@ -44,12 +42,8 @@ public class PgProductDao implements ProductDao {
 		param.addValue("price", productForm.getPrice());
 		param.addValue("exhibition_period", productForm.getExhibition_period());
 
-
 		jdbcTemplate.update(INSERT_INTO_PRODUCT, param);
 
-
-		System.out.println("INSERTに成功しました");
-		System.out.println("接続終了");
 	}
 
 	@Override
@@ -66,11 +60,7 @@ public class PgProductDao implements ProductDao {
 				param,
 				new BeanPropertyRowMapper<Category>(Category.class));
 
-		System.out.println(category.size());
-
 		if (!(category.size() == 0)) {
-
-			System.out.println("通過");
 
 			return category.get(0).getId();
 		}

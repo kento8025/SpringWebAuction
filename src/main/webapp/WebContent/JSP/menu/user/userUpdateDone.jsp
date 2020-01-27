@@ -16,7 +16,7 @@
 <head>
 
 <meta charset="UTF-8">
-<link rel="stylesheet" href="WebContent/css/center.css">
+<link rel="stylesheet" href="WebContent/css/position/middle.css">
 <title></title>
 
 

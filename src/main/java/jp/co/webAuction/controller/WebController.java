@@ -3,6 +3,7 @@ package jp.co.webAuction.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,8 @@ import jp.co.webAuction.controller.form.TradeForm;
 import jp.co.webAuction.controller.form.UserForm;
 import jp.co.webAuction.db.dto.Category;
 import jp.co.webAuction.db.dto.PurchaseDisplay;
+import jp.co.webAuction.db.dto.User;
+import jp.co.webAuction.db.entity.FavoriteDao;
 import jp.co.webAuction.db.entity.MenuDao;
 import jp.co.webAuction.db.entity.SearchDao;
 import jp.co.webAuction.db.entity.TradeDao;
@@ -32,8 +35,18 @@ public class WebController {
 	@Autowired
 	private SearchDao searchDao;
 
+	@Autowired
+	FavoriteDao favoriteDao;
+
 	@RequestMapping(value = { "/homePage", "/index" })
-	public String homeIndex(@ModelAttribute("product") ProductForm productForm, Model model) {
+	public String homeIndex(@ModelAttribute("product") ProductForm productForm, Model model,
+			HttpServletRequest request) {
+
+		HttpSession session = request.getSession(true);
+		User user = (User) session.getAttribute("user");
+
+		favoriteDao.favoriteSearch(user, request);
+
 		model.addAttribute("product", new ProductForm());
 		model.addAttribute("user", new UserForm());
 		List<Category> categoryList = menuDao.categorySearch();
@@ -58,35 +71,6 @@ public class WebController {
 			tradeDao.register(tradeForm);
 			return "product/bid/successfulDid";
 		}
-
-	}
-
-	/*出品した商品の取り消し*/
-	@RequestMapping(value = "/trade", params = "productCancel", method = RequestMethod.POST)
-	public String productCancel(@ModelAttribute("tradeForm") TradeForm tradeForm, Model model) {
-
-		tradeDao.productHidden(tradeForm.getProductId());
-
-		return "menu/cancel/productCancel";
-
-	}
-
-	/*商品購入取り消し*/
-	@RequestMapping(value = "/trade", params = "successFulDidCancel", method = RequestMethod.POST)
-	public String successFulDidCancel(@ModelAttribute("tradeForm") TradeForm tradeForm, Model model) {
-
-		tradeDao.tradeCancel(tradeForm.getTradeId());
-
-		return "menu/cancel/successFulDidCancel";
-	}
-
-	/*出品した商品の即売り*/
-	@RequestMapping(value = "/trade", params = "promptDecision", method = RequestMethod.POST)
-	public String promptDecision(@ModelAttribute("tradeForm") TradeForm tradeForm, Model model) {
-
-		tradeDao.promptDecision(tradeForm.getProductId());
-
-		return "menu/cancel/productCancel";
 
 	}
 

@@ -50,7 +50,7 @@ public class PgSearchDao implements SearchDao {
 			"p.user_id as seller , " +
 			"s.user_id as buyer , " +
 			"u.user_name  , " +
-			"u.mail , "+
+			"u.mail , " +
 			"p.product_name , " +
 			"p.product_img , " +
 			"p.category_id , " +
@@ -90,7 +90,7 @@ public class PgSearchDao implements SearchDao {
 
 	private final String ORDER_BY = " ORDER BY p.id DESC ";
 
-	private final String INFORMATION_GROUP_ORDER_BY =" ORDER BY price ASC ";
+	private final String INFORMATION_GROUP_ORDER_BY = " ORDER BY price ASC ";
 
 	private final String SBJOIN = "" +
 			") sb1 " +

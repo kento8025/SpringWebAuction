@@ -15,4 +15,5 @@ public interface SearchDao {
 	public List<SuccessfulDidCount> successfulDidCountSearch (String productName, String category, String priceBetweenCommand,
 			String productStatus);
 
+
 }

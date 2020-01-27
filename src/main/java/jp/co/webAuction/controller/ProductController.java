@@ -17,10 +17,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jp.co.webAuction.controller.form.ProductForm;
+import jp.co.webAuction.controller.form.UserForm;
 import jp.co.webAuction.db.dto.Category;
 import jp.co.webAuction.db.dto.User;
+import jp.co.webAuction.db.entity.FavoriteDao;
 import jp.co.webAuction.db.entity.MenuDao;
 import jp.co.webAuction.db.entity.ProductDao;
 
@@ -33,9 +36,30 @@ public class ProductController {
 	@Autowired
 	private MenuDao menuDao;
 
+	@Autowired
+	private FavoriteDao favoriteDao;
+
+	private String errorMessage = "ログインしないとこの機能は使えません";
+
 	@RequestMapping("/ProductRegister")
-	public String ProductRegister(@ModelAttribute("product") ProductForm productForm, Model model) {
-		System.out.println("出品する");
+	public String ProductRegister(@ModelAttribute("product") ProductForm productForm, Model model,
+			HttpServletRequest request) {
+		HttpSession session = request.getSession(true);
+		User user = (User) session.getAttribute("user");
+
+		if (user == null) {
+
+			List<Category> categoryList = menuDao.categorySearch();
+			favoriteDao.favoriteSearch(user, request);
+
+			model.addAttribute("categoryList", categoryList);
+			model.addAttribute("product", new ProductForm());
+			model.addAttribute("user", new UserForm());
+			request.setAttribute("notLoginError", errorMessage);
+
+			return "home/homePage";
+		}
+
 		model.addAttribute("product", new ProductForm());
 		List<Category> categoryList = menuDao.categorySearch();
 		model.addAttribute("categoryList", categoryList);
@@ -45,8 +69,6 @@ public class ProductController {
 	@RequestMapping(value = "/ContentConfirmation", method = RequestMethod.POST)
 	public String ContentConfirmation(@Validated @ModelAttribute("product") ProductForm productForm,
 			BindingResult bindingResult, Model model, HttpServletRequest request) throws IOException, ServletException {
-
-		System.out.println("登録画面");
 
 		List<Category> categoryList = menuDao.categorySearch();
 		model.addAttribute("categoryList", categoryList);
@@ -108,8 +130,10 @@ public class ProductController {
 
 	@RequestMapping(value = "/RistingCompleted", method = RequestMethod.POST)
 	public String RistingCompleted(@ModelAttribute("product") ProductForm productForm, Model model,
-			HttpServletRequest request) {
-		System.out.println("商品確認画面");
+			HttpServletRequest request,
+			@RequestParam(name = "productImg", required = false) String productImg) {
+
+		productForm.setProductImg(productImg);
 
 		model.addAttribute("product", productForm);
 

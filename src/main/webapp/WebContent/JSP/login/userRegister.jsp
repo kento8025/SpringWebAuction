@@ -15,7 +15,7 @@
 <head>
 
 <meta charset="UTF-8">
-<link rel="stylesheet" href="WebContent/css/register.css">
+<link rel="stylesheet" href="WebContent/css/login/userRegister.css">
 <title>新規登録</title>
 
 </head>
@@ -39,39 +39,48 @@
 
 			<br> 名前 <br>
 
-				<form:input path="userName" value='${requestScope.user.userName}'/><br>
-				<form:errors path="userName" cssStyle="color: red"/><br>
+			<form:input path="userName" value='${requestScope.user.userName}' />
+			<br>
+			<form:errors path="userName" cssStyle="color: red" />
+			<br>
 
 
 			<br>
 
 			<br>生年月日<br>
 
-				<form:select id="year" path="year" ><option value="${requestScope.user.year}">
-				${requestScope.user.year} </option></form:select>年
+			<form:select id="year" path="year">
+				<option value="${requestScope.user.year}">
+					${requestScope.user.year}</option>
+			</form:select>年
 
 
-				<form:select id="month" path="month"><option  value="${requestScope.user.month}">
-				${requestScope.user.month}</option></form:select>月
+				<form:select id="month" path="month">
+				<option value="${requestScope.user.month}">
+					${requestScope.user.month}</option>
+			</form:select>月
 
 
-				<form:select id="day" path="day" ><option value="${requestScope.user.day}">
-				${requestScope.user.day}</option></form:select>日
+				<form:select id="day" path="day">
+				<option value="${requestScope.user.day}">
+					${requestScope.user.day}</option>
+			</form:select>日
 
 				​
 				<br>
-				<br>
-				<font color="red">${requestScope.birthdayError}</font><br>
-				<br>
-				<br>
+			<br>
+			<font color="red">${requestScope.birthdayError}</font>
+			<br>
+			<br>
+			<br>
 
 			<c:choose>
 				<c:when test="${requestScope.user.manOrWoman eq '男'}">
 
 					性別 <br>
 
-					<form:radiobutton path="manOrWoman" value="男" checked="checked"/>男
-					<form:radiobutton path="manOrWoman" value="女"/>女
+					<form:radiobutton path="manOrWoman" value="男" checked="checked" />男
+					<form:radiobutton path="manOrWoman" value="女" />女
 
 				</c:when>
 
@@ -79,8 +88,8 @@
 
 					性別 <br>
 
-						<form:radiobutton path="manOrWoman" value="男"/>男
-						<form:radiobutton path="manOrWoman" value="女" checked="checked"/>女
+					<form:radiobutton path="manOrWoman" value="男" />男
+						<form:radiobutton path="manOrWoman" value="女" checked="checked" />女
 
 					<br>
 				</c:when>
@@ -89,8 +98,8 @@
 
 					性別 <br>
 
-						<form:radiobutton path="manOrWoman" value="男"/>男
-						<form:radiobutton path="manOrWoman" value="女"/>女
+					<form:radiobutton path="manOrWoman" value="男" />男
+						<form:radiobutton path="manOrWoman" value="女" />女
 
 					<br>
 
@@ -98,26 +107,38 @@
 
 			</c:choose>
 
-			<form:errors path="manOrWoman" cssStyle="color: red"/><br> <br>
+			<form:errors path="manOrWoman" cssStyle="color: red" />
+			<br>
+			<br>
 
 
 			メールアドレス <br>
 
-				<form:input path="mail" value='${requestScope.user.mail}'/><br>
-			 	<form:errors path="mail" cssStyle="color: red"/><br> <br> <br>
+			<form:input path="mail" value='${requestScope.user.mail}' />
+			<br>
+			<form:errors path="mail" cssStyle="color: red" />
+			<br>
+			<br>
+			<br>
 
 			<h2>会員情報</h2>
 
 			<br> ID <br>
 
-				<form:input path="userId" value='${requestScope.user.userId}'/><br>
-				<br><form:errors path="userId" cssStyle="color: red"/> <br>
+			<form:input path="userId" value='${requestScope.user.userId}' />
+			<br>
+			<br>
+			<form:errors path="userId" cssStyle="color: red" />
+			<br>
 
 			<br> password <br>パスワードは半角英小文字と数字を組み合わせた8文字以上<br>
 
-				<form:password path="passWord" value='${requestScope.user.passWord}'/><br>
-				<br>
-				<form:errors path="passWord" cssStyle="color: red"/><br> <br>
+			<form:password path="passWord" value='${requestScope.user.passWord}' />
+			<br>
+			<br>
+			<form:errors path="passWord" cssStyle="color: red" />
+			<br>
+			<br>
 			<br>
 
 			<button class="btn-square-so-pop">新規登録</button>

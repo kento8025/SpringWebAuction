@@ -13,7 +13,7 @@
 <head>
 
 <meta charset="UTF-8">
-<link rel="stylesheet" href="WebContent/css/Confirmation.css">
+<link rel="stylesheet" href="WebContent/css/exhibit/productConfirmation.css">
 <title></title>
 
 </head>
@@ -52,7 +52,7 @@
 			<div id="img">
 				<img src="${fn:escapeXml(product.productImg)}" alt=商品 width="300"
 					height="300"><br>
-				<form:input  path="productImg" value="${fn:escapeXml(product.productImg)}" />
+				<input type= "hidden" name="productImg" value="${fn:escapeXml(product.productImg)}" />
 				価格：
 
 				<form:input path="price" value="${fn:escapeXml(product.price)}"/>

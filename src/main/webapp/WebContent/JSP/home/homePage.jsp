@@ -131,7 +131,8 @@
 
 	<div id="menu">
 
-		メニュー表
+		<font color="red">${requestScope.notLoginError} </font><br>
+		<br> メニュー表
 		<nav>
 			<ul>
 				<li><a href="userInformation">ユーザー情報</a></li>
@@ -153,14 +154,32 @@
 		検索結果を登録しよう！
 
 		<nav>
-			<a href="SearchResults" class="btn-circle-flat"> BUTTON</a> <a
-				href="#" class="btn-circle-flat">BUTTON</a> <a href="#"
-				class="btn-circle-flat">BUTTON</a> <a href="#"
-				class="btn-circle-flat">BUTTON</a> <a href="#"
-				class="btn-circle-flat">BUTTON</a> <a href="#"
-				class="btn-circle-flat">BUTTON</a> <a href="#"
-				class="btn-circle-flat">BUTTON</a> <a href="#"
-				class="btn-circle-flat">BUTTON</a>
+			<a href="${requestScope.favoriteList1.favoriteUrl}"
+				class="btn-circle-flat">
+				${requestScope.favoriteList1.favoriteName}</a> <a
+				href="${requestScope.favoriteList2.favoriteUrl}"
+				class="btn-circle-flat">
+				${requestScope.favoriteList2.favoriteName}</a> <a
+				href="${requestScope.favoriteList3.favoriteUrl}"
+				class="btn-circle-flat">
+				${requestScope.favoriteList3.favoriteName}</a> <a
+				href="${requestScope.favoriteList4.favoriteUrl}"
+				class="btn-circle-flat">
+				${requestScope.favoriteList4.favoriteName}</a> <a
+				href="${requestScope.favoriteList5.favoriteUrl}"
+				class="btn-circle-flat">
+				${requestScope.favoriteList5.favoriteName}</a> <a
+				href="${requestScope.favoriteList6.favoriteUrl}"
+				class="btn-circle-flat">
+				${requestScope.favoriteList6.favoriteName}</a> <a
+				href="${requestScope.favoriteList7.favoriteUrl}"
+				class="btn-circle-flat">
+				${requestScope.favoriteList7.favoriteName}</a> <a
+				href="${requestScope.favoriteList8.favoriteUrl}"
+				class="btn-circle-flat">
+				${requestScope.favoriteList8.favoriteName}</a>
+
+
 		</nav>
 
 	</div>

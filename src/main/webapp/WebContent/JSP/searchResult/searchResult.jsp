@@ -48,20 +48,28 @@
 
 			<!--  お気に入りに追加する -->
 
+
 			<div id="favorite">
 
-				<br> 8文字以内<br> <input name="search" type="text"
+				<font color="red">${requestScope.notLoginError} </font><br> <br>
+
+				<br> 8文字以内<br> <input name="favoriteName" type="text"
 					placeholder="登録したいお気に入り名" /> <input type="hidden"
-					value="${fn:escapeXml(purchaseDisplay.primaryProductId)}"
-					name="productId"> <select name="example">
-					<option value="サンプル1">未登録</option>
-					<option value="サンプル2">未登録</option>
-					<option value="サンプル3">未登録</option>
-					<option value="サンプル4">未登録</option>
-					<option value="サンプル5">未登録</option>
-					<option value="サンプル6">未登録</option>
-					<option value="サンプル7">未登録</option>
-					<option value="サンプル8">未登録</option>
+					value="${sessionScope.user.id}" name="productId"> <input
+					type="hidden" name="priceBetweenResult"
+					value="${requestScope.priceBetweenResult}"> <input
+					type="hidden" name="productStatusResult"
+					value="${requestScope.productStatusResult}" /> <select
+					name="registrNumber">
+					<option value="1">${requestScope.favoriteList1.favoriteName}</option>
+					<option value="2">${requestScope.favoriteList2.favoriteName}</option>
+					<option value="3">${requestScope.favoriteList3.favoriteName}</option>
+					<option value="4">${requestScope.favoriteList4.favoriteName}</option>
+					<option value="5">${requestScope.favoriteList5.favoriteName}</option>
+					<option value="6">${requestScope.favoriteList6.favoriteName}</option>
+					<option value="7">${requestScope.favoriteList7.favoriteName}</option>
+					<option value="8">${requestScope.favoriteList8.favoriteName}</option>
+
 				</select>
 
 
@@ -118,12 +126,6 @@
 						</nav>
 
 					</c:forEach>
-
-
-
-					<!--  -->
-					<!--  -->
-
 
 
 					<br> <br> <br> <br> <br> <br> <br>

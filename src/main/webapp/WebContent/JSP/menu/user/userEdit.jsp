@@ -15,8 +15,8 @@
 <head>
 
 <meta charset="UTF-8">
-<link rel="stylesheet" href="WebContent/css/register.css">
-<link rel="stylesheet" href="WebContent/css/Confirmation.css">
+<link rel="stylesheet" href="WebContent/css/login/userConfirmation.css">
+<link rel="stylesheet" href="WebContent/css/login/userRegister.css">
 
 
 <title>確認画面</title>

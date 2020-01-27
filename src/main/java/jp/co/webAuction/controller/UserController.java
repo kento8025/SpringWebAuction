@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import jp.co.webAuction.controller.form.ProductForm;
 import jp.co.webAuction.controller.form.UserForm;
 import jp.co.webAuction.db.dto.Category;
+import jp.co.webAuction.db.dto.User;
+import jp.co.webAuction.db.entity.FavoriteDao;
 import jp.co.webAuction.db.entity.MenuDao;
 import jp.co.webAuction.db.entity.UserDao;
 import jp.co.webAuction.tool.CheckDate;
@@ -30,10 +32,12 @@ public class UserController {
 	@Autowired
 	private MenuDao menuDao;
 
+	@Autowired
+	private FavoriteDao favoriteDao;
+
+	/*ログイン*/
 	@RequestMapping(value = "/loginCheck", params = "login", method = RequestMethod.POST)
 	public String login(@ModelAttribute("user") UserForm userForm, Model model, HttpServletRequest request) {
-
-		System.out.println("ログイン");
 
 		model.addAttribute("product", new ProductForm());
 
@@ -44,43 +48,54 @@ public class UserController {
 
 		if (userDao.loginCheck(userForm.getUserId(), userForm.getPassWord())) {
 			session.setAttribute("user", userDao.getUser());
+			User user = (User) session.getAttribute("user");
+			favoriteDao.favoriteSearch(user, request);
+
 			return "home/homePage";
+
 		} else {
 			request.setAttribute("loginError", "IDまたはPASSWORDが違います");
-			return "home/homePage";
-		}
+			User user = (User) session.getAttribute("user");
+			favoriteDao.favoriteSearch(user, request);
 
+			return "home/homePage";
+
+		}
 	}
 
+	/*ログアウト*/
 	@RequestMapping(value = "/loginCheck", params = "logout", method = RequestMethod.POST)
 	public String logout(@ModelAttribute("user") UserForm userForm, Model model, HttpServletRequest request) {
-
-		System.out.println("ログアウト");
 
 		model.addAttribute("product", new ProductForm());
 		HttpSession session = request.getSession(true);
 		session.removeAttribute("user");
 
+		List<Category> categoryList = menuDao.categorySearch();
+		model.addAttribute("categoryList", categoryList);
+
+		User user = (User) session.getAttribute("user");
+		favoriteDao.favoriteSearch(user, request);
+
 		return "home/homePage";
 
 	}
 
+	/*新規登録*/
 	@RequestMapping(value = "/loginCheck", params = "UserRegister", method = RequestMethod.POST)
 	public String UserRegister(@ModelAttribute("user") UserForm userForm,
 			Model model) {
 
-		System.out.println("新規登録");
 		model.addAttribute("user", userForm);
 
 		return "login/userRegister";
 
 	}
 
+	/*確認画面*/
 	@RequestMapping(value = "/UserConfirmation", method = RequestMethod.POST)
 	public String UserConfirmation(@Validated @ModelAttribute("user") UserForm userForm, BindingResult bindingResult,
 			Model model, HttpServletRequest request) {
-
-		System.out.println("確認画面");
 
 		if (bindingResult.hasErrors()) {
 
@@ -93,10 +108,9 @@ public class UserController {
 		return "login/userConfirmation";
 	}
 
+	/*編集画面*/
 	@RequestMapping(value = "/registration", params = "edit", method = RequestMethod.POST)
 	public String Edit(@ModelAttribute("user") UserForm userForm, Model model) {
-
-		System.out.println("編集画面");
 
 		model.addAttribute("user", userForm);
 
@@ -104,10 +118,10 @@ public class UserController {
 
 	}
 
+	/*登録完了画面*/
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
 	public String registration(@ModelAttribute("user") UserForm userForm, Model model) {
 
-		System.out.println("登録完了画面");
 		userDao.register(userForm);
 
 		return "login/registration";

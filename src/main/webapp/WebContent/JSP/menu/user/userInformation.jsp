@@ -17,8 +17,8 @@
 
 <meta charset="UTF-8">
 <link rel="stylesheet" href="WebContent/css/menu/menu.css">
-<link rel="stylesheet" href="WebContent/css/register.css">
-<link rel="stylesheet" href="WebContent/css/Confirmation.css">
+<link rel="stylesheet" href="WebContent/css/login/userRegister.css">
+<link rel="stylesheet" href="WebContent/css/login/userConfirmation.css">
 <title></title>
 
 

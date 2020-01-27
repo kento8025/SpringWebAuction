@@ -17,7 +17,7 @@
 <head>
 
 <meta charset="UTF-8">
-<link rel="stylesheet" href="WebContent/css/exhibitPurchase.css">
+<link rel="stylesheet" href="WebContent/css/product/bid/exhibitPurchase.css">
 <title></title>
 
 </head>
@@ -101,8 +101,8 @@
 
 			<div id="block2-A-B">
 				入札回数 ${fn:escapeXml(purchaseDisplay.count)}回<br>
-				締め切り時間${fn:escapeXml(purchaseDisplay.remainingTime)}<br> <br> 価格<br> <input
-					type="hidden" name="price"
+				締め切り時間${fn:escapeXml(purchaseDisplay.remainingTime)}<br> <br>
+				価格<br> <input type="hidden" name="price"
 					value="${fn:escapeXml(purchaseDisplay.price)}">
 
 				${fn:escapeXml(purchaseDisplay.price)}円<br>
@@ -148,7 +148,7 @@
 
 				</c:choose>
 
-				<br> <br> 出品者　${fn:escapeXml(purchaseDisplay.userName)}さん<br>
+				<br> <br> 出品者 ${fn:escapeXml(purchaseDisplay.userName)}さん<br>
 				<br> 出品者へのお問合せ<br> ${fn:escapeXml(purchaseDisplay.mail)}<br>
 
 				<br>
