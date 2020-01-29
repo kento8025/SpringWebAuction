@@ -287,7 +287,7 @@ public class PurchaseDisplay {
 
 		remainingTime.add(Calendar.DAY_OF_MONTH, getExhibition_period());
 
-		System.out.println(sdf.format(remainingTime.getTime()));
+		//System.out.println(sdf.format(remainingTime.getTime()));
 
 		return sdf.format(remainingTime.getTime());
 	}

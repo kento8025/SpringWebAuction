@@ -42,7 +42,7 @@ public class SearchController {
 	public String searchResult(@ModelAttribute("product") ProductForm productForm, Model model,
 			HttpServletRequest request,
 			@RequestParam(name = "productName", required = false) String productName,
-			@RequestParam(name = "priceBetween", required = false) String priceBetweenCommand,
+			@RequestParam(name = "priceBetween", required = false) String priceBetween,
 			@RequestParam(name = "productStatus", required = false) String productStatus,
 			@RequestParam(name = "category", required = false) String category) {
 
@@ -50,12 +50,12 @@ public class SearchController {
 		User user = (User) session.getAttribute("user");
 
 		List<Category> categoryList = menuDao.categorySearch();
-		List<Product> productList = searchDao.productSearch(productName, category, priceBetweenCommand,
+		List<Product> productList = searchDao.productSearch(productName, category, priceBetween,
 				productStatus);
 
 		favoriteDao.favoriteSearch(user, request);
 
-		request.setAttribute("priceBetweenResult", priceBetweenCommand);
+		request.setAttribute("priceBetweenResult", priceBetween);
 		request.setAttribute("productStatusResult", productStatus);
 
 		model.addAttribute("categoryList", categoryList);
@@ -72,7 +72,7 @@ public class SearchController {
 			@RequestParam(name = "productName", required = false) String productName,
 			@RequestParam(name = "favoriteName", required = false) String userId,
 			@RequestParam(name = "registrNumber", required = false) Integer registrNumber,
-			@RequestParam(name = "priceBetweenResult", required = false) String priceBetweenCommand,
+			@RequestParam(name = "priceBetweenResult", required = false) String priceBetween,
 			@RequestParam(name = "productStatusResult", required = false) String productStatus,
 			@RequestParam(name = "category", required = false) String category) {
 
@@ -80,23 +80,24 @@ public class SearchController {
 		User user = (User) session.getAttribute("user");
 
 		List<Category> categoryList = menuDao.categorySearch();
-		List<Product> productList = searchDao.productSearch(productForm.getProductName(), category, priceBetweenCommand,
+		List<Product> productList = searchDao.productSearch(productName, category, priceBetween,
 				productStatus);
-
-		favoriteDao.favoriteSearch(user, request);
 
 		model.addAttribute("categoryList", categoryList);
 		model.addAttribute("product", productForm);
 		model.addAttribute("productList", productList);
 
 		if (user == null) {
-
 			request.setAttribute("notLoginError", errorMessage);
 			return "searchResult/searchResult";
 		}
 
 		favoriteDao.favoriteRegisterOrUpdate(user.getId(), registrNumber, favoriteName,
-				favoriteUrlCreate(productName, priceBetweenCommand, productStatus, category));
+				favoriteUrlCreate(productName, priceBetween, productStatus, category));
+
+		favoriteDao.favoriteSearch(user, request);
+
+		request.setAttribute("registrationSuccessful", "登録に成功しました！");
 
 		return "searchResult/searchResult";
 
@@ -104,9 +105,17 @@ public class SearchController {
 
 	@RequestMapping(value = "/ExhibitPurchase", method = RequestMethod.GET)
 	public String ExhibitPurchase(@ModelAttribute("product") ProductForm productForm, Model model,
-			@RequestParam("id") int productId) {
+			@RequestParam("id") int productId, HttpServletRequest request) {
 
+		HttpSession session = request.getSession(true);
+		User user = (User) session.getAttribute("user");
 		PurchaseDisplay purchaseDisplay = searchDao.productInformation(productId);
+
+		//userがログインしていなかった場合は落札ボタンを表示させる。
+		if (user == null) {
+			purchaseDisplay.setSeller(0);
+			purchaseDisplay.setBuyer(0);
+		}
 		model.addAttribute("purchaseDisplay", purchaseDisplay);
 		model.addAttribute("tradeForm", new TradeForm());
 
@@ -119,17 +128,17 @@ public class SearchController {
 
 		String searchUrl = "/searchResult?1=1";
 
-		if (!(productName == null)) {
+		if (!(productName == null) && !(productName.isEmpty())) {
 			searchUrl += "&productName=" + productName;
 		}
 
-		if (!(priceBetweenCommand == null)) {
+		if (!(priceBetweenCommand == null) && !(priceBetweenCommand.isEmpty())) {
 			searchUrl += "&priceBetweenCommand=" + priceBetweenCommand;
 		}
-		if (!(productStatus == null)) {
+		if (!(productStatus == null) && !(productStatus.isEmpty())) {
 			searchUrl += "&productStatus=" + productStatus;
 		}
-		if (!(category == null)) {
+		if (!(category == null) && !(category.isEmpty())) {
 			searchUrl += "&category=" + category;
 		}
 

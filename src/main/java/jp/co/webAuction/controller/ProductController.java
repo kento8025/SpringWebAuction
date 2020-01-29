@@ -77,8 +77,6 @@ public class ProductController {
 
 		if (bindingResult.hasErrors()) {
 
-			System.out.println(part.getSize());
-
 			if (part.getSize() == 0) {
 				request.setAttribute("imgError", "画像ファイルを添付してください");
 			}

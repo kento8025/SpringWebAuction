@@ -8,6 +8,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,9 +20,11 @@ import jp.co.webAuction.controller.form.TradeForm;
 import jp.co.webAuction.controller.form.UserForm;
 import jp.co.webAuction.db.dto.Category;
 import jp.co.webAuction.db.dto.Product;
+import jp.co.webAuction.db.dto.PurchaseDisplay;
 import jp.co.webAuction.db.dto.User;
 import jp.co.webAuction.db.entity.FavoriteDao;
 import jp.co.webAuction.db.entity.MenuDao;
+import jp.co.webAuction.db.entity.SearchDao;
 import jp.co.webAuction.db.entity.TradeDao;
 
 @Controller
@@ -31,6 +35,9 @@ public class MenuController {
 
 	@Autowired
 	private MenuDao menuDao;
+
+	@Autowired
+	private SearchDao searchDao;
 
 	@Autowired
 	private FavoriteDao favoriteDao;
@@ -110,6 +117,43 @@ public class MenuController {
 		List<Product> productList = menuDao.menuSearch(user.getId(), menuCommand);
 		model.addAttribute("productList", productList);
 		return "menu/menu";
+	}
+
+	/*商品購入処理*/
+	@RequestMapping(value = "/trade", params = "SuccessfulDid", method = RequestMethod.POST)
+	public String SuccessfulDid(@Validated @ModelAttribute("tradeForm") TradeForm tradeForm,
+			BindingResult bindingResult, Model model,
+			HttpServletRequest request) {
+
+		HttpSession session = request.getSession(true);
+		User user = (User) session.getAttribute("user");
+
+		PurchaseDisplay purchaseDisplay = searchDao.productInformation(tradeForm.getProductId());
+		model.addAttribute("purchaseDisplay", purchaseDisplay);
+		model.addAttribute("tradeForm", tradeForm);
+
+		if (user == null) {
+			purchaseDisplay.setSeller(0);
+			purchaseDisplay.setBuyer(0);
+			request.setAttribute("notLoginError", errorMessage);
+			return "product/bid/exhibitPurchase";
+
+		}
+
+		if (bindingResult.hasErrors()) {
+			purchaseDisplay.setSeller(0);
+			purchaseDisplay.setBuyer(0);
+			return "product/bid/exhibitPurchase";
+		}
+
+		if (tradeForm.getPrice() > tradeForm.getContractPrice()) {
+			request.setAttribute("priceError", "出品中の値段より低い価格では落札できません");
+			return "product/bid/exhibitPurchase";
+		} else {
+			tradeDao.register(tradeForm);
+			return "product/bid/successfulDid";
+		}
+
 	}
 
 	/*出品した商品の取り消し*/

@@ -50,10 +50,9 @@
 
 
 			<div id="favorite">
-
-				<font color="red">${requestScope.notLoginError} </font><br> <br>
-
-				<br> 8文字以内<br> <input name="favoriteName" type="text"
+				<br> <font color="blue">${requestScope.registrationSuccessful}
+				</font> <font color="red">${requestScope.notLoginError} </font><br> <br>
+				8文字以内<br> <input name="favoriteName" type="text"
 					placeholder="登録したいお気に入り名" /> <input type="hidden"
 					value="${sessionScope.user.id}" name="productId"> <input
 					type="hidden" name="priceBetweenResult"

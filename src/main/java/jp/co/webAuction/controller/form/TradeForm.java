@@ -1,8 +1,12 @@
 package jp.co.webAuction.controller.form;
 
+import javax.validation.constraints.NotNull;
+
 public class TradeForm {
 
-	private int contractPrice;
+	@NotNull
+	private Integer contractPrice;
+
 	private int price;
 	private int userId;
 	private int productId;
@@ -16,11 +20,11 @@ public class TradeForm {
 		this.price = price;
 	}
 
-	public int getContractPrice() {
+	public Integer getContractPrice() {
 		return contractPrice;
 	}
 
-	public void setContractPrice(int contractPrice) {
+	public void setContractPrice(Integer contractPrice) {
 		this.contractPrice = contractPrice;
 	}
 
@@ -47,6 +51,5 @@ public class TradeForm {
 	public void setTradeId(int tradeId) {
 		this.tradeId = tradeId;
 	}
-
 
 }

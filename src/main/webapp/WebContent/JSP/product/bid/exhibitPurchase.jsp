@@ -17,7 +17,8 @@
 <head>
 
 <meta charset="UTF-8">
-<link rel="stylesheet" href="WebContent/css/product/bid/exhibitPurchase.css">
+<link rel="stylesheet"
+	href="WebContent/css/product/bid/exhibitPurchase.css">
 <title></title>
 
 </head>
@@ -106,7 +107,7 @@
 					value="${fn:escapeXml(purchaseDisplay.price)}">
 
 				${fn:escapeXml(purchaseDisplay.price)}円<br>
-				送料${fn:escapeXml(purchaseDisplay.postage)}負担<br> <br>
+				送料${fn:escapeXml(purchaseDisplay.postage)}負担<br>
 
 				<c:choose>
 
@@ -134,9 +135,13 @@
 
 
 					<c:otherwise>
+
 						<font color="red">${requestScope.priceError}</font>
+						<font color="red">${requestScope.notLoginError}</font>
 						<br>
-						<input name="contractPrice" type="text" placeholder="落札金額を入力" />
+						<form:errors path="contractPrice" cssStyle="color: red" />
+						<br>
+						<form:input path="contractPrice" placeholder="落札金額を入力" />
 						<input type="hidden" name="userId" value='${sessionScope.user.id}'>
 						<input type="hidden" name="productId"
 							value="${fn:escapeXml(purchaseDisplay.primaryProductId)}">

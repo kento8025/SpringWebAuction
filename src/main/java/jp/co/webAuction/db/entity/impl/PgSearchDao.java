@@ -241,24 +241,24 @@ public class PgSearchDao implements SearchDao {
 
 		priceBetween(priceBetweenCommand);
 
-		if (!(productName == null)) {
+		if (!(productName == null) && !(productName.isEmpty())) {
 
 			sql += " AND p.product_name LIKE :product_name ";
 
 		}
 
-		if (!(category == null)) {
+		if (!(category == null) && !(category.isEmpty())) {
 
 			sql += " AND category_id = :categoryId ";
 
 		}
 
-		if (!(priceBetweenCommand == null)) {
+		if (!(priceBetweenCommand == null) && !(priceBetweenCommand.isEmpty())) {
 
 			sql += " AND p.price BETWEEN :lowerPrice AND :highPrice ";
 		}
 
-		if (!(productStatus == null)) {
+		if (!(productStatus == null) && !(productStatus.isEmpty())) {
 
 			sql += " AND p.product_status = :productStatus ";
 
