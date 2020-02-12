@@ -6,7 +6,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-
 public class UserForm {
 
 	private int id;//テーブルのプライマリーキーを格納
@@ -23,23 +22,22 @@ public class UserForm {
 	@NotBlank
 	private String day;
 
-	@NotBlank(message="性別を選択してください。")
-	private String manOrWoman ;
+	@NotBlank(message = "性別を選択してください。")
+	private String manOrWoman;
 
-	@Email(message="メールアドレスが不正です。")
+	@Email(message = "メールアドレスが不正です。")
 	@NotBlank
 	private String mail;
 
 	@NotBlank
 	private String userId;
 
-	@Pattern(regexp="^(?=.*[0-9])(?=.*[a-z])[0-9a-z\\-]{8,16}$" , message="パスワードは半角英小文字と数字を組み合わせた8文字以上")
+	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])[0-9a-z\\-]{8,16}$", message = "パスワードは半角英小文字と数字を組み合わせた8文字以上")
 	private String passWord;
 
 	private int userRank;
 	private Date registrationDate;
 	private Date birthday;
-
 
 	public Date getBirthday() {
 
@@ -47,7 +45,6 @@ public class UserForm {
 
 		return date;
 	}
-
 
 	public int getId() {
 		return id;
@@ -152,7 +149,5 @@ public class UserForm {
 	public void setUserRank(int userRank) {
 		this.userRank = userRank;
 	}
-
-
 
 }

@@ -41,8 +41,6 @@
 
 			<form:input path="userName" value='${requestScope.user.userName}' />
 			<br>
-			<form:errors path="userName" cssStyle="color: red" />
-			<br>
 
 
 			<br>
@@ -69,8 +67,7 @@
 				​
 				<br>
 			<br>
-			<font color="red">${requestScope.birthdayError}</font>
-			<br>
+
 			<br>
 			<br>
 
@@ -107,8 +104,7 @@
 
 			</c:choose>
 
-			<form:errors path="manOrWoman" cssStyle="color: red" />
-			<br>
+
 			<br>
 
 
@@ -116,8 +112,7 @@
 
 			<form:input path="mail" value='${requestScope.user.mail}' />
 			<br>
-			<form:errors path="mail" cssStyle="color: red" />
-			<br>
+
 			<br>
 			<br>
 
@@ -128,16 +123,14 @@
 			<form:input path="userId" value='${requestScope.user.userId}' />
 			<br>
 			<br>
-			<form:errors path="userId" cssStyle="color: red" />
-			<br>
+
 
 			<br> password <br>パスワードは半角英小文字と数字を組み合わせた8文字以上<br>
 
 			<form:password path="passWord" value='${requestScope.user.passWord}' />
 			<br>
 			<br>
-			<form:errors path="passWord" cssStyle="color: red" />
-			<br>
+
 			<br>
 			<br>
 

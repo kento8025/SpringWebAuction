@@ -83,7 +83,7 @@ public class UserController {
 
 	/*新規登録*/
 	@RequestMapping(value = "/loginCheck", params = "UserRegister", method = RequestMethod.POST)
-	public String UserRegister(@ModelAttribute("user") UserForm userForm,
+	public String userRegister(@ModelAttribute("user") UserForm userForm,
 			Model model) {
 
 		model.addAttribute("user", userForm);
@@ -94,7 +94,7 @@ public class UserController {
 
 	/*確認画面*/
 	@RequestMapping(value = "/UserConfirmation", method = RequestMethod.POST)
-	public String UserConfirmation(@Validated @ModelAttribute("user") UserForm userForm, BindingResult bindingResult,
+	public String userConfirmation(@Validated @ModelAttribute("user") UserForm userForm, BindingResult bindingResult,
 			Model model, HttpServletRequest request) {
 
 		if (bindingResult.hasErrors()) {
@@ -103,14 +103,14 @@ public class UserController {
 				request.setAttribute("birthdayError", "生年月日が不正です");
 			}
 
-			return "login/UserRegister";
+			return "login/userRegister";
 		}
 		return "login/userConfirmation";
 	}
 
 	/*編集画面*/
 	@RequestMapping(value = "/registration", params = "edit", method = RequestMethod.POST)
-	public String Edit(@ModelAttribute("user") UserForm userForm, Model model) {
+	public String edit(@ModelAttribute("user") UserForm userForm, Model model) {
 
 		model.addAttribute("user", userForm);
 

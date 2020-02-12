@@ -41,13 +41,14 @@
 				<li><a href="userInformation">ユーザー情報</a></li>
 				<li><a href="ProductRegister">出品する</a></li>
 				<li><a href="menuSearch?menuCommand=successfulDid">落札中</a></li>
-				<li><a href="menuSearch?menuCommand=productSuccessfulDidHistory">落札履歴</a></li>
+				<li><a
+					href="menuSearch?menuCommand=productSuccessfulDidHistory">落札履歴</a></li>
 				<li><a href="menuSearch?menuCommand=exhibition">出品中</a></li>
 				<li><a href="menuSearch?menuCommand=exhibitionHistory">出品履歴</a></li>
 			</ul>
 		</nav>
 
-		</div>
+	</div>
 
 
 	<div id="inputInformation">
@@ -59,8 +60,9 @@
 
 			<br> 名前 <br>
 
-			<form:input path="userName" value="${fn:escapeXml(user.userName)}"
-				readonly="" />
+			<form:input path="userName" value="${fn:escapeXml(user.userName)}" />
+			<br>
+			<form:errors path="userName" cssStyle="color: red" />
 			<br>
 
 			<br>
@@ -85,12 +87,17 @@
 			</form:select>日
 ​
 				<br>
+			<font color="red">${requestScope.birthdayError}</font>
+			<br>
 			<br>
 
 
 				 性別 <br>
 			<form:input type="text" path="manOrWoman"
 				value="${fn:escapeXml(user.manOrWoman)}" />
+			<br>
+
+			<form:errors path="manOrWoman" cssStyle="color: red" />
 			<br>
 
 
@@ -103,6 +110,10 @@
 			<form:input path="mail" name="mail"
 				value="${fn:escapeXml(user.mail)}" />
 			<br>
+			<form:errors path="mail" cssStyle="color: red" />
+
+			<br>
+
 			<br>
 			<br>
 			<br>
@@ -113,10 +124,15 @@
 
 			<form:input path="userId" value="${requestScope.user.userId}" />
 			<br>
+			<form:errors path="userId" cssStyle="color: red" />
+			<br>
 
 			<br> password <br>パスワードは半角英小文字と数字を組み合わせた8文字以上<br>
 
 			<form:password path="passWord" value="${fn:escapeXml(user.passWord)}" />
+			<br>
+
+			<form:errors path="passWord" cssStyle="color: red" />
 			<br>
 			<br>
 			<br>

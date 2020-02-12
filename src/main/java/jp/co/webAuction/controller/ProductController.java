@@ -42,8 +42,7 @@ public class ProductController {
 	private String errorMessage = "ログインしないとこの機能は使えません";
 
 	@RequestMapping("/ProductRegister")
-	public String ProductRegister(@ModelAttribute("product") ProductForm productForm, Model model,
-			HttpServletRequest request) {
+	public String productRegister(ProductForm productForm, Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 		User user = (User) session.getAttribute("user");
 
@@ -67,7 +66,7 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "/ContentConfirmation", method = RequestMethod.POST)
-	public String ContentConfirmation(@Validated @ModelAttribute("product") ProductForm productForm,
+	public String contentConfirmation(@Validated @ModelAttribute("product") ProductForm productForm,
 			BindingResult bindingResult, Model model, HttpServletRequest request) throws IOException, ServletException {
 
 		List<Category> categoryList = menuDao.categorySearch();
@@ -127,7 +126,7 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "/RistingCompleted", method = RequestMethod.POST)
-	public String RistingCompleted(@ModelAttribute("product") ProductForm productForm, Model model,
+	public String ristingCompleted(@ModelAttribute("product") ProductForm productForm, Model model,
 			HttpServletRequest request,
 			@RequestParam(name = "productImg", required = false) String productImg) {
 

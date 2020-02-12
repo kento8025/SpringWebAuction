@@ -26,6 +26,7 @@ import jp.co.webAuction.db.entity.FavoriteDao;
 import jp.co.webAuction.db.entity.MenuDao;
 import jp.co.webAuction.db.entity.SearchDao;
 import jp.co.webAuction.db.entity.TradeDao;
+import jp.co.webAuction.tool.CheckDate;
 
 @Controller
 public class MenuController {
@@ -46,8 +47,7 @@ public class MenuController {
 
 	/*メニュー画面 {ユーザ情報編集}*/
 	@RequestMapping("/userInformation")
-	public String userInformation(@ModelAttribute("product") UserForm userForm, Model model,
-			HttpServletRequest request) {
+	public String userInformation(Model model, HttpServletRequest request) {
 
 		HttpSession session = request.getSession(true);
 		User user = (User) session.getAttribute("user");
@@ -70,7 +70,7 @@ public class MenuController {
 	}
 
 	@RequestMapping("/Edit")
-	public String edit(@ModelAttribute("product") UserForm userForm, Model model, HttpServletRequest request) {
+	public String edit(Model model, HttpServletRequest request) {
 
 		HttpSession session = request.getSession(true);
 		User user = (User) session.getAttribute("user");
@@ -79,19 +79,31 @@ public class MenuController {
 	}
 
 	@RequestMapping("/userUpdate")
-	public String userUpdate(@ModelAttribute("product") UserForm userForm, Model model, HttpServletRequest request) {
+	public String userUpdate(@Validated @ModelAttribute("user") UserForm userForm, BindingResult bindingResult,
+			Model model, HttpServletRequest request) {
 
 		HttpSession session = request.getSession(true);
 		User user = (User) session.getAttribute("user");
+
+		model.addAttribute("user", userForm);
+
+		if (!(CheckDate.checkDate(userForm.getYear() + "/" + userForm.getMonth() + "/" + userForm.getDay()))) {
+			request.setAttribute("birthdayError", "生年月日が不正です");
+			return "menu/user/userEdit";
+
+		}
+
+		if (bindingResult.hasErrors()) {
+			return "menu/user/userEdit";
+		}
+
 		menuDao.userUpdate(userForm, user.getId());
 		return "menu/user/userUpdateDone";
 	}
 
 	/*メニュー画面 {落札中　落札履歴　出品中　出品履歴}*/
 	@RequestMapping("/menuSearch")
-	public String menuSearch(@ModelAttribute("product") ProductForm productForm, Model model,
-			HttpServletRequest request,
-			@RequestParam("menuCommand") String menuCommand) {
+	public String menuSearch(Model model, HttpServletRequest request, @RequestParam("menuCommand") String menuCommand) {
 
 		HttpSession session = request.getSession(true);
 		User user = (User) session.getAttribute("user");
@@ -121,7 +133,7 @@ public class MenuController {
 
 	/*商品購入処理*/
 	@RequestMapping(value = "/trade", params = "SuccessfulDid", method = RequestMethod.POST)
-	public String SuccessfulDid(@Validated @ModelAttribute("tradeForm") TradeForm tradeForm,
+	public String successfulDid(@Validated @ModelAttribute("tradeForm") TradeForm tradeForm,
 			BindingResult bindingResult, Model model,
 			HttpServletRequest request) {
 

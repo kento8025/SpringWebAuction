@@ -46,6 +46,9 @@
 			<form:input path="userName" value="${fn:escapeXml(user.userName)}"
 				readonly="" />
 			<br>
+			<form:errors path="userName" cssStyle="color: red" />
+			<br>
+
 
 			<br>
 
@@ -70,6 +73,9 @@
 
 				​
 				<br>
+
+			<font color="red">${requestScope.birthdayError}</font>
+			<br>
 			<br>
 
 
@@ -78,7 +84,8 @@
 				value="${fn:escapeXml(user.manOrWoman)}" />
 			<br>
 
-
+			<br>
+			<form:errors path="manOrWoman" cssStyle="color: red" />
 			<br>
 			<br>
 
@@ -87,6 +94,8 @@
 
 			<form:input path="mail" name="mail"
 				value="${fn:escapeXml(user.mail)}" />
+			<br>
+			<form:errors path="mail" cssStyle="color: red" />
 			<br>
 			<br>
 			<br>
@@ -98,10 +107,14 @@
 
 			<form:input path="userId" value="${requestScope.user.userId}" />
 			<br>
+			<form:errors path="userId" cssStyle="color: red" />
+			<br>
 
 			<br> password <br>パスワードは半角英小文字と数字を組み合わせた8文字以上<br>
 
 			<form:password path="passWord" value="${fn:escapeXml(user.passWord)}" />
+			<br>
+			<form:errors path="passWord" cssStyle="color: red" />
 			<br>
 			<br>
 			<br>

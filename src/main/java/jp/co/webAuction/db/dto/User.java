@@ -20,7 +20,6 @@ public class User {
 
 	Calendar cal = Calendar.getInstance();
 
-
 	public String getYear2() {
 		this.cal.setTime(getBirthdayDate());
 		return year = Integer.toString(cal.get(Calendar.YEAR));
@@ -122,7 +121,6 @@ public class User {
 	public void setUserNo(int userNo) {
 		this.id = userNo;
 	}
-
 
 	public Date getRegistrationDate() {
 		return registrationDate;

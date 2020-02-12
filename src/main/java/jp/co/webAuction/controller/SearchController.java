@@ -69,9 +69,8 @@ public class SearchController {
 	public String favoriteRegister(@ModelAttribute("product") ProductForm productForm, Model model,
 			HttpServletRequest request,
 			@RequestParam(name = "favoriteName", required = false) String favoriteName,
-			@RequestParam(name = "productName", required = false) String productName,
-			@RequestParam(name = "favoriteName", required = false) String userId,
 			@RequestParam(name = "registrNumber", required = false) Integer registrNumber,
+			@RequestParam(name = "productName", required = false) String productName,
 			@RequestParam(name = "priceBetweenResult", required = false) String priceBetween,
 			@RequestParam(name = "productStatusResult", required = false) String productStatus,
 			@RequestParam(name = "category", required = false) String category) {
@@ -104,7 +103,7 @@ public class SearchController {
 	}
 
 	@RequestMapping(value = "/ExhibitPurchase", method = RequestMethod.GET)
-	public String ExhibitPurchase(@ModelAttribute("product") ProductForm productForm, Model model,
+	public String exhibitPurchase(@ModelAttribute("product") ProductForm productForm, Model model,
 			@RequestParam("id") int productId, HttpServletRequest request) {
 
 		HttpSession session = request.getSession(true);

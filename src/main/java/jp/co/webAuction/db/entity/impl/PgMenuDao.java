@@ -66,7 +66,7 @@ public class PgMenuDao implements MenuDao {
 
 	private String SBSBJOIN = " " +
 			"LEFT JOIN " +
-			"(SELECT p.id , " +
+			"(SELECT p.id , " + 
 			"CASE  " +
 			"WHEN MAX(s.contract_price)  IS NULL THEN  MAX(p.price) " +
 			"ELSE MAX(s.contract_price)  " +
