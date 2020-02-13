@@ -99,7 +99,7 @@ public class UserController {
 
 		if (bindingResult.hasErrors()) {
 
-			if (!(CheckDate.checkDate(userForm.getYear() + "/" + userForm.getMonth() + "/" + userForm.getDay()))) {
+			if (!(CheckDate.checkDate(userForm.getYear()+ "/" + userForm.getMonth() + "/" + userForm.getDay()))) {
 				request.setAttribute("birthdayError", "¶”NŒ“ú‚ª•s³‚Å‚·");
 			}
 
