@@ -124,7 +124,6 @@
 			<br> ID <br>
 
 			半角英数字で入力してください。
-
 			<form:input path="userId" value="${requestScope.user.userId}" />
 			<br>
 			<form:errors path="userId" cssStyle="color: red" />
