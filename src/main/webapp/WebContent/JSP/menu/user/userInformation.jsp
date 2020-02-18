@@ -95,6 +95,7 @@
 				 性別 <br>
 			<form:input type="text" path="manOrWoman"
 				value="${fn:escapeXml(user.manOrWoman)}" />
+
 			<br>
 
 			<form:errors path="manOrWoman" cssStyle="color: red" />
@@ -121,6 +122,8 @@
 			<h2>会員情報</h2>
 
 			<br> ID <br>
+
+			半角英数字で入力してください。
 
 			<form:input path="userId" value="${requestScope.user.userId}" />
 			<br>

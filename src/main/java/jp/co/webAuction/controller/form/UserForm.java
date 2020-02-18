@@ -30,6 +30,7 @@ public class UserForm {
 	private String mail;
 
 	@NotBlank
+	@Pattern(regexp = "^[0-9a-zA-Z]+$", message = "半角英数字のみ使用できます")
 	private String userId;
 
 	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])[0-9a-z\\-]{8,16}$", message = "パスワードは半角英小文字と数字を組み合わせた8文字以上")
