@@ -44,23 +44,48 @@ public class SearchController {
 			@RequestParam(name = "productName", required = false) String productName,
 			@RequestParam(name = "priceBetween", required = false) String priceBetween,
 			@RequestParam(name = "productStatus", required = false) String productStatus,
-			@RequestParam(name = "category", required = false) String category) {
+			@RequestParam(name = "category", required = false) String category,
+			@RequestParam(name = "limt", required = false) Integer limt) {
+
+		if (limt == null) {
+			limt = 1;
+		}
 
 		HttpSession session = request.getSession(true);
 		User user = (User) session.getAttribute("user");
 
 		List<Category> categoryList = menuDao.categorySearch();
 		List<Product> productList = searchDao.productSearch(productName, category, priceBetween,
-				productStatus);
+				productStatus, limt);
+
+		List<Product> productListCount = searchDao.productSearch(productName, category, priceBetween,
+				productStatus, null);
+
+		request.setAttribute("url", urlCreate(productName, priceBetween, productStatus, category));
+		request.setAttribute("pageNo", limt);
 
 		favoriteDao.favoriteSearch(user, request);
 
+		priceBetweenChecked(priceBetween, request);
+		productStatusChecked(productStatus, request);
+
 		request.setAttribute("priceBetweenResult", priceBetween);
 		request.setAttribute("productStatusResult", productStatus);
+		request.setAttribute("listnumber", productListCount.size());
+		request.setAttribute("productName", productForm.getProductName());
 
+		if (productListCount.size() < 4) {
+			request.setAttribute("pageadd", 0);
+		} else if (productListCount.size() % 4 == 0) {
+			request.setAttribute("pageadd", 0);
+		} else {
+			request.setAttribute("pageadd", 1);
+		}
+
+		model.addAttribute("productList", productList);
 		model.addAttribute("categoryList", categoryList);
 		model.addAttribute("product", productForm);
-		model.addAttribute("productList", productList);
+
 		return "searchResult/searchResult";
 
 	}
@@ -73,30 +98,48 @@ public class SearchController {
 			@RequestParam(name = "productName", required = false) String productName,
 			@RequestParam(name = "priceBetweenResult", required = false) String priceBetween,
 			@RequestParam(name = "productStatusResult", required = false) String productStatus,
-			@RequestParam(name = "category", required = false) String category) {
+			@RequestParam(name = "category", required = false) String category,
+			@RequestParam(name = "limt", required = false) Integer limt) {
 
 		HttpSession session = request.getSession(true);
 		User user = (User) session.getAttribute("user");
 
 		List<Category> categoryList = menuDao.categorySearch();
 		List<Product> productList = searchDao.productSearch(productName, category, priceBetween,
-				productStatus);
+				productStatus, limt);
+		List<Product> productListCount = searchDao.productSearch(productName, category, priceBetween,
+				productStatus, null);
 
 		model.addAttribute("categoryList", categoryList);
 		model.addAttribute("product", productForm);
 		model.addAttribute("productList", productList);
+
+		favoriteDao.favoriteSearch(user, request);
 
 		if (user == null) {
 			request.setAttribute("notLoginError", errorMessage);
 			return "searchResult/searchResult";
 		}
 
-		favoriteDao.favoriteRegisterOrUpdate(user.getId(), registrNumber, favoriteName,
-				favoriteUrlCreate(productName, priceBetween, productStatus, category));
+		if (favoriteName.isEmpty()) {
+			request.setAttribute("favoriteNameError", "ìoò^Ç∑ÇÈÇ®ãCÇ…ì¸ÇËñºÇì¸óÕÇµÇƒÇ≠ÇæÇ≥Ç¢");
+			return "searchResult/searchResult";
 
-		favoriteDao.favoriteSearch(user, request);
+		} else if (favoriteName.length() > 8) {
+			request.setAttribute("favoriteNameError", "ñºëOÇ™í∑Ç∑Ç¨Ç‹Ç∑ÇWï∂éöà»â∫Ç…ÇµÇƒÇ≠ÇæÇ≥Ç¢");
+			return "searchResult/searchResult";
+		}
+
+		favoriteDao.favoriteRegisterOrUpdate(user.getId(), registrNumber, favoriteName,
+				urlCreate(productName, priceBetween, productStatus, category));
 
 		request.setAttribute("registrationSuccessful", "ìoò^Ç…ê¨å˜ÇµÇ‹ÇµÇΩÅI");
+		request.setAttribute("listnumber", productListCount.size());
+		request.setAttribute("productName", productForm.getProductName());
+		request.setAttribute("url", urlCreate(productName, priceBetween, productStatus, category));
+		request.setAttribute("pageNo", limt);
+
+		favoriteDao.favoriteSearch(user, request);
 
 		return "searchResult/searchResult";
 
@@ -122,7 +165,7 @@ public class SearchController {
 
 	}
 
-	private String favoriteUrlCreate(String productName, String priceBetweenCommand, String productStatus,
+	private String urlCreate(String productName, String priceBetween, String productStatus,
 			String category) {
 
 		String searchUrl = "/searchResult?1=1";
@@ -131,8 +174,8 @@ public class SearchController {
 			searchUrl += "&productName=" + productName;
 		}
 
-		if (!(priceBetweenCommand == null) && !(priceBetweenCommand.isEmpty())) {
-			searchUrl += "&priceBetweenCommand=" + priceBetweenCommand;
+		if (!(priceBetween == null) && !(priceBetween.isEmpty())) {
+			searchUrl += "&priceBetween=" + priceBetween;
 		}
 		if (!(productStatus == null) && !(productStatus.isEmpty())) {
 			searchUrl += "&productStatus=" + productStatus;
@@ -143,6 +186,53 @@ public class SearchController {
 
 		return searchUrl;
 
+	}
+
+	private void priceBetweenChecked(String priceBetween, HttpServletRequest request) {
+
+		if (priceBetween == null || priceBetween.equals("none")) {
+
+			return;
+		}
+
+		switch (priceBetween) {
+
+		case "1":
+			request.setAttribute("priceBetweenChecked1", "Checked");
+			break;
+
+		case "2":
+			request.setAttribute("priceBetweenChecked2", "Checked");
+			break;
+
+		case "3":
+			request.setAttribute("priceBetweenChecked3", "Checked");
+			break;
+
+		case "4":
+			request.setAttribute("priceBetweenChecked4", "Checked");
+			break;
+		}
+
+	}
+
+	private void productStatusChecked(String productStatus, HttpServletRequest request) {
+
+		if (productStatus == null || productStatus.equals("none")) {
+
+			return;
+		}
+
+		switch (productStatus) {
+		case "êVïi":
+			request.setAttribute("productStatusChecked1", "Checked");
+			break;
+
+		case "íÜå√":
+			request.setAttribute("productStatusChecked2", "Checked");
+			break;
+
+		}
 	}
 
 }

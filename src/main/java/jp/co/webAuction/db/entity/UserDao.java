@@ -7,6 +7,8 @@ public interface UserDao {
 
 	public void register(UserForm userfom);
 
+	public boolean userIdCheck(String userId);
+
 	public boolean loginCheck(String userId, String password);
 
 	public User getUser();

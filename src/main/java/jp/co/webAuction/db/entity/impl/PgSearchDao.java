@@ -66,22 +66,24 @@ public class PgSearchDao implements SearchDao {
 
 	private final String CASE = " " +
 			"CASE " +
-			"WHEN MAX(s.contract_price)  IS NULL THEN  MAX(p.price)  " +
-			"ELSE MAX(s.contract_price)  " +
+			"WHEN trade_status = 1 THEN MAX(s.contract_price) " +
+			"WHEN MAX(s.contract_price)  IS NULL THEN  p.price  " +
+			"ELSE p.price " +
 			"END AS price " +
 			"FROM product as p ";
 
 	private final String JOIN = " " +
-			"LEFT JOIN successful_bid s ON p.id = s.product_id  " +
+			"LEFT JOIN successful_bid s ON p.id = s.product_id " +
+			"AND  trade_status = 1 " +
 			"LEFT JOIN users u ON  u.id = p.user_id  " +
 			"LEFT JOIN category c ON  c.id = p.category_id  ";
 
 	private final String WHERE = " " +
 			"WHERE 1 = 1  " +
-			"AND (trade_status IS NULL OR trade_status = 1) AND should_show = 1 ";
+			"AND  should_show = 1 ";
 
 	private final String INFORMATION_WHERE = "" +
-			"WHERE p.id = :p.id  AND (trade_status IS NULL OR trade_status = 1) AND should_show = 1 ";
+			"WHERE 1 = 1 AND p.id = :p.id  AND should_show = 1 ";
 
 	private final String GROUP_BY = " GROUP BY  p.id , s.trade_status , u.user_name  ";
 
@@ -90,20 +92,22 @@ public class PgSearchDao implements SearchDao {
 
 	private final String ORDER_BY = " ORDER BY p.id DESC ";
 
-	private final String INFORMATION_GROUP_ORDER_BY = " ORDER BY price ASC ";
+	private final String INFORMATION_GROUP_ORDER_BY = " ORDER BY price DESC ";
 
 	private final String SBJOIN = "" +
 			") sb1 " +
 			"LEFT JOIN " +
 			"(SELECT count(*) as measurement , p.id  as secondid  FROM successful_bid as s " +
 			"LEFT JOIN product p ON s.product_id = p.id  " +
-			"WHERE 1 = 1 AND p.should_show = 1  " +
+			"WHERE 1 = 1 AND p.should_show = 1 AND s.trade_status = 1  " +
 			"GROUP BY s.product_id , p.id , p.product_name) " +
 			"sb2 ";
 
-	private final String ON = " ON sb1.id = sb2.secondid ";
+	private final String ON = " ON sb1.id = sb2.secondid  ";
 
-	private final String INFORMATION_ON = " ON sb1.seller = sb2.secondid ";
+	//private final String INFORMATION_ON = " ON sb1.seller = sb2.secondid ";
+
+	private final String LIMT = "LIMIT :NumberLines OFFSET :position  ";
 
 	private int lowerPrice;
 	private int highPrice;
@@ -112,9 +116,10 @@ public class PgSearchDao implements SearchDao {
 	private NamedParameterJdbcTemplate jdbcTemplate;
 
 	/*検索フォームからの商品情報*/
+
 	@Override
 	public List<Product> productSearch(String productName, String category, String priceBetweenCommand,
-			String productStatus) {
+			String productStatus, Integer limt) {
 
 		MapSqlParameterSource param = new MapSqlParameterSource();
 
@@ -130,12 +135,23 @@ public class PgSearchDao implements SearchDao {
 				ORDER_BY +
 				SBJOIN +
 				ON;
-
 		param.addValue("product_name", "%" + productName + "%");
 		param.addValue("categoryId", productDao.categorySearch(category));
 		param.addValue("lowerPrice", lowerPrice);
 		param.addValue("highPrice", highPrice);
 		param.addValue("productStatus", productStatus);
+
+		if (!(limt == null)) {
+
+			sql += LIMT;
+
+			int ListSetCount = 4;
+			//取得する件数
+			param.addValue("NumberLines", ListSetCount);
+			//開始位置 1ページ目は0件から4件まで取得なので、ListSetCount*limt（ページ数-1）としておく
+			param.addValue("position", ListSetCount * (limt - 1));
+
+		}
 
 		return jdbcTemplate.query(
 				sql,
@@ -149,34 +165,47 @@ public class PgSearchDao implements SearchDao {
 	public PurchaseDisplay productInformation(int productId) {
 
 		MapSqlParameterSource param = new MapSqlParameterSource();
+		List<PurchaseDisplay> purchaseDisplay = new ArrayList<>();
+		List<SuccessfulDidCount> successfulDidCount = new ArrayList<>();
 
-		String sql = SELECT +
-				SELECT_FROM_PRODUCT_INFORMATION +
+		String sql = SELECT_FROM_PRODUCT_INFORMATION +
 				CASE +
 				JOIN +
 				INFORMATION_WHERE +
 				INFORMATION_GROUP_BY +
-				INFORMATION_GROUP_ORDER_BY +
-				SBJOIN +
-				INFORMATION_ON;
+				INFORMATION_GROUP_ORDER_BY;
+
+		String sql2 = "" +
+				"SELECT count(*) as count , p.id , p.product_name  FROM successful_bid as s " +
+				"LEFT JOIN product p ON s.product_id = p.id " +
+				"WHERE 1 = 1 AND p.should_show = 1 AND s.trade_status = 1 AND p.id =:p.id " +
+				"GROUP BY s.product_id , p.id , p.product_name ";
 
 		param.addValue("p.id", productId);
-
-		List<PurchaseDisplay> purchaseDisplay = new ArrayList<>();
 
 		purchaseDisplay = jdbcTemplate.query(
 				sql,
 				param,
 				new BeanPropertyRowMapper<PurchaseDisplay>(PurchaseDisplay.class));
 
-		return purchaseDisplay.get(purchaseDisplay.size() - 1);
+		successfulDidCount = jdbcTemplate.query(
+				sql2,
+				param,
+				new BeanPropertyRowMapper<SuccessfulDidCount>(SuccessfulDidCount.class));
+
+		if (!(successfulDidCount.size() == 0)) {
+			purchaseDisplay.get(0).setCount(successfulDidCount.get(0).getCount());
+		}
+
+		return purchaseDisplay.get(0);
 
 	}
 
 	/*入札回数カウント*/
 	public List<SuccessfulDidCount> successfulDidCountSearch(String productName, String category,
 			String priceBetweenCommand,
-			String productStatus) {
+			String productStatus,
+			Integer limt) {
 
 		MapSqlParameterSource param = new MapSqlParameterSource();
 
@@ -184,7 +213,7 @@ public class PgSearchDao implements SearchDao {
 				"SELECT count(*) , s.product_id  FROM successful_bid as s  " +
 				"LEFT JOIN product p ON s.product_id = p.id  " +
 				"LEFT JOIN category c ON  c.id = p.category_id " +
-				"WHERE 1 = 1 AND p.should_show != 3  ";
+				"WHERE 1 = 1 AND p.should_show != 3 AND s.trade_status = 1  ";
 
 		sql += whereSet(productName, category, priceBetweenCommand, productStatus);
 
@@ -206,7 +235,7 @@ public class PgSearchDao implements SearchDao {
 	/*値段を指定*/
 	private void priceBetween(String priceBetweenCommand) {
 
-		if (priceBetweenCommand == null) {
+		if (priceBetweenCommand == null || priceBetweenCommand.equals("none")) {
 			return;
 		}
 
@@ -255,12 +284,20 @@ public class PgSearchDao implements SearchDao {
 
 		if (!(priceBetweenCommand == null) && !(priceBetweenCommand.isEmpty())) {
 
-			sql += " AND p.price BETWEEN :lowerPrice AND :highPrice ";
+			if (!(priceBetweenCommand.equals("none"))) {
+
+				sql += " AND p.price BETWEEN :lowerPrice AND :highPrice ";
+
+			}
 		}
 
 		if (!(productStatus == null) && !(productStatus.isEmpty())) {
 
-			sql += " AND p.product_status = :productStatus ";
+			if (!(productStatus.equals("none"))) {
+
+				sql += " AND p.product_status = :productStatus ";
+
+			}
 
 		}
 

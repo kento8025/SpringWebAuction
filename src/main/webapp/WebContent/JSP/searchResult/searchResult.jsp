@@ -35,6 +35,11 @@
 
 	<br>
 
+	<form:form action="productListUpdate" method="get">
+		<button name="productListUpdate">更新</button>
+	</form:form>
+
+
 
 	<form:form action="searchResult" method="get" modelAttribute="product">
 
@@ -51,14 +56,19 @@
 
 			<div id="favorite">
 				<br> <font color="blue">${requestScope.registrationSuccessful}
-				</font> <font color="red">${requestScope.notLoginError} </font><br> <br>
+				</font> <font color="red">${requestScope.favoriteNameError} </font><br>
+				<font color="red">${requestScope.notLoginError} </font> <br>
+
+
+
 				8文字以内<br> <input name="favoriteName" type="text"
 					placeholder="登録したいお気に入り名" /> <input type="hidden"
 					value="${sessionScope.user.id}" name="productId"> <input
 					type="hidden" name="priceBetweenResult"
 					value="${requestScope.priceBetweenResult}"> <input
 					type="hidden" name="productStatusResult"
-					value="${requestScope.productStatusResult}" /> <select
+					value="${requestScope.productStatusResult}" /> <input
+					type="hidden" name="limt" value="${requestScope.pageNo}" /> <select
 					name="registrNumber">
 					<option value="1">${requestScope.favoriteList1.favoriteName}</option>
 					<option value="2">${requestScope.favoriteList2.favoriteName}</option>
@@ -102,7 +112,8 @@
 		</div>
 
 		<div id="searchCondition">
-			<br> ○○の検索結果<br> ☓☓件 <br> <br>
+			<br> ${requestScope.productName}の検索結果<br>
+			${requestScope.listnumber}件 <br> ${requestScope.pageNo}ページ目<br>
 
 			<div>
 
@@ -137,12 +148,20 @@
 				表示価格
 				<div class="cp_ipradio">
 					<div class="box">
-						<input type="radio" id="radio1" name="priceBetween" value="1" />
-						<label for="radio1">0～1000</label> <input type="radio" id="radio2"
-							name="priceBetween" value="2" /> <label for="radio2">1000～5000</label>
-						<input type="radio" id="radio3" name="priceBetween" value="3" />
-						<label for="radio3">5000～10000</label> <input type="radio"
-							id="radio4" name="priceBetween" value="4" /> <label for="radio4">10000以上</label>
+						<input type="radio" id="radio0" name="priceBetween" value="none"
+							Checked /> <label for="radio0">全件表示</label> <input type="radio"
+							id="radio1" name="priceBetween" value="1"
+							${requestScope.priceBetweenChecked1} /> <label for="radio1">0～1000</label>
+
+						<input type="radio" id="radio2" name="priceBetween" value="2"
+							${requestScope.priceBetweenChecked2} /> <label for="radio2">1000～5000</label>
+
+						<input type="radio" id="radio3" name="priceBetween" value="3"
+							${requestScope.priceBetweenChecked3} /> <label for="radio3">5000～10000</label>
+
+						<input type="radio" id="radio4" name="priceBetween" value="4"
+							${requestScope.priceBetweenChecked4} /> <label for="radio4">10000以上</label>
+
 					</div>
 				</div>
 
@@ -152,9 +171,13 @@
 				商品状態
 				<div class="cp_ipradio">
 					<div class="box">
-						<input type="radio" id="radio5" name="productStatus" value="新品" />
-						<label for="radio5">新品</label> <input type="radio" id="radio6"
-							name="productStatus" value="中古" /> <label for="radio6">中古</label>
+						<input type="radio" id="radio5" name="productStatus" value="none"
+							Checked /> <label for="radio5">全件表示</label> <input type="radio"
+							id="radio6" name="productStatus" value="新品"
+							${requestScope.productStatusChecked1} /> <label for="radio6">新品</label>
+
+						<input type="radio" id="radio7" name="productStatus" value="中古"
+							${requestScope.productStatusChecked2} /> <label for="radio7">中古</label>
 					</div>
 				</div>
 
@@ -200,6 +223,68 @@
 				<br>
 
 			</c:forEach>
+
+
+			<br> <br> <br> <br> <br>
+
+
+		</div>
+
+
+		<%--<li><a href="/searchResult">${i}</a></li>--%>
+
+
+		<div id="listPage">
+
+
+			<c:choose>
+
+				<c:when test="${requestScope.listnumber ne 0}">
+
+					${requestScope.pageNo}ページ目<br>
+
+
+					<ul id="nav">
+
+
+						<c:choose>
+
+							<c:when test="${(pageNo-1) > 0 }">
+
+								<li class="Page"><a
+									href="${requestScope.url}&limt=${pageNo-1}">戻る</a></li>
+
+							</c:when>
+
+						</c:choose>
+
+
+						<c:forEach begin="1" end="${(requestScope.listnumber div 4)+ pageadd}"
+							step="1" var="pageNo">
+
+
+							<li><a href="${requestScope.url}&limt=${pageNo}">${pageNo}</a></li>
+
+						</c:forEach>
+
+						<c:choose>
+
+							<c:when test="${pageNo+1 < (requestScope.listnumber div 4)+ pageadd}">
+
+
+								<li class="Page"><a
+									href="${requestScope.url}&limt=${pageNo+1}">進む</a></li>
+
+							</c:when>
+
+						</c:choose>
+
+					</ul>
+
+				</c:when>
+
+			</c:choose>
+
 
 		</div>
 

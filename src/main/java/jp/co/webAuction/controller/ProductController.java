@@ -3,6 +3,8 @@ package jp.co.webAuction.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -73,11 +75,18 @@ public class ProductController {
 		model.addAttribute("categoryList", categoryList);
 
 		Part part = request.getPart("file");
+		String name = this.getFileName(part);
+
+		System.out.println(bindingResult.hasErrors());
 
 		if (bindingResult.hasErrors()) {
 
+			System.out.println(imgCheck(name));
+
 			if (part.getSize() == 0) {
 				request.setAttribute("imgError", "画像ファイルを添付してください");
+			} else if (!(imgCheck(name))) {
+				request.setAttribute("imgError", "画像ファイルの形式はbmp、gif、jpg、jpeg、pngに対応しています");
 			}
 
 			return "product/exhibit/productRegister";
@@ -89,8 +98,6 @@ public class ProductController {
 		//絶対パスの指定
 		final String ABSOLUTE_PATH = new File("").getAbsoluteFile().getPath()
 				+ "\\src\\main\\webapp\\WebContent\\ProductImg";
-
-		System.out.println(ABSOLUTE_PATH);
 
 		HttpSession session = request.getSession(true);
 		User user = (User) session.getAttribute("user");
@@ -118,7 +125,6 @@ public class ProductController {
 			}
 		}
 
-		String name = this.getFileName(part);
 		part.write(ABSOLUTE_PATH + "/" + user.getId() + "/" + name);
 
 		productForm.setProductImg("\\WebContent\\ProductImg" + "/" + user.getId() + "/" + name);
@@ -157,4 +163,13 @@ public class ProductController {
 		return name;
 	}
 
+	private boolean imgCheck(String name) {
+
+		// 正規表現のパターンを作成
+		Pattern p = Pattern.compile("(?i:.*\\.(bmp|gif|jpg|jpeg|png))");
+		Matcher m = p.matcher(name);
+
+		return m.find();
+
+	}
 }

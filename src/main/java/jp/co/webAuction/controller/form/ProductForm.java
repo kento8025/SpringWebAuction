@@ -1,5 +1,7 @@
 package jp.co.webAuction.controller.form;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -14,28 +16,31 @@ public class ProductForm {
 
 	private int categoryId; /*カテゴリId 外部キー参照*/
 
-	@NotBlank(message="カテゴリを選択してください。")
+	@NotBlank(message = "カテゴリを選択してください。")
 	private String categoryName; /*カテゴリの名前*/
 
-	@NotBlank(message="商品の状態を選択してください。")
+	@NotBlank(message = "商品の状態を選択してください。")
 	private String productStatus;/*状態*/
 
 	@NotBlank
 	private String description;/*説明*/
 
-	@NotBlank(message="送料負担者を選択してください。")
+	@NotBlank(message = "送料負担者を選択してください。")
 	private String postage;/*送料負担*/
 
-	@NotBlank(message="発送元を選択してください。")
+	@NotBlank(message = "発送元を選択してください。")
 	private String shippingOrigin;/*発送元*/
 
-	@NotBlank(message="配送方法を選択してください。")
+	@NotBlank(message = "配送方法を選択してください。")
 	private String shipping_method;/*配送方法*/
 
 	@NotNull
+	@Min(1)
+	@Max(10)
 	private Integer exhibition_period;/*出品期間*/
 
 	@NotNull
+	@Min(1)
 	private Integer price; /*価格*/
 
 	public ProductForm() {
@@ -138,6 +143,5 @@ public class ProductForm {
 	public void setId(int id) {
 		this.id = id;
 	}
-
 
 }

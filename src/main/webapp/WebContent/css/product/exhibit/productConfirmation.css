@@ -1,8 +1,9 @@
 
-#block1{
-    width: 40%;
-    margin: auto;
+#parent{
+    width: 25%;
+    margin:auto
 }
+
 
 #img{
 }

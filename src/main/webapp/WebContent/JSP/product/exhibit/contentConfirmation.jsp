@@ -13,7 +13,8 @@
 <head>
 
 <meta charset="UTF-8">
-<link rel="stylesheet" href="WebContent/css/exhibit/productConfirmation.css">
+<link rel="stylesheet"
+	href="WebContent/css/product/exhibit/productConfirmation.css">
 <title></title>
 
 </head>
@@ -30,53 +31,65 @@
 
 	<br>
 
-	<div id="block1">
+	<div id="parent">
+
+		<div id="children">
 
 
-		<form:form  action="RistingCompleted" method="post" modelAttribute="product">
+			<form:form action="RistingCompleted" method="post"
+				modelAttribute="product">
 
 
-			<h2>内容確認</h2>
-			<br> <br> 出品者：<input type="text" name="userId"
-				value="${fn:escapeXml(user.userName)}" ><br>
+				<h2>内容確認</h2>
+				<br>
+				<br> 出品者：<input type="text" name="userId"
+					value="${fn:escapeXml(user.userName)}">
+				<br>
 			商品名：
 			<form:input path="productName"
-				value="${fn:escapeXml(product.productName)}"  />
-			<br> カテゴリ：
+					value="${fn:escapeXml(product.productName)}" />
+				<br> カテゴリ：
 			<form:input path="categoryName"
-				value="${fn:escapeXml(product.categoryName)}"  />
-			<br> 商品の状態
+					value="${fn:escapeXml(product.categoryName)}" />
+				<br> 商品の状態
 			<form:input path="productStatus"
-				value="${fn:escapeXml(product.productStatus)}"  />
-			<br>
-			<div id="img">
-				<img src="${fn:escapeXml(product.productImg)}" alt=商品 width="300"
-					height="300"><br>
-				<input type= "hidden" name="productImg" value="${fn:escapeXml(product.productImg)}" />
-				価格：
-
-				<form:input path="price" value="${fn:escapeXml(product.price)}"/>
+					value="${fn:escapeXml(product.productStatus)}" />
 				<br>
-			</div>
-			<br> <br> 説明<br>
-			<div id="text">
-				<form:textarea cols="50" rows="10" path="description" value="${fn:escapeXml(product.description)}" />
-				<br> <br> 発送元：<form:input path="shippingOrigin"
-					value="${fn:escapeXml(product.shippingOrigin)}" /><br>
-				送料負担：<form:input  path="postage"
-					value="${fn:escapeXml(product.postage)}" /><br>
-				配送方法：<form:input path="shipping_method"
-					value="${fn:escapeXml(product.shipping_method)}" /><br>
-				出品期間：<form:input path="exhibition_period"
-					value="${fn:escapeXml(product.exhibition_period)}" /><br>
-				価格：<form:input path="price"
-					value="${fn:escapeXml(product.price)}" /><br> <br>
+				<div id="img">
+					<img src="${fn:escapeXml(product.productImg)}" alt=商品 width="300"
+						height="300"><br> <input type="hidden"
+						name="productImg" value="${fn:escapeXml(product.productImg)}" />
+					価格：
+
+					<form:input path="price" value="${fn:escapeXml(product.price)}" />
+					<br>
+				</div>
 				<br>
+				<br> 説明<br>
+				<div id="text">
+					<form:textarea cols="50" rows="10" path="description"
+						value="${fn:escapeXml(product.description)}" />
+					<br> <br> 発送元：
+					<form:input path="shippingOrigin"
+						value="${fn:escapeXml(product.shippingOrigin)}" />
+					<br> 送料負担：
+					<form:input path="postage" value="${fn:escapeXml(product.postage)}" />
+					<br> 配送方法：
+					<form:input path="shipping_method"
+						value="${fn:escapeXml(product.shipping_method)}" />
+					<br> 出品期間：
+					<form:input path="exhibition_period"
+						value="${fn:escapeXml(product.exhibition_period)}" />
+					<br> 価格：
+					<form:input path="price" value="${fn:escapeXml(product.price)}" />
+					<br> <br> <br>
 
-				<button class="btn-square-so-pop">出品する</button>
+					<button class="btn-square-so-pop">出品する</button>
 
-			</div>
-		</form:form>
+				</div>
+			</form:form>
+
+		</div>
 
 	</div>
 

@@ -79,9 +79,9 @@
 
 						<div class="productInformation">
 
-							出品者 ${fn:escapeXml(product.userName)}さん <br>
-							落札した価格　　${fn:escapeXml(product.price)} 円 <br>
-							現在の最高落札価格　　<font color="red">${fn:escapeXml(product.highestbidprice)}円</font><br>
+							出品者 ${fn:escapeXml(product.userName)}さん <br> 落札した価格
+							${fn:escapeXml(product.price)} 円 <br> 現在の最高落札価格 <font
+								color="red">${fn:escapeXml(product.highestbidprice)}円</font><br>
 							入札回数 ${fn:escapeXml(product.count)} 回
 
 							<p>締め切り ${fn:escapeXml(product.remainingTime)}
@@ -108,10 +108,27 @@
 
 						<div class="imageArea">
 
-							<a href="ExhibitPurchase?id=${fn:escapeXml(product.id)}"> <img
-								src="${fn:escapeXml(product.productImg)}" alt="商品画像" width="200"
-								height="200">
-							</a>
+							<c:choose>
+
+								<c:when test="${requestScope.mode eq 'History'}">
+
+									<img src="${fn:escapeXml(product.productImg)}" alt="商品画像"
+										width="200" height="200">
+
+								</c:when>
+
+								<c:otherwise>
+
+
+									<a href="ExhibitPurchase?id=${fn:escapeXml(product.id)}"> <img
+										src="${fn:escapeXml(product.productImg)}" alt="商品画像"
+										width="200" height="200">
+									</a>
+
+								</c:otherwise>
+
+							</c:choose>
+
 
 						</div>
 

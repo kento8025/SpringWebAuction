@@ -13,17 +13,16 @@
 
 <meta charset="UTF-8">
 <link rel="stylesheet"
-	href="WebContent/css/product/bid/successfulDid.css">
+	href="WebContent/css/menu/cancel/promptDecision.css">
 <title></title>
 
 
 </head>
 
+<!--ホームリンクタイトル画像-->
 
 <a href="/homePage"> <img src="WebContent/img/Title.png" alt="タイトル"
 	width="200" height="80"></a>
-<br>
-
 <br>
 
 <div class="parent">
@@ -31,30 +30,19 @@
 	<div class="children">
 
 
-		<h2>商品を落札しました。</h2>
+		<h2>出品していた商品の落札を締め切りました</h2>
 
 		<br> <br> <br> <br>
 
-		<div id="button">
 
-			<form:form action="homePage">
-				<button class="back">戻る</button>
-			</form:form>
-
-
-
-
-			<form:form action="searchResult" method="get">
-
-				<button class="next">続けて落札する</button>
-
-			</form:form>
-
-		</div>
+		<form:form action="homePage">
+			<button class="back">戻る</button>
+		</form:form>
 
 	</div>
 
 </div>
+
 
 <body>
 

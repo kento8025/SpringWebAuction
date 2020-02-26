@@ -1,0 +1,82 @@
+
+レイアウトのテンプレート
+
+
+/*左右中央に寄せるインライン要素
+*/
+
+.centering_parent {
+    padding: 20px;              /* 余白指定 */
+    text-align:  center;        /* 中央寄せ */
+    background-color:  #ddd;    /* 背景色指定 */
+    height: 100px;              /* 高さ指定 */
+}
+
+.centering_item {
+    background-color: #FFEB3B;  /* 背景色指定 */
+}
+
+/*
+ブロック要素
+ */
+
+.centering_parent {
+    padding: 20px;              /* 余白指定 */
+    background-color:  #ddd;    /* 背景色指定 */
+    height: 150px;              /* 高さ指定 */
+}
+
+.centering_item {
+    background-color: #03A9F4;  /* 背景色指定 */
+    width: 200px;               /* 幅指定 */
+    height: 90px;               /* 高さ指定 */
+    margin:  0 auto;            /* 中央寄せ */
+}
+
+
+/*左右中央上下*/
+
+.centering_parent {
+    padding: 20px;              /* 余白指定 */
+    background-color:  #ddd;    /* 背景色指定 */
+    height: 300px;              /* 高さ指定 */
+    width: 640px;               /* 幅指定 */
+    position: relative;         /* 位置指定の基準点にする */
+}
+
+.centering_item {
+   background-color: #2196F3;   /* 背景色指定 */
+   position: absolute;          /* 位置指定 */
+   padding: 20px;               /* 余白指定 */
+   top:  0;                     /* 位置指定 */
+   bottom:  0;                  /* 位置指定 */
+   left:  0;                    /* 位置指定 */
+   right:  0;                   /* 位置指定 */
+   margin:  auto;               /* 中央寄せ */
+   width:  150px;               /* 幅指定 */
+   height: 80px;                /* 高さ指定 */
+}
+
+
+/*transform使用、親要素に対して自動で大きさが決まる*/
+
+.centering_parent {
+    padding: 20px;              /* 余白指定 */
+    background-color:  #ddd;    /* 背景色指定 */
+    height: 300px;              /* 高さ指定 */
+    width: 640px;               /* 幅指定 */
+    position: relative;         /* 位置指定の基準点にする */
+}
+
+.centering_item {
+   background-color: #2196F3;   /* 背景色指定 */
+   position: absolute;          /* 位置指定 */
+   top: 50%;                    /* 親要素の半分下にずらす */
+   left: 50%;                   /* 親要素の半分右にずらす */
+   transform: translateY(-50%) translateX(-50%);    /* 要素自体の半分、上と左にずらす */
+   padding: 20px;               /* 余白指定 */
+}
+
+
+
+

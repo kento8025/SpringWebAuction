@@ -174,4 +174,10 @@ public class Product {
 		this.highestbidprice = highestbidprice;
 	}
 
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", productName=" + productName + ", categoryName=" + categoryName
+				+ ", remainingTime=" + remainingTime + "]";
+	}
+
 }

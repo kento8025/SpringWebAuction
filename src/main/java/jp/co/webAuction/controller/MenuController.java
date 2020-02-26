@@ -124,6 +124,8 @@ public class MenuController {
 
 			request.setAttribute("mode", "successfulDid");
 
+		} else if (menuCommand.equals("productSuccessfulDidHistory") || menuCommand.equals("exhibitionHistory")) {
+			request.setAttribute("mode", "History");
 		}
 
 		List<Product> productList = menuDao.menuSearch(user.getId(), menuCommand);
@@ -193,7 +195,7 @@ public class MenuController {
 
 		tradeDao.promptDecision(tradeForm.getProductId());
 
-		return "menu/cancel/productCancel";
+		return "menu/cancel/promptDecision";
 
 	}
 

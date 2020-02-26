@@ -97,13 +97,32 @@ public class UserController {
 	public String userConfirmation(@Validated @ModelAttribute("user") UserForm userForm, BindingResult bindingResult,
 			Model model, HttpServletRequest request) {
 
+
 		if (bindingResult.hasErrors()) {
 
-			if (!(CheckDate.checkDate(userForm.getYear()+ "/" + userForm.getMonth() + "/" + userForm.getDay()))) {
+			if (!(CheckDate.checkDate(userForm.getYear() + "/" + userForm.getMonth() + "/" + userForm.getDay()))) {
 				request.setAttribute("birthdayError", "生年月日が不正です");
+
+			}
+			if (!(userDao.userIdCheck(userForm.getUserId()))) {
+				request.setAttribute("userIdError", "既に使用されています。");
+
 			}
 
 			return "login/userRegister";
+		}
+
+
+		if (!(CheckDate.checkDate(userForm.getYear() + "/" + userForm.getMonth() + "/" + userForm.getDay()))) {
+			request.setAttribute("birthdayError", "生年月日が不正です");
+			return "login/userRegister";
+		}
+
+
+		if (!(userDao.userIdCheck(userForm.getUserId()))) {
+			request.setAttribute("userIdError", "既に使用されています。");
+			return "login/userRegister";
+
 		}
 		return "login/userConfirmation";
 	}

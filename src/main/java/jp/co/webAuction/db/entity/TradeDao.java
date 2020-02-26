@@ -12,4 +12,6 @@ public interface TradeDao {
 
 	public void promptDecision(Integer productId);
 
+	public void productListUpdate();
+
 }

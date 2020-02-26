@@ -136,6 +136,7 @@
 			<form:input path="userId" value='${requestScope.user.userId}' />
 			<br>
 			<form:errors path="userId" cssStyle="color: red" />
+			<font color="red">${requestScope.userIdError}</font>
 			<br>
 			<br>
 

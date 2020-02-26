@@ -21,9 +21,32 @@ public class PgUserDao implements UserDao {
 	private final String INSERT_INTO_USERS = "INSERT INTO users (user_id,password,user_name,birthday,man_or_woman,mail, user_rank ,registration_date) "
 			+ "VALUES (:user_id, :password , :user_name , :birthday , :man_or_woman , :mail ,2,now())";
 	private final String SELECT_USER = "SELECT * FROM users WHERE user_id = :user_id AND password = :password ";
+	private final String SELECT_USER_ID = "SELECT * FROM users WHERE user_id = :user_id ";
 
 	@Autowired
 	NamedParameterJdbcTemplate jdbcTemplate;
+
+	@Override
+	public boolean userIdCheck(String userId) {
+
+		MapSqlParameterSource param = new MapSqlParameterSource();
+
+		param.addValue("user_id", userId);
+
+		List<User> user = new ArrayList<User>();
+
+		user = jdbcTemplate.query(
+				SELECT_USER_ID,
+				param,
+				new BeanPropertyRowMapper<User>(User.class));
+
+		if (user.size() == 0) {
+
+			return true;
+		}
+
+		return false;
+	}
 
 	@Override
 	public void register(UserForm user) {

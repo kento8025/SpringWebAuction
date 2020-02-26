@@ -11,6 +11,8 @@
 <head>
 
 <meta charset="UTF-8">
+<link rel="stylesheet"
+	href="WebContent/css/product/exhibit/ristingCompleted.css">
 <title>出品完了画面</title>
 
 
@@ -26,22 +28,36 @@
 	<br>
 
 
+	<div class="parent">
 
-	<center>
-		<h2>出品が完了しました。</h2>
-		<br> <br> <br>
+		<div class="children">
 
-		<form:form action="homePage" method="post">
-		<button>戻る</button>
-		</form:form>
+
+			<h2>&emsp;&emsp;出品が完了しました。</h2>
+
+			<br> <br> <br> <br>
+
+			<div id="button">
+
+				<form:form action="homePage">
+					<button class="back">戻る</button>
+				</form:form>
+
+
+
+
+				<form:form action="ProductRegister" method="get">
+
+					<button class="next">続けて出品する</button>
+
+				</form:form>
+
+			</div>
 
 		</div>
-		<form:form action="ProductRegister" method="post">
-		<button>続けて出品する</button>
-		</form:form>
-		</div>
 
-	</center>
+	</div>
+
 
 </body>
 

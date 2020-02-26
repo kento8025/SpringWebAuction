@@ -12,22 +12,36 @@
 <head>
 
 <meta charset="UTF-8">
-<link rel="stylesheet" href="">
+<link rel="stylesheet"
+	href="WebContent/css/menu/cancel/productCancel.css">
 <title></title>
 
 
 </head>
 
+<!--ホームリンクタイトル画像-->
 
-	<h2>落札を取り消しました</h2>
+<a href="/homePage"> <img src="WebContent/img/Title.png" alt="タイトル"
+	width="200" height="80"></a>
+<br>
 
-	<br> <br> <br> <br>
+<div class="parent">
+
+	<div class="children">
 
 
-	<form:form action="homePage" >
-		<button>戻る</button>
-	</form:form>
+		<h2>落札を取り消しました</h2>
 
+		<br> <br> <br> <br>
+
+
+		<form:form action="homePage">
+			<button class="back">戻る</button>
+		</form:form>
+
+	</div>
+
+</div>
 
 
 <body>

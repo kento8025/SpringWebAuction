@@ -39,9 +39,6 @@
 	<div id="block1">
 		<!--検索欄-->
 
-		<div id="kennsaku"></div>
-
-
 		<!--メニュー表-->
 
 		<div id="menu">
@@ -118,8 +115,14 @@
 							name="productId">
 						<form:button class="btn-square-so-pop-red" name="productCancel">商品の取り消し</form:button>
 						<br>
-						<form:button class="btn-square-so-pop" name="promptDecision">落札の締め切り</form:button>
 
+						<c:choose>
+
+							<c:when test="${purchaseDisplay.count ne 0}">
+								<form:button class="btn-square-so-pop" name="promptDecision">落札の締め切り</form:button>
+							</c:when>
+
+						</c:choose>
 
 					</c:when>
 

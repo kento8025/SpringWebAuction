@@ -1,8 +1,9 @@
 package jp.co.webAuction.db.dto;
 
-import java.sql.Date;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class PurchaseDisplay {
 
@@ -277,8 +278,8 @@ public class PurchaseDisplay {
 		return registration_dete;
 	}
 
-	public void setRegistration_dete(Date registration_dete) {
-		this.registration_dete = registration_dete;
+	public void setRegistration_dete(Date date) {
+		this.registration_dete = date;
 	}
 
 	public String getRemainingTime() {
@@ -286,8 +287,6 @@ public class PurchaseDisplay {
 		remainingTime.setTime(getRegistration_dete());
 
 		remainingTime.add(Calendar.DAY_OF_MONTH, getExhibition_period());
-
-		//System.out.println(sdf.format(remainingTime.getTime()));
 
 		return sdf.format(remainingTime.getTime());
 	}

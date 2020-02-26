@@ -131,8 +131,8 @@
 
 	<div id="menu">
 
-		<font color="red">${requestScope.notLoginError} </font><br>
-		<br> メニュー表
+		<font color="red">${requestScope.notLoginError} </font><br> <br>
+		メニュー表
 		<nav>
 			<ul>
 				<li><a href="userInformation">ユーザー情報</a></li>

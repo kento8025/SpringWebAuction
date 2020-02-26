@@ -19,7 +19,7 @@
 <head>
 
 <meta charset="UTF-8">
-<link rel="stylesheet" href="../css/center.css">
+<link rel="stylesheet" href="WebContent/css/login/registration.css">
 <title></title>
 
 
@@ -34,26 +34,26 @@
 
 		<!--ホームリンクタイトル画像-->
 
-		<img src="WebContent/img/Title.png" alt="タイトル" width="1500"
-			height="150"> <br>
+		<a href="/homePage"> <img src="WebContent/img/Title.png"
+			alt="タイトル" width="200" height="80"></a> <br>
 
-		<center>
+		<div class="parent">
 
-			<div id="center">
-
-				<h2>登録が完了しました。</h2>
-
-				<br> <br>
-
-				<div id="buttonSenter">
-					<button onclick="location.href='/homePage'">戻る</button>
-				</div>
+			<div class="children">
 
 
+				<h2>ユーザーの登録が完了しました</h2>
+
+				<br> <br> <br> <br>
+
+
+				<form:form action="homePage">
+					<button class="back">戻る</button>
+				</form:form>
 
 			</div>
 
-		</center>
+		</div>
 
 	</div>
 
